@@ -1,6 +1,6 @@
 export function Logo () {
   return (
-    <h1 className="font-logo text-[23px] text-white">
+    <h1 className="font-logo text-[28px] text-white">
       DopeShoe
     </h1>
   )
