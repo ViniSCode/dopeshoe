@@ -12,7 +12,7 @@ const Home: NextPage = () => {
     <Header />
     <Sidebar />
     
-    <main className="mb-24 px-4 max-w-[1120px] mx-auto mt-[8rem]">
+    <main className="mb-16 px-4 max-w-[1120px] mx-auto mt-[8rem]">
       <div>
         <TopContentText />
         <SearchBar />
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
 
       <SearchFilter />
       
-      <div className='mt-16 grid grid-cols-2 gap-4 md:gap-8 flex-wrap max-w-[600px] mx-auto'>
+      <div className='mt-16 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 flex-wrap max-w-[400px] md:max-w-[800px] mx-auto'>
         <CardProduct />
         <CardProduct />
         <CardProduct />
