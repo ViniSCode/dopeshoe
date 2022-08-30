@@ -1,9 +1,21 @@
-import { BiSearch } from 'react-icons/bi'
-import { TbArrowDownCircle } from 'react-icons/tb'
+import { motion } from 'framer-motion';
+import { BiSearch } from 'react-icons/bi';
+import { TbArrowDownCircle } from 'react-icons/tb';
+
+const container = {
+  hidden: { 
+    opacity: 0,
+  },
+  visible: { 
+    opacity: 1,
+  },
+  duration: { }
+}
+
 
 export function SearchBar () {
   return (
-    <div className="mt-[2rem] max-w-[500px] mx-auto">
+    <motion.div className="mt-[2rem] max-w-[500px] mx-auto" variants={container} initial="hidden" animate="visible" transition={{duration: 0.9}}>
     <label className="flex items-center justify-center relative z-10">
       <div className="w-[100%]">
         <div className='cursor-pointer absolute z-10 bg-gradient-to-r from-[#ca2765] to-[#ec5a68] flex items-center gap-2 px-3 py-2 rounded-[7px] w-fit ml-1'>
@@ -16,6 +28,6 @@ export function SearchBar () {
         </div>
       </div>
     </label>
-  </div>
+  </motion.div>
   ) 
 }
