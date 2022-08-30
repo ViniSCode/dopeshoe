@@ -16,7 +16,7 @@ export function CardProduct () {
             </span>
             <span className='text-green-500 text-[14px]'>44% OFF</span>
           </div>
-          <p className="mt-4 text-center text-gray-200 md:mt-5 text-[14px] underline">ADICIONAR</p>
+          <p className="mt-4 text-center text-gray-200 md:mt-5 text-[14px] underline transition-colors hover:text-yellow-500">ADICIONAR</p>
         </div>
       </div>
     </div>
