@@ -4,7 +4,7 @@ import { Logo } from './Logo';
 export function Header () {
 
   return (
-    <nav className="max-w-[1120px] mx-auto fixed inset-0 z-50 px-12 w-[100%] h-[5rem] bg-gray-800 shadow-lg lg:bg-transparent lg:shadow-none lg:absolute">
+    <nav className="select-none max-w-[1120px] mx-auto fixed inset-0 z-50 px-12 w-[100%] h-[5rem] bg-gray-800 shadow-lg lg:bg-transparent lg:shadow-none lg:absolute">
       <div className="text-center pt-4 flex justify-between items-center w-[100%] mx-auto relative ">
         <span className='lg:hidden'></span>
         <span>
@@ -23,7 +23,7 @@ export function Header () {
           <a className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
             <li>Favorites</li>
           </a>
-          <li>
+          <li className='cursor-pointer'>
             <FiShoppingCart size={20}/>
           </li>
         </ul>

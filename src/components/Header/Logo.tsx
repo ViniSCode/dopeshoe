@@ -1,7 +1,11 @@
+import Link from "next/link";
+
 export function Logo () {
   return (
-    <h1 className="font-logo text-[28px] text-white">
-      DopeShoe
-    </h1>
+    <Link href="/">
+      <h1 className="font-logo text-[28px] text-white cursor-pointer">
+        DopeShoe
+      </h1>
+    </Link>
   )
 }

@@ -71,7 +71,7 @@ export function Sidebar () {
   const [open, cycleOpen] = useCycle(false, true);
 
   return (
-    <div>
+    <div className="lg:hidden select-none">
       <HiMenuAlt3 size={26} className="cursor-pointer ml-4 fixed top-6 left-0 right-0 bottom-0 z-[100] shadow-lg lg:hidden" onClick={() => cycleOpen()} />
       <AnimatePresence>
         (
@@ -79,7 +79,7 @@ export function Sidebar () {
             animate={open ? "open": "closed"}
             variants={aside}
             transition={{duration: 0.2}}
-            className="flex flex-col bg-gray-700 py-36 h-[100%] w-0 fixed top-0 left-0 right-0 bottom-0 z-50 shadow-lg"
+            className="flex flex-col bg-gray-700 py-36 h-[100%] w-0 fixed top-0 left-0 right-0 bottom-0 z-50 shadow-lg overflow-x-hidden"
           >
             <motion.div
               animate={open ? "open": "closed"}
