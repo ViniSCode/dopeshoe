@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import Link from "next/link";
 
 interface CardProductProps {
@@ -10,12 +9,13 @@ interface CardProductProps {
     description: string;
     image: string;
     brand: string;
+    key?: string;
 }
 
-export function CardProduct ({id, name, price, discount, sales, description, image, brand}: CardProductProps) {   
+export function SimilarProduct ({id, name, price, discount, sales, description, image, brand}: CardProductProps) {   
   return (
     <Link href={`${id}`}>
-      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.9 }} transition={{duration: 0.2}} className='px-2 py-3 w-full h-[250px] md:w-full md:h-[360px] md:max-w-[280px] mx-auto bg-gray-700 rounded-[13px] md:px-4 md:py-4 flex flex-col gap-1 cursor-pointer shadow-lg hover:shadow-none transition-shadow'>
+      <div className='px-2 py-3 w-full h-[250px] md:w-full md:h-[360px] md:max-w-[280px] mx-auto bg-gray-700 rounded-[13px] md:px-4 md:py-4 flex flex-col gap-1 cursor-pointer shadow-lg hover:shadow-none transition-shadow'>
         <div className='w-full h-[200px] rounded-[9px] mx-auto bg-gray-600'>
             <img className="w-full h-full object-contain rounded-[9px]" src={image} />
         </div>
@@ -33,10 +33,10 @@ export function CardProduct ({id, name, price, discount, sales, description, ima
               </span>
               <span className='text-green-500 text-[14px]'>{discount}% OFF</span>
             </div>
-            <p className="mt-2 text-center text-gray-200 md:mt-3 text-[14px]">em 12x R${(15.42 / 12).toFixed(2)}</p>
+            <p className="mt-2 text-center text-gray-200 md:mt-3 text-[14px]">em 12x R$15,42</p>
           </div>
         </div>
-      </motion.div>
+      </div>
     </Link>
   )
 }

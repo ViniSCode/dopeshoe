@@ -6,6 +6,16 @@ module.exports = {
   ],
   theme: {
     extend: {
+      transitionProperty: {
+        'filter': 'filter',
+      },
+      
+      gridTemplateColumns: {
+        ['product']: 'auto 20rem',
+        ['product-lg']: 'auto 20rem',
+        ['product-image']: 'auto 5rem',
+        ['product-image-lg']: 'auto 8rem',
+      },
       fontFamily: {
         sans: ['Roboto, sans-serif'],
         logo: ['Rubik Glitch', 'sans-serif']
@@ -33,6 +43,7 @@ module.exports = {
           200: '#AEAEAE',
           250: '#C9C9C9',
           300: '#646466',
+          350: '#7A7C7E',
           500: '#6B6D6E',
           600: '#313236',
           700: '#1F1F21',
