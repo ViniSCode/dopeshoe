@@ -1,6 +1,6 @@
 export function SearchFilter () {
   return ( 
-    <div className='flex items-center justify-center gap-8 mt-20'>
+    <div className='flex items-center justify-center gap-8 mt-20 text-[14px] md:text-base'>
       <span className='text-red-600 cursor-pointer'>Popular</span>
       <span className='cursor-pointer'>Best Sellers</span>
       <span className='text-gray-300 font-bold'>|</span>

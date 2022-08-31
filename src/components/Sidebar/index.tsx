@@ -73,37 +73,39 @@ export function Sidebar () {
   return (
     <div className="lg:hidden select-none">
       <HiMenuAlt3 size={26} className="cursor-pointer ml-4 fixed top-6 left-0 right-0 bottom-0 z-[100] shadow-lg lg:hidden" onClick={() => cycleOpen()} />
-      <AnimatePresence>
-        (
-          <motion.aside
-            animate={open ? "open": "closed"}
-            variants={aside}
-            transition={{duration: 0.2}}
-            className="flex flex-col bg-gray-700 py-36 h-[100%] w-0 fixed top-0 left-0 right-0 bottom-0 z-50 shadow-lg overflow-x-hidden"
-          >
-            <motion.div
+      <div onClick={() => cycleOpen()} className={`${open ? 'fixed z-[90] w-[100vw] h-[100vh] inset-0' : ''}`}>
+        <AnimatePresence>
+          (
+            <motion.aside
               animate={open ? "open": "closed"}
-              exit="closed"
-              variants={sideVariants}  
-              className='container flex flex-col gap-10'
+              variants={aside}
+              transition={{duration: 0.2}}
+              className="flex flex-col bg-gray-700 py-36 h-[100%] w-0 fixed top-0 left-0 right-0 bottom-0 z-50 shadow-lg overflow-x-hidden"
             >
-              {menuItems.map(({ name, href, icon }) => (
-                <Link href={href} key={name}>
-                  <motion.div className="ml-10 flex items-center gap-4 cursor-pointer transition-colors hover:text-yellow-500"
-                    whileHover={{ scale: 1.1 }}
-                    variants={itemVariants}
-                    transition={{duration: 0.2}}
-                  >
-                    {icon}
-                    <span>{name}</span>
-                  </motion.div>
-                </Link>
-              ))}
-            </motion.div>
-          </motion.aside>
-        )
-        
-      </AnimatePresence>
+              <motion.div
+                animate={open ? "open": "closed"}
+                exit="closed"
+                variants={sideVariants}  
+                className='container flex flex-col gap-10'
+              >
+                {menuItems.map(({ name, href, icon }) => (
+                  <Link href={href} key={name}>
+                    <motion.div className="ml-10 flex items-center gap-4 cursor-pointer transition-colors hover:text-yellow-500"
+                      whileHover={{ scale: 1.1 }}
+                      variants={itemVariants}
+                      transition={{duration: 0.2}}
+                    >
+                      {icon}
+                      <span>{name}</span>
+                    </motion.div>
+                  </Link>
+                ))}
+              </motion.div>
+            </motion.aside>
+          )
+          
+        </AnimatePresence>
+      </div>
     </div>
   )
 } 
