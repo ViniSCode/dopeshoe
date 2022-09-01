@@ -33,7 +33,6 @@ export default function Product() {
             <TopContentText />
             <SearchBar />
           </div>
-
           <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.1, delay: 0.1}} className="mt-20 grid max-w-[500px] mx-auto md:max-w-[900px] md:grid-cols-product-lg lg:max-w-full gap-5 grid-cols-1 rounded-[13px] lg:grid-cols-product lg:gap-5">
             <ProductImages 
               productImages={data?.product.edges[0].node.image[0].productImages}
