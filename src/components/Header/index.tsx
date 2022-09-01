@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FiShoppingCart } from 'react-icons/fi';
 import { Logo } from './Logo';
 
@@ -11,18 +12,26 @@ export function Header () {
           <Logo />
         </span>
         <ul className='flex gap-8 items-center'>
-          <a className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
-            <li>All</li>
-          </a>
-          <a className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
-            <li>Brands</li>
-          </a>
-          <a className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
-            <li>Contact</li>
-          </a>
-          <a className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
-            <li>Favorites</li>
-          </a>
+          <li className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
+            <Link href="/">
+              All
+            </Link>
+          </li>
+          <li className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
+            <Link href="/">
+              Brands
+            </Link>
+          </li>
+          <li className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
+            <Link href="/">
+             Contact
+            </Link>
+          </li>
+          <li className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
+            <Link href="/">
+              Favorites
+            </Link>
+          </li>
           <li className='cursor-pointer'>
             <FiShoppingCart size={20}/>
           </li>
