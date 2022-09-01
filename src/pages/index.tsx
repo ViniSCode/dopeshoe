@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { CardProduct } from '../components/CardProduct'
 import { Header } from '../components/Header'
@@ -7,6 +7,8 @@ import { SearchBar } from '../components/SearchBar'
 import { SearchFilter } from '../components/SearchFilter'
 import { Sidebar } from '../components/Sidebar'
 import { TopContentText } from '../components/TopContentText/index'
+import { GetAllProductsDocument, useGetAllProductsQuery } from '../generated/graphql'
+import { client, ssrCache } from '../lib/urql'
 
 const products = [
   {
@@ -132,6 +134,13 @@ const item = {
 }
 
 const Home: NextPage = () => {
+  const [{ data }] = useGetAllProductsQuery({
+    variables: {
+      limit: 12,
+      offset: 0
+    }
+  })
+
   return (
     <div>
         <Header />
@@ -145,18 +154,16 @@ const Home: NextPage = () => {
             
             <motion.div  variants={container} initial="hidden" animate="visible" className='mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 flex-wrap max-w-[400px] md:max-w-full mx-auto'>
               {
-                products.map(product => {
+                data?.product.edges.map(product => {
                   return (
-                    <motion.div key={product.id} variants={item}>
+                    <motion.div key={product.node.id} variants={item}>
                         <CardProduct 
-                          id={product.id}
-                          name={product.name}
-                          price={product.price}
-                          discount={product.discount}
-                          description={product.description}
-                          image={product.image}
-                          sales={product.sales}
-                          brand={product.brand}
+                          id={product.node.id}
+                          name={product.node.name}
+                          price={product.node.price}
+                          discount={product.node.discount}
+                          image={product.node.image}
+                          brand={product.node.brand}
                         />
                     </motion.div>
                   )
@@ -184,3 +191,14 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  await client.query(GetAllProductsDocument, { limit: 12, offset: 0 }).toPromise();
+
+
+  return {
+    props: {
+      urqlState: ssrCache.extractData()
+    }
+  }
+}

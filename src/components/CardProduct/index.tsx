@@ -5,24 +5,24 @@ interface CardProductProps {
     id: string;
     name: string;
     price: number;
-    discount?: number;
-    sales?: number;
-    description: string;
-    image: string;
-    brand: string;
+    discount?: number | null | undefined;
+    image: { __typename?: "Image" | undefined; mainImage: { __typename?: "Asset" | undefined; url: string; }; productImages: { __typename?: "Asset" | undefined; url: string; }[]; }[]
+    brand: { 
+      __typename?: "Brand" | undefined; brandName: string | null | undefined; 
+    } | null | undefined
 }
 
-export function CardProduct ({id, name, price, discount, sales, description, image, brand}: CardProductProps) {   
+export function CardProduct ({id, name, price, discount, image, brand}: CardProductProps) {   
   return (
     <Link href={`${id}`}>
-      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.9 }} transition={{duration: 0.2}} className='px-2 py-3 w-full h-[250px] md:w-full md:h-[360px] md:max-w-[280px] mx-auto bg-gray-700 rounded-[13px] md:px-4 md:py-4 flex flex-col gap-1 cursor-pointer shadow-lg hover:shadow-none transition-shadow'>
-        <div className='w-full h-[200px] rounded-[9px] mx-auto bg-gray-600'>
-            <img className="w-full h-full object-contain rounded-[9px]" src={image} />
+      <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.9 }} transition={{duration: 0.2}} className='px-2 py-3 w-full h-[250px] md:w-full md:h-[360px] md:max-w-[280px] mx-auto bg-gray-700 rounded-[13px] md:px-4 md:py-4 flex flex-col gap-1 cursor-pointer shadow-lg hover:shadow-none transition-shadow'>
+        <div className='w-full h-[200px] relative rounded-[9px] mx-auto bg-gray-600 flex items-center justify-center'>
+            <img className="w-full h-full absolute object-contain rounded-[9px] block" src={image[0].mainImage.url} />
         </div>
         <div>
           <div className="max-w-full mx-auto">
-            <p className='text-[18px] w-full truncate max-w-full mx-auto mt-2 md:mt-5 md:text-[25px]'>
-              <span className='text-red-600 mr-1'>{brand}</span>{name}
+            <p className='text-[18px] w-full truncate max-w-full  text-center mx-auto mt-2 md:mt-5 md:text-[25px]'>
+              <span className='text-red-600 mr-1'>{brand?.brandName}</span>{name}
             </p>
           </div>
           <div>

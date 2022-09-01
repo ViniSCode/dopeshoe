@@ -1,0 +1,31 @@
+query GetAllProducts($limit: Int!, $offset: Int!) {
+  product: productsConnection (first: $limit, skip: $offset) {
+    edges {
+      node {
+        name
+        brand {
+          brandName
+        }
+    		price
+    		id
+    		discount
+    		image {
+          mainImage {
+            url
+          },
+          productImages {
+            url
+          }
+        }
+      }
+    }
+    aggregate {
+      count
+    }
+    pageInfo {
+      pageSize
+      hasNextPage
+      hasNextPage
+    }
+  }
+}
