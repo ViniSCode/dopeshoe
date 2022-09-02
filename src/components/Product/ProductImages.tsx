@@ -1,34 +1,37 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface ProductImagesProps {
   productImages: { __typename?: "Asset" | undefined; url: string }[] | any;
+  mainImage: string | any;
 }
 
-export function ProductImages({ productImages }: ProductImagesProps) {
-
+export function ProductImages({ productImages, mainImage }: ProductImagesProps) {
+  const [displayImage, setDisplayImage] = useState(mainImage);
+  
   return (
-    <div className="bg-gray-700 w-full h-full md:max-h-[350px] md:h-full p-2 lg:p-4 rounded-[13px]">
+    <div className="bg-gray-700 select-none w-full h-full md:max-h-[350px] md:h-full p-2 lg:p-4 rounded-[13px]">
         {
-          productImages ? (
+          productImages && mainImage ? (
             <div className="p-3 bg-gray-600 relative w-full h-full rounded-lg grid grid-cols-1 md:grid-cols-product-image lg:grid-cols-product-image-lg gap-2">
               <div className="w-full h-[300px] bg-gray-900 rounded-lg p-4 md:p-4 lg:p-4">
-                <div className="w-full h-full relative md:w-full md:h-full md:relative">
-                  <Image  src={productImages[0].url} alt="product image" layout='fill' objectFit={'contain'}/>
-                </div>
+              <AnimatePresence mode="wait">
+                <motion.div key={displayImage} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{duration: 0.2}} className="w-full h-full relative md:w-full md:h-full md:relative">
+                  <Image src={displayImage} alt="product image" layout='fill' objectFit={'contain'} className='pointer-events-none'/>
+                </motion.div>
+              </AnimatePresence>
               </div>
               <div className="mx-auto w-full h-[80px] md:h-full grid gap-2 grid-cols-4 md:grid-cols-1">
-                <div className="relative md:w-full md:h-full bg-gray-900 rounded-lg p-2">
-                  <Image src={productImages[0].url} alt="product image" layout='fill' objectFit={'contain'}/>
-                </div>
-                <div className="relative md:w-full md:h-full bg-gray-900 rounded-lg p-2">
-                  <Image src={productImages[0].url} alt="product image" layout='fill' objectFit={'contain'}/>
-                </div>
-                <div className="relative md:w-full md:h-full bg-gray-900 rounded-lg p-2">
-                  <Image src={productImages[0].url} alt="product image" layout='fill' objectFit={'contain'}/>
-                </div>
-                <div className="relative md:w-full md:h-full bg-gray-900 rounded-lg p-2">
-                  <Image src={productImages[0].url} alt="product image" layout='fill' objectFit={'contain'}/>
-                </div>
+                {
+                  productImages.map((image: any) => {
+                    return (
+                      <div key={image.url} className="relative md:w-full md:h-full bg-gray-900 rounded-lg p-2 cursor-pointer" onClick={() => setDisplayImage(image.url)}>
+                        <Image src={image.url} alt="product image" layout='fill' objectFit={'contain'} className='pointer-events-none'/>
+                      </div>
+                    )
+                  })
+                }
               </div>
             </div>
           ): (
