@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { CardProduct } from '../components/CardProduct'
 import { Header } from '../components/Header'
@@ -192,7 +192,7 @@ const Home: NextPage = () => {
 
 export default Home
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   await client.query(GetAllProductsDocument, { limit: 12, offset: 0 }).toPromise();
 
 

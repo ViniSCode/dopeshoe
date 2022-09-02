@@ -9,7 +9,7 @@ import { ProductDescription } from '../components/Product/ProductDescription';
 import { ProductImages } from "../components/Product/ProductImages";
 import { SearchBar } from "../components/SearchBar";
 import { Sidebar } from "../components/Sidebar";
-import { SimilarProduct } from "../components/SimilarProduct";
+import { ShowSimilarProducts } from '../components/SimilarProduct/ShowSimilarProducts';
 import { TopContentText } from "../components/TopContentText";
 import { GetProductDocument, useGetProductQuery } from '../generated/graphql';
 import { client, ssrCache } from '../lib/urql';
@@ -44,17 +44,9 @@ export default function Product() {
             <ProductDescription 
               productDescription={data?.product.edges[0].node.description}
             />
-            <div>
-              <h2 className="text-2xl underline text-gray-350 font-bold mb-6">Similar</h2>
-              <div className="grid grid-cols-2 gap-4 md:block">
-                <div className="md:hidden">
-                <SimilarProduct id="sdjf23894" name="Nike Air Force 1" price={299} discount={30} sales={29} description={"Lançado como parte de um pacote Mono de quatro peças, o adidas Yeezy Boost 350 V2 Mono Cinder aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply."} image="/yeezy.png" brand="Nike" key="sdjf23894" />
-                </div>
-                <div>
-                  <SimilarProduct id="sdjf23894" name="Nike Air Force 1" price={299} discount={30} sales={29} description={"Lançado como parte de um pacote Mono de quatro peças, o adidas Yeezy Boost 350 V2 Mono Cinder aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply."} image="/yeezy.png" brand="Nike" key="sdjf23894" />
-                </div>
-              </div>
-            </div>
+            <ShowSimilarProducts
+              data={data}
+            />
           </motion.div>
         </motion.main>
       <footer className="flex items-center px-4 justify-between mb-24 md:px-10 max-w-[1120px] mx-auto">

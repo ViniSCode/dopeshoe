@@ -1,24 +1,23 @@
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from "next/link";
 
 interface CardProductProps {
-    id: string;
-    name: string;
-    price: number;
-    discount?: number;
-    sales?: number;
-    description: string;
-    image: string;
-    brand: string;
-    key?: string;
+    id: string | undefined;
+    name: string | undefined;
+    price: number | undefined;
+    discount: number | null | undefined;
+    image: string | any;
+    brand: string | undefined | undefined;
+    key?: string | undefined;
 }
 
-export function SimilarProduct ({id, name, price, discount, sales, description, image, brand}: CardProductProps) {   
+export function SimilarProduct ({id, name, price, discount, image, brand}: CardProductProps) {   
   return (
     <Link href={`/${id}`}>
       <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.9 }} transition={{duration: 0.2}} className='px-2 py-3 w-full h-[250px] md:w-full md:h-[360px] md:max-w-[280px] mx-auto bg-gray-700 rounded-[13px] md:px-4 md:py-4 flex flex-col gap-1 cursor-pointer shadow-lg hover:shadow-none transition-shadow'>
-        <div className='w-full h-[200px] rounded-[9px] mx-auto bg-gray-600'>
-            <img className="w-full h-full object-contain rounded-[9px]" src={image} />
+        <div className='w-full h-[200px] relative rounded-[9px] mx-auto bg-gray-600'>
+          <Image  src={image} alt="product image" layout='fill' objectFit={'contain'}/>
         </div>
         <div>
           <div className="max-w-full mx-auto">
