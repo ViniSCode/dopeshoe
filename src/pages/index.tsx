@@ -175,7 +175,7 @@ const Home: NextPage = () => {
           <div>
             <p className="text-gray-500 underline">
               Discover All <br />
-              Collections
+              Products
             </p>
           </div>
           <div className='flex items-center gap-4 cursor-pointer'>

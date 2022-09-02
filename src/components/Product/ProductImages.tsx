@@ -26,9 +26,11 @@ export function ProductImages({ productImages, mainImage }: ProductImagesProps) 
                 {
                   productImages.map((image: any) => {
                     return (
-                      <div key={image.url} className="relative md:w-full md:h-full bg-gray-900 rounded-lg p-2 cursor-pointer" onClick={() => setDisplayImage(image.url)}>
-                        <Image src={image.url} alt="product image" layout='fill' objectFit={'contain'} className='pointer-events-none'/>
-                      </div>
+                      <motion.div key={image.url} whileHover={{ scale: 1.05 }} className="md:w-full md:h-full bg-gray-900 rounded-lg cursor-pointer p-2" onClick={() => setDisplayImage(image.url)}>
+                        <div className='w-full h-full relative'>
+                          <Image src={image.url} alt="product image" layout='fill' objectFit={'contain'} className='pointer-events-none'/>
+                        </div>
+                      </motion.div>
                     )
                   })
                 }

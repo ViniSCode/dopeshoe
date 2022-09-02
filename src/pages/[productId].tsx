@@ -56,14 +56,14 @@ export default function Product() {
         )
       }
       <footer className="flex items-center px-4 justify-between mb-24 md:px-10 max-w-[1120px] mx-auto">
-        <div>
-          <p className="text-gray-500 underline">
-            Discover All <br />
-            Collections
-          </p>
-        </div>
         <Link href="/">
-          <div className="flex items-center gap-4 cursor-pointer">
+          <p className="text-gray-500 underline transition-colors hover:text-yellow-500 cursor-pointer">
+            Discover All <br />
+            Products
+          </p>
+        </Link>
+        <Link href="/">
+          <div className="flex items-center gap-4 cursor-pointer transition-colors hover:text-yellow-500">
             <BsArrowLeftShort fontSize={30} />
             <p className="text-[18px]">Voltar</p>
           </div>
