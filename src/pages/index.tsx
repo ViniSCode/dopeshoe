@@ -152,7 +152,7 @@ const Home: NextPage = () => {
             </div>
             <SearchFilter />
             
-            <motion.div  variants={container} initial="hidden" animate="visible" className='mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 flex-wrap max-w-[400px] md:max-w-full mx-auto'>
+            <motion.div  variants={container} initial="hidden" animate="visible" className='select-none mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 flex-wrap max-w-[400px] md:max-w-full mx-auto'>
               {
                 data?.product.edges.map(product => {
                   return (
@@ -171,7 +171,7 @@ const Home: NextPage = () => {
               }
             </motion.div>
           </motion.main>
-        <footer className='flex items-center justify-between mb-24 px-4 md:px-10 max-w-[1120px] mx-auto'>
+        <footer className='select-none flex items-center justify-between mb-24 px-4 md:px-10 max-w-[1120px] mx-auto'>
           <div>
             <p className="text-gray-500 underline">
               Discover All <br />

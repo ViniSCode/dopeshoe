@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import type { AppProps } from 'next/app'
 import { Provider } from 'urql'
+import { CartContextProvider } from '../contexts/cartContext'
 import { client, ssrCache } from '../lib/urql'
 import '../styles/globals.css'
 
@@ -14,7 +15,9 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     <Provider value={client}>
       <AnimatePresence mode='wait' key={router.asPath}>
         <motion.div initial="pageInitial" animate="pageAnimate" variants={{ pageInitial: { opacity: 0, }, pageAnimate: { opacity: 1, }, }}>
-          <Component {...pageProps} />
+          <CartContextProvider>
+            <Component {...pageProps} />
+          </CartContextProvider>
         </motion.div>
       </AnimatePresence>
     </Provider>
