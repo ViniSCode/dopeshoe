@@ -18,7 +18,7 @@ export function ProductImages({ productImages, mainImage }: ProductImagesProps) 
               <div className="w-full h-[300px] bg-gray-900 rounded-lg p-4 md:p-4 lg:p-4">
               <AnimatePresence mode="wait">
                 <motion.div key={displayImage} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{duration: 0.2}} className="w-full h-full relative md:w-full md:h-full md:relative">
-                  <Image src={displayImage} alt="product image" layout='fill' objectFit={'contain'} className='pointer-events-none'/>
+                  <Image src={displayImage} alt="product image" layout='fill' objectFit={'contain'} className='pointer-events-none' priority={mainImage === "https://media.graphassets.com/i5RtvtrhRseDy345Wr8V"}/>
                 </motion.div>
               </AnimatePresence>
               </div>

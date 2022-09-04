@@ -9,6 +9,7 @@ query GetAllProducts($limit: Int!, $offset: Int!) {
     		price
     		id
     		discount
+        available
     		image {
           mainImage {
             url

@@ -18,7 +18,7 @@ export function CardProduct ({id, name, price, discount, image, brand}: CardProd
     <Link href={`${id}`}>
       <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.9 }} transition={{duration: 0.2}} className='px-2 py-3 w-full h-[250px] md:w-full md:h-[360px] md:max-w-[280px] mx-auto bg-gray-700 rounded-[13px] md:px-4 md:py-4 flex flex-col gap-1 cursor-pointer shadow-lg hover:shadow-none transition-shadow'>
         <div className='w-full h-[200px] relative rounded-[9px] mx-auto bg-gray-600 flex items-center justify-center'>
-            <Image  src={image[0].mainImage.url} alt="product image" layout='fill' objectFit={'contain'} priority/>
+            <Image  src={image[0].mainImage.url} alt="product image" layout='fill' objectFit={'contain'} priority={image[0].mainImage.url === "https://media.graphassets.com/i5RtvtrhRseDy345Wr8V"}/>
         </div>
         <div>
           <div className="max-w-full mx-auto">

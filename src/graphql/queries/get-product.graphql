@@ -4,6 +4,7 @@ query GetProduct ($id: ID) {
       node {
         name
     		price
+        available
     		id
         brand {
           brandName
@@ -29,6 +30,7 @@ query GetProduct ($id: ID) {
       node {
         name
     		price
+        available
     		id
         brand {
           brandName

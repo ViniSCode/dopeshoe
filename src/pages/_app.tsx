@@ -1,5 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import type { AppProps } from 'next/app'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { Provider } from 'urql'
 import { CartContextProvider } from '../contexts/cartContext'
 import { client, ssrCache } from '../lib/urql'
@@ -16,7 +18,9 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       <AnimatePresence mode='wait' key={router.asPath}>
         <motion.div initial="pageInitial" animate="pageAnimate" variants={{ pageInitial: { opacity: 0, }, pageAnimate: { opacity: 1, }, }}>
           <CartContextProvider>
-            <Component {...pageProps} />
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
+              <Component {...pageProps} />
+            <ToastContainer />
           </CartContextProvider>
         </motion.div>
       </AnimatePresence>

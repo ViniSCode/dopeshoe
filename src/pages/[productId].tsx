@@ -41,7 +41,7 @@ export default function Product() {
                 productImages={data?.product.edges[0].node.image[0].productImages}
                 mainImage={data?.product.edges[0].node.image[0].mainImage.url}
               />
-              <ProductActions />
+              <ProductActions product={data?.product.edges[0].node}/>
             </motion.div>
 
             <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay:0.3}} className="mt-10 grid max-w-[500px] mx-auto md:grid-cols-product-lg md:max-w-full gap-5">

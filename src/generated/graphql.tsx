@@ -5397,14 +5397,14 @@ export type GetAllProductsQueryVariables = Exact<{
 }>;
 
 
-export type GetAllProductsQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, id: string, discount?: number | null, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }>, aggregate: { __typename?: 'Aggregate', count: number }, pageInfo: { __typename?: 'PageInfo', pageSize?: number | null, hasNextPage: boolean } } };
+export type GetAllProductsQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, id: string, discount?: number | null, available: number, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }>, aggregate: { __typename?: 'Aggregate', count: number }, pageInfo: { __typename?: 'PageInfo', pageSize?: number | null, hasNextPage: boolean } } };
 
 export type GetProductQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
 }>;
 
 
-export type GetProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, id: string, discount?: number | null, description: string, brand?: { __typename?: 'Brand', brandName: string } | null, sales: Array<{ __typename?: 'Sale', id: string }>, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }> }, similar: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, id: string, discount?: number | null, description: string, brand?: { __typename?: 'Brand', brandName: string } | null, sales: Array<{ __typename?: 'Sale', id: string }>, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }> } };
+export type GetProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, available: number, id: string, discount?: number | null, description: string, brand?: { __typename?: 'Brand', brandName: string } | null, sales: Array<{ __typename?: 'Sale', id: string }>, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }> }, similar: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, available: number, id: string, discount?: number | null, description: string, brand?: { __typename?: 'Brand', brandName: string } | null, sales: Array<{ __typename?: 'Sale', id: string }>, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }> } };
 
 
 export const GetAllProductsDocument = gql`
@@ -5419,6 +5419,7 @@ export const GetAllProductsDocument = gql`
         price
         id
         discount
+        available
         image {
           mainImage {
             url
@@ -5451,6 +5452,7 @@ export const GetProductDocument = gql`
       node {
         name
         price
+        available
         id
         brand {
           brandName
@@ -5476,6 +5478,7 @@ export const GetProductDocument = gql`
       node {
         name
         price
+        available
         id
         brand {
           brandName
