@@ -29,7 +29,7 @@ export function Cart () {
                   (
                     cart.map(item => {
                       return (
-                        <CartProduct item={item}/>
+                        <CartProduct item={item} key={item.id}/>
                       )
                     })
                   ) : (

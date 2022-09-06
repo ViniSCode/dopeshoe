@@ -17,6 +17,7 @@ interface CartProductProps {
     } | null | undefined;
     amount: number;
   }
+  key: string;
 }
 
 export function CartProduct ({item}: CartProductProps) {
