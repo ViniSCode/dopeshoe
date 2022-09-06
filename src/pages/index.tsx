@@ -171,7 +171,7 @@ const Home: NextPage = () => {
               }
             </motion.div>
           </motion.main>
-        <footer className='select-none flex items-center justify-between mb-24 px-4 md:px-10 max-w-[1120px] mx-auto'>
+        <motion.footer initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 1}} className='select-none flex items-center justify-between mb-24 px-4 md:px-10 max-w-[1120px] mx-auto'>
           <div>
             <p className="text-gray-500 underline">
               Discover All <br />
@@ -185,7 +185,7 @@ const Home: NextPage = () => {
           <div>
             <span>{" < 1 > "}</span>
           </div>
-        </footer>
+        </motion.footer>
       </div>
   )
 }

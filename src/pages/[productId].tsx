@@ -55,7 +55,7 @@ export default function Product() {
           </motion.main>
         )
       }
-      <footer className="flex items-center px-4 justify-between mb-24 md:px-10 max-w-[1120px] mx-auto">
+      <motion.footer initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 1}} className="flex items-center px-4 justify-between mb-24 md:px-10 max-w-[1120px] mx-auto">
         <Link href="/">
           <p className="text-gray-500 underline transition-colors hover:text-yellow-500 cursor-pointer">
             Discover All <br />
@@ -71,7 +71,7 @@ export default function Product() {
         <div>
           <span>{" < 1 > "}</span>
         </div>
-      </footer>
+      </motion.footer>
     </>
   );
 }
