@@ -1,9 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { FiX } from 'react-icons/fi';
-import { CartProduct } from '../../Cart/CartProduct';
+import Image from 'next/image';
+import Link from 'next/link';
+import { CgRemove } from 'react-icons/cg';
+import { FiShoppingCart, FiX } from 'react-icons/fi';
+import { HiMinusSm, HiOutlinePlusSm } from 'react-icons/hi';
 import { useCart } from '../../hooks/useCart';
 import { Logo } from './Logo';
-import { NavItems } from './NavItems';
 
 export function Header () {
   // const [ addProductInCartCount, setAddProductInCartCount ] = useState(1);
@@ -29,7 +31,32 @@ export function Header () {
           <span>
             <Logo />
           </span>
-         <NavItems />
+          <ul className='flex gap-8 items-center'>
+            <li className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
+              <Link href="/">
+                All
+              </Link>
+            </li>
+            <li className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
+              <Link href="/">
+                Brands
+              </Link>
+            </li>
+            <li className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
+              <Link href="/">
+              Contact
+              </Link>
+            </li>
+            <li className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
+              <Link href="/">
+                Favorites
+              </Link>
+            </li>
+            <li className='cursor-pointer transition-colors hover:text-yellow-500 relative' onClick={() => handleSetIsCartOpen(true)}>
+              {cart.length > 0 && <div className='rounded-full absolute bg-yellow-500 w-full h-full right-[-14px] text-[14px] top-[-14px] text-gray-900 font-bold'>{cart.length}</div>}
+              <FiShoppingCart size={20}/>
+            </li>
+          </ul>
         </div>
 
         <div className='max-h-[60vh]'>
@@ -43,7 +70,49 @@ export function Header () {
                         (
                           cart.map(item => {
                             return (
-                              <CartProduct key={item.id} item={item} />
+                              <div className='cursor-pointer relative bg-gray-600 p-2 border-lg w-full h-[80px] mx-auto rounded-lg flex items-center gap-2 last-of-type:mb-10' key={item.id}>
+                                  <div className='absolute top-2 right-2' onClick={() => handleRemoveProduct(item)}>
+                                    <CgRemove size={17} className='text-gray-400'/>
+                                  </div>
+                                  <div className='bg-gray-900 h-full w-full min-w-[70px] max-w-[70px] rounded-lg p-1'>
+                                      <div className='relative h-full w-full inset-0'>
+                                        <Image src={item.image[0].mainImage.url} alt="product image" layout='fill' objectFit={'contain'} priority={item.image[0].mainImage.url === "https://media.graphassets.com/i5RtvtrhRseDy345Wr8V"}/>
+                                      </div>
+                                  </div>
+                                  <div className='overflow-hidden'>
+                                    <Link href={`/${item.id}`}>
+                                      <div className="overflow-hidden max-w-[130px] md:max-w-[200px]">
+                                        <p className='text-[15px] w-full truncate max-w-full'>
+                                          <span className='mr-1 font-bold'>{item.amount}x</span><span className='text-red-600 mr-1 font-bold'>{item.brand?.brandName}</span>{item.name}
+                                        </p>
+                                      </div>
+                                    </Link>
+                                    <div className=' flex items-start justify-start gap-2'>
+                                      <span className='flex items-center gap-1'>
+                                        <p className='text-[14px] md:text-1xl font-bold'>R$</p>
+                                      </span>
+                                      <p className='text-[14px] md:text-1xl font-bold'>{item.price}</p>
+                                      <div>
+                                            <div className="flex gap-1">
+                                              <button disabled={item.amount === 1} className="bg-gray-900 rounded-md flex items-center justify-center w-[30px] h-[25px] disabled:opacity-80" onClick={() => {
+                                                if (item.amount > 1) {
+                                                  handleUpdateAmount(item, item.amount - 1, "decrease")
+                                                }
+                                              }}>
+                                                <HiMinusSm size={18} />
+                                              </button>
+                                              <button disabled={item.available === item.amount} className="bg-gray-900 rounded-lg flex items-center justify-center w-[30px] disabled:opacity-80" onClick={() => {
+                                                if (item.available > item.amount) {
+                                                  handleUpdateAmount(item, item.amount + 1, "increase")
+                                                }
+                                              }}>
+                                                <HiOutlinePlusSm size={18} />
+                                              </button>
+                                            </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                             )
                           })
                         ) : (
