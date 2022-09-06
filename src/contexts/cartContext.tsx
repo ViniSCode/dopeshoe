@@ -5,6 +5,7 @@ interface CartContextDataProvider {
   handleSetIsCartOpen: (value: boolean) => void;
   isCartOpen: boolean;
   handleAddProduct: (value: Product, amount: number) => void;
+  handleUpdateAmount: (value: Product, amount: number, type: string) => void;
   handleRemoveProduct: (value: Product) => void;
   cart: Cart[];
 }
@@ -122,9 +123,56 @@ export function CartContextProvider ({ children }: CartContextProviderProps) {
       toast.error("Falha ao remover produto");
     }
   }
+  
+  function handleUpdateAmount (value: Product, amount: number, type: string) {
+    try {
+      const productAlreadyInCart = cart.find(product => product.id === value.id);
+
+      if (type === "increase") {
+        if (productAlreadyInCart) {
+          if (value.available >= amount) {
+            const updatedCart = cart.map(cartItem => cartItem.id === value.id ? {
+              ...cartItem,
+              amount: Number(amount) 
+            }: cartItem)
+            
+            setCart(updatedCart)
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('@dopeshoe:cart', JSON.stringify(updatedCart))
+            }
+            return;
+          } else {
+            toast.error("Quantidade solicitada fora de esoque");
+          }
+  
+        }
+      } else {
+        if (productAlreadyInCart) {
+          if (amount > 0) {
+            const updatedCart = cart.map(cartItem => cartItem.id === value.id ? {
+              ...cartItem,
+              amount: Number(amount) 
+            }: cartItem)
+            
+            setCart(updatedCart)
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('@dopeshoe:cart', JSON.stringify(updatedCart))
+            }
+            return;
+          } else {
+            toast.error("Algo deu errado");
+          }
+  
+        }
+      }
+    } catch {
+      toast.error("Algo deu errado");
+    }
+  }
+
 
   return (
-    <CartContext.Provider value={{handleSetIsCartOpen, isCartOpen, handleAddProduct, cart, handleRemoveProduct}}>
+    <CartContext.Provider value={{handleSetIsCartOpen, isCartOpen, handleAddProduct, cart, handleRemoveProduct, handleUpdateAmount}}>
       { children }
     </CartContext.Provider>
   )
