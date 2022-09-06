@@ -2,8 +2,9 @@ import Link from 'next/link';
 import { FiShoppingCart } from 'react-icons/fi';
 import { useCart } from '../../hooks/useCart';
 
+
 export function NavItems () {
-  const { handleSetIsCartOpen, isCartOpen, cart, handleRemoveProduct, handleUpdateAmount } = useCart();
+  const { handleSetIsCartOpen, cart } = useCart();
 
   return (
     <ul className='flex gap-8 items-center'>

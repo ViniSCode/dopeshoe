@@ -34,7 +34,7 @@ export function ProductAmount ({item}: ProductAmountProps) {
           handleUpdateAmount(item, item.amount + 1, "increase")
         }
       }}>
-        <HiOutlinePlusSm size={18}/>
+        <HiOutlinePlusSm size={18} />
       </button>
     </div>
   </div>

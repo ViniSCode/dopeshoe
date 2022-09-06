@@ -23,7 +23,7 @@ interface Product {
 }
 
 interface Cart {
-  id: string;
+ id: string;
   name: string;
   price: number;
   available: number;
@@ -32,7 +32,7 @@ interface Cart {
   brand?: { 
     __typename?: "Brand" | undefined; brandName: string | null | undefined; 
   } | null | undefined;
-  amount: number;
+  amount: number; 
 }
 
 interface CartContextProviderProps {
