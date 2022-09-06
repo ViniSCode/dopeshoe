@@ -64,7 +64,7 @@ export function Header () {
           <motion.div animate={isCartOpen ? "open": "closed"} variants={cartVariants} transition={{duration: 0.2}} className='fixed shadow-lg right-3 top-3 bottom-0 w-[260px] md:w-[350px] h-0 bg-gray-700 z-[300] rounded-md overflow-hidden lg:absolute'>
             <div className='w-full h-full absolute p-2'>
                 <FiX size={25} className='text-white absolute right-5 top-3 cursor-pointer' onClick={() => handleSetIsCartOpen(!isCartOpen)}/>
-                <div className={`mt-10 flex flex-col gap-2 h-full pb-14 ${cart.length > 6  && 'overflow-y-scroll scrollbar-thumb-gray-400 scrollbar'}`}>
+                <div className={`mt-10 flex flex-col gap-2 h-full pb-14 ${cart.length > 6  && 'overflow-y-scroll scrollbar-thumb-gray-400 scrollbar-thin'}`}>
                   { cart && 
                     cart.map(item => {
                       return (
