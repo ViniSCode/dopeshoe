@@ -14,7 +14,7 @@ export function Header () {
   
   const cartVariants = {
     open: {
-      height:(cart.length === 0) ? "25vh" : (cart.length === 1) ? "20vh" : (cart.length === 2) ? "30vh" : (cart.length === 3) ? "40vh" :  (cart.length === 4) ? "50vh" : "60vh",
+      height:(cart.length === 0) ? "40vh" : (cart.length === 1) ? "40vh" : (cart.length === 2) ? "50vh" : (cart.length === 3) ? "60vh" :  (cart.length === 4) ? "60vh" : "60vh",
       opacity: 1
     },
     closed: {
