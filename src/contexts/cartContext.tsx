@@ -5,6 +5,7 @@ interface CartContextDataProvider {
   handleSetIsCartOpen: (value: boolean) => void;
   isCartOpen: boolean;
   handleAddProduct: (value: Product, amount: number) => void;
+  handleRemoveProduct: (value: Product) => void;
   cart: Cart[];
 }
 
@@ -97,8 +98,33 @@ export function CartContextProvider ({ children }: CartContextProviderProps) {
     }
   }
 
+  function handleRemoveProduct (value: Product,) {
+    console.log(value.id)
+    try {
+      const  updateRemoveProducts = cart.filter(product => product.id !== value.id);      
+            
+      //cart is empty
+      if (updateRemoveProducts === undefined) {
+        setCart([]);
+        
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('@dopeshoe:cart', JSON.stringify(updateRemoveProducts))
+        }
+      }
+      if (updateRemoveProducts) {
+        setCart(updateRemoveProducts);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('@dopeshoe:cart', JSON.stringify(updateRemoveProducts))
+        }
+      }
+
+    } catch {
+      toast.error("Falha ao remover produto");
+    }
+  }
+
   return (
-    <CartContext.Provider value={{handleSetIsCartOpen, isCartOpen, handleAddProduct, cart}}>
+    <CartContext.Provider value={{handleSetIsCartOpen, isCartOpen, handleAddProduct, cart, handleRemoveProduct}}>
       { children }
     </CartContext.Provider>
   )
