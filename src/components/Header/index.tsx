@@ -53,7 +53,7 @@ export function Header () {
               </Link>
             </li>
             <li className='cursor-pointer transition-colors hover:text-yellow-500 relative' onClick={() => handleSetIsCartOpen(true)}>
-              {cart.length > 0 && <div className='rounded-full absolute bg-yellow-500 w-full h-full right-[-14px] text-[14px] top-[-14px] text-gray-900 font-bold'>{cart.length}</div>}
+              {cart.length > 0 && <div className='rounded-full absolute bg-yellow-500 w-full right-[-14px] text-[14px] top-[-14px] text-gray-900 font-bold'>{cart.length}</div>}
               <FiShoppingCart size={20}/>
             </li>
           </ul>
@@ -124,11 +124,13 @@ export function Header () {
                     </div>
                     {
                       cart.length > 0 && (
-                        <div className='absolute bottom-0 right-0 left-0 p-2'>
-                          <button className="bg-yellow-500 w-full rounded py-2 px-4 transition-filter flex items-center justify-center hover:brightness-75">
-                            <p className='text-gray-900 font-bold'>Finalizar</p>
-                          </button>
-                        </div>
+                        <Link href="/cart">
+                          <div className='absolute bottom-0 right-0 left-0 p-2'>
+                            <button className="bg-yellow-500 w-full rounded py-2 px-4 transition-filter flex items-center justify-center hover:brightness-75">
+                              <p className='text-gray-900 font-bold'>Finalizar</p>
+                            </button>
+                          </div>
+                        </Link>
                       )
                     }
                   </div>

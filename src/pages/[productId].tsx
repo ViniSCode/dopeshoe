@@ -31,7 +31,7 @@ export default function Product() {
       {
         data &&
         (
-          <motion.main className="mb-16 px-4 md:px-10 max-w-[1120px] mx-auto mt-[8rem]">
+          <motion.main className="mb-16 px-4 md:px-10 max-w-[1120px] mx-auto mt-[8rem] min-h-[100vh]">
             <div>
               <TopContentText />
               <SearchBar />
