@@ -36,98 +36,109 @@ export default function Cart () {
   }, 0)
 
   return (
-    <div>
-        <Header />
-        <Sidebar />
-        <motion.main className="mb-16 px-4 max-w-[1120px] mx-auto mt-[8rem]">
-          <motion.div  variants={container} initial="hidden" animate="visible" className='select-none mt-16 grid grid-cols-1 w-full h-full bg-gray-700 px-4 py-4 rounded-lg shadow-lg'>
-            <h2 className='text-[18px]'>{cart.length} Items</h2>
-            <div className='w-full h-[1px] bg-gray-200 mt-2 mb-4'></div>
-            { cart.length > 0 &&
-              (
-                cart.map(item => {
-                  return (
-                    <div className='cursor-pointer relative p-2 border-lg w-full h-[80px] mx-auto rounded-lg flex items-center justify-between shadow-2xl drop-shadow-sm' key={item.id}>
-                      <div className='h-full w-full flex items-center gap-2'>
-                        <div className='bg-gray-900 h-full w-full min-w-[70px] max-w-[70px] rounded-lg p-1'>
-                            <div className='relative h-full w-full inset-0'>
-                              <Image src={item.image[0].mainImage.url} alt="product image" layout='fill' objectFit={'contain'} priority={item.image[0].mainImage.url === "https://media.graphassets.com/i5RtvtrhRseDy345Wr8V"}/>
-                            </div>
-                        </div>
-                        <div className='overflow-hidden flex flex-col gap-1 h-full w-full'>
-                          <Link href={`/${item.id}`}>
-                            <div className='flex items-center gap-4'>
-                              <div className="overflow-hidden max-w-[200px] flex items-center gap-4">
-                                <p className='text-[15px] w-full truncate max-w-full'>
-                                  <span className='mr-1 font-bold'>{item.amount}x</span><span className='text-red-600 mr-1 font-bold'>{item.brand?.brandName}</span>{item.name}
-                                </p>
+    <>
+      <div className='md:container-div'>
+          <Header />
+          <Sidebar />
+          <div className='lg:main-container-div max-w-[1120px] mx-auto'>
+            <motion.main className="px-4 w-full mx-auto mt-[8rem] md:grid md:grid-cols-cart md:gap-10 md:items-start lg:mt-16">
+              <motion.div  variants={container} initial="hidden" animate="visible" className='select-none mt-16 grid grid-cols-1 w-full h-full bg-gray-700 px-4 py-4 rounded-lg shadow-lg md:mt-0'>
+                <h2 className='text-[18px]'>{cart.length} Items</h2>
+                  <div className='w-full h-[1px] bg-gray-200 mt-2 mb-4'></div>
+                  { cart.length > 0 &&
+                    (
+                      cart.map(item => {
+                        return (
+                          <div className='cursor-pointer relative p-2 border-lg w-full h-[80px] mx-auto rounded-lg flex items-center justify-between' key={item.id}>
+                            <div className='h-full w-full flex items-center gap-2'>
+                              <div className='bg-gray-900 h-full w-full min-w-[70px] max-w-[70px] rounded-lg p-1'>
+                                  <div className='relative h-full w-full inset-0'>
+                                    <Image src={item.image[0].mainImage.url} alt="product image" layout='fill' objectFit={'contain'} priority={item.image[0].mainImage.url === "https://media.graphassets.com/i5RtvtrhRseDy345Wr8V"}/>
+                                  </div>
                               </div>
-                                <div className='flex items-center gap-1 ml-auto'>
-                                  <span className='flex items-center gap-1'>
-                                    <p className='text-[16px] md:text-1xl font-medium'>R$</p>
-                                  </span>
-                                  <p className='text-[16px] md:text-1xl font-medium'>{item.price}</p>
+                              <div className='overflow-hidden flex flex-col gap-1 h-full w-full'>
+                                <Link href={`/${item.id}`}>
+                                  <div className='flex items-center gap-4'>
+                                    <div className="overflow-hidden max-w-[200px] flex items-center gap-4">
+                                      <p className='text-[15px] w-full truncate max-w-full'>
+                                        <span className='mr-1 font-bold'>{item.amount}x</span><span className='text-red-600 mr-1 font-bold'>{item.brand?.brandName}</span>{item.name}
+                                      </p>
+                                    </div>
+                                      <div className='flex items-center gap-1 ml-auto'>
+                                        <span className='flex items-center gap-1'>
+                                          <p className='text-[16px] md:text-1xl font-medium'>R$</p>
+                                        </span>
+                                        <p className='text-[16px] md:text-1xl font-medium'>{item.price}</p>
+                                      </div>
+                                  </div>
+                                </Link>
+                                <div className=' flex items-start justify-start gap-2'>
+                                  <div>
+                                    <div className="flex gap-1">
+                                      <button disabled={item.amount === 1} className="bg-gray-900 rounded-md flex items-center justify-center w-[30px] h-[25px] disabled:opacity-80" onClick={() => {
+                                        if (item.amount > 1) {
+                                          handleUpdateAmount(item, item.amount - 1, "decrease")
+                                        }
+                                      }}>
+                                        <HiMinusSm size={18} />
+                                      </button>
+                                      <button disabled={item.available === item.amount} className="bg-gray-900 rounded-lg flex items-center justify-center w-[30px] disabled:opacity-80" onClick={() => {
+                                        if (item.available > item.amount) {
+                                          handleUpdateAmount(item, item.amount + 1, "increase")
+                                        }
+                                      }}>
+                                        <HiOutlinePlusSm size={18} />
+                                      </button>
+                                    </div>
+                                  </div>
                                 </div>
-                            </div>
-                          </Link>
-                          <div className=' flex items-start justify-start gap-2'>
-                            <div>
-                              <div className="flex gap-1">
-                                <button disabled={item.amount === 1} className="bg-gray-900 rounded-md flex items-center justify-center w-[30px] h-[25px] disabled:opacity-80" onClick={() => {
-                                  if (item.amount > 1) {
-                                    handleUpdateAmount(item, item.amount - 1, "decrease")
-                                  }
-                                }}>
-                                  <HiMinusSm size={18} />
-                                </button>
-                                <button disabled={item.available === item.amount} className="bg-gray-900 rounded-lg flex items-center justify-center w-[30px] disabled:opacity-80" onClick={() => {
-                                  if (item.available > item.amount) {
-                                    handleUpdateAmount(item, item.amount + 1, "increase")
-                                  }
-                                }}>
-                                  <HiOutlinePlusSm size={18} />
-                                </button>
                               </div>
                             </div>
-                          </div>
                         </div>
-                      </div>
-                  </div>
-                  )
-                })
-                ) 
-              }
-          </motion.div>
-          <motion.div  variants={container} initial="hidden" animate="visible" className='select-none mt-8 flex-wrap max-w-full mx-auto bg-gray-700 p-6 rounded-lg shadow-lg'>
-            <h2 className='text-[18px]'>Order Summary</h2>
-            <div className='flex items-center justify-between mt-8'>
-              <p className='font-bold'>Total: </p>
-              <p className='font-bold'>R$ {cartSum.toFixed(2)}</p>
-            </div>  
-          </motion.div>
-          
-          <div className="mt-8 flex items-center justify-center flex-col gap-2">
-            <button className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
-              Comprar
-            </button>
-          </div>
-        </motion.main>
+                        )
+                      })
+                      ) 
+                    }
+                </motion.div>
 
-        <motion.footer initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 1}} className='select-none flex items-center justify-between mb-2 px-4 md:px-10 max-w-[1120px] mx-auto'>
-          <div>
-            <p className="text-gray-500 underline">
-              Discover All <br />
-              Products
-            </p>
+                <div>
+                  <motion.div  variants={container} initial="hidden" animate="visible" className='select-none mt-8 flex-wrap max-w-full mx-auto bg-gray-700 p-6 rounded-lg shadow-lg md:w-full md:mt-0'>
+                    <h2 className='text-[18px]'>Order Summary</h2>
+                    <div className='flex items-center justify-between mt-8'>
+                      <p className='font-bold'>Total: </p>
+                      <p className='font-bold'>R$ {cartSum.toFixed(2)}</p>
+                    </div>  
+                  </motion.div>
+                  <div className="hidden md:flex mt-8 items-center justify-center flex-col gap-2">
+                    <button className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
+                      Comprar
+                    </button>
+                  </div>
+                </div>
+
+                <div className="md:hidden mt-8 flex items-center justify-center flex-col gap-2">
+                  <button className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
+                    Comprar
+                  </button>
+                </div>
+            </motion.main>
           </div>
-          <div className='flex items-center gap-4 cursor-pointer'>
-            <p className='text-[18px]'>Next page</p>
-            <BsArrowRightShort fontSize={30}/>
-          </div>
-          <div>
-            <span>{" < 1 > "}</span>
-          </div>
-        </motion.footer>
-      </div>
+        </div>
+        <motion.footer initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 1}} className='mt-20 select-none flex items-center justify-between mb-2 px-4 max-w-[1120px] md:mt-0 mx-auto'>
+        <div>
+          <p className="text-gray-500 underline">
+            Discover All <br />
+            Products
+          </p>
+        </div>
+        <div className='flex items-center gap-4 cursor-pointer'>
+          <p className='text-[18px]'>Next page</p>
+          <BsArrowRightShort fontSize={30}/>
+        </div>
+        <div>
+          <span>{" < 1 > "}</span>
+        </div>
+      </motion.footer>
+    </>
   )
 }

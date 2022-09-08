@@ -15,6 +15,7 @@ module.exports = {
         ['product-lg']: 'auto 20rem',
         ['product-image']: 'auto 5rem',
         ['product-image-lg']: 'auto 5rem',
+        ['cart']: 'auto 22rem',
       },
       fontFamily: {
         sans: ['Roboto, sans-serif'],
