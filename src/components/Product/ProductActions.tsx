@@ -17,7 +17,7 @@ interface ProductActionProps {
 
 export function ProductActions({product}: ProductActionProps) {
   const [addProductInCartCount, setAddProductInCartCount] = useState(1);
-  const { handleAddProduct } = useCart()
+  const { handleAddProduct } = useCart();
 
   return (
     <div className="bg-gray-700 p-2 w-full h-[full] rounded-[13px]">
@@ -59,9 +59,13 @@ export function ProductActions({product}: ProductActionProps) {
         </div>
 
         <div className="mt-8 flex items-center justify-center flex-col gap-2">
-          <button className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
-            Comprar
-          </button>
+          <form action="/api/checkout_sessions" method="POST">
+            <section>
+              <button className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75" onClick={() => handleCheckout(product.id, addProductInCartCount)}>
+                Comprar
+              </button>
+            </section>
+          </form>
           <button className="bg-yellow-500 w-full rounded py-2 px-4 transition-filter flex items-center justify-center hover:brightness-75" onClick={() => handleAddProduct(product, addProductInCartCount)}>
             <FiShoppingCart size={25} />
           </button>
