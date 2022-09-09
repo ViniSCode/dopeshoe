@@ -59,9 +59,9 @@ export function ProductActions({product}: ProductActionProps) {
         </div>
 
         <div className="mt-8 flex items-center justify-center flex-col gap-2">
-          <form action="/api/checkout_sessions" method="POST">
+          <form method="POST" className="w-full">
             <section>
-              <button className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75" onClick={() => handleCheckout(product.id, addProductInCartCount)}>
+              <button className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
                 Comprar
               </button>
             </section>

@@ -12,7 +12,6 @@ function MyApp({ Component, pageProps, router }: AppProps) {
   if (pageProps.urqlState) {
     ssrCache.restoreData(pageProps.urqlState);
   }
-
   return (
     <Provider value={client}>
       <AnimatePresence mode='wait' key={router.asPath}>
