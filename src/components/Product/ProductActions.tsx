@@ -1,3 +1,4 @@
+import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { HiMinusSm, HiOutlinePlusSm } from "react-icons/hi";
@@ -15,9 +16,34 @@ interface ProductActionProps {
   }
 }
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
+
 export function ProductActions({product}: ProductActionProps) {
   const [addProductInCartCount, setAddProductInCartCount] = useState(1);
   const { handleAddProduct } = useCart();
+  const [loading, setLoading] = useState(false);
+
+  const hanldeCheckout = async (event: any) => {
+    event.preventDefault();
+    setLoading(true)
+
+    const {sessionId} = await fetch('/api/checkout/session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        amount: 1
+      })
+    }).then(res => res.json());
+
+    console.log(sessionId)
+
+    const stripe = await stripePromise;
+    const { error } = await stripe!.redirectToCheckout({sessionId})
+    setLoading(false)
+  }
 
   return (
     <div className="bg-gray-700 p-2 w-full h-[full] rounded-[13px]">
@@ -61,7 +87,7 @@ export function ProductActions({product}: ProductActionProps) {
         <div className="mt-8 flex items-center justify-center flex-col gap-2">
           <form method="POST" className="w-full">
             <section>
-              <button className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
+              <button role="link" onClick={hanldeCheckout} className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
                 Comprar
               </button>
             </section>
