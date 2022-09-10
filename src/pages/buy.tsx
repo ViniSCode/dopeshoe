@@ -6,7 +6,8 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 export default function Buy () {
   const [loading, setLoading] = useState(false);
 
-  const hanldeCheckout = async (event: any) => {
+  
+  const handleCheckout = async (event: any) => {
     event.preventDefault();
     setLoading(true)
 
@@ -20,15 +21,13 @@ export default function Buy () {
       })
     }).then(res => res.json());
 
-    console.log(sessionId)
-
     const stripe = await stripePromise;
     const { error } = await stripe!.redirectToCheckout({sessionId})
     setLoading(false)
   }
 
   return (
-      <button role="link" onClick={hanldeCheckout} className='bg-pink-500 px-8 py-2 rounded-md mt-10 ml-10'>
+      <button role="link" onClick={handleCheckout} className='bg-pink-500 px-8 py-2 rounded-md mt-10 ml-10'>
         Checkout
       </button>
   )

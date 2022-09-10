@@ -2,6 +2,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { HiMinusSm, HiOutlinePlusSm } from "react-icons/hi";
+import { toast } from "react-toastify";
 import { useCart } from "../../hooks/useCart";
 
 interface ProductActionProps {
@@ -24,25 +25,38 @@ export function ProductActions({product}: ProductActionProps) {
   const { handleAddProduct } = useCart();
   const [loading, setLoading] = useState(false);
 
-  const hanldeCheckout = async (event: any) => {
+  const handleCheckout = async (event: any) => {
     event.preventDefault();
     setLoading(true)
 
-    const {sessionId} = await fetch('/api/checkout/session', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        amount: 1
-      })
-    }).then(res => res.json());
+    // const {data} = await client.query(GetProductDocument, { id: product.id }).toPromise();
+    // const url = data.product.edges[0].node.image[0].productImages
+    // const image = url.map((u: any) => {
+    //     return (
+    //       u.url
+    //     )
+    //   })
+    // console.log(image)
 
-    console.log(sessionId)
-
-    const stripe = await stripePromise;
-    const { error } = await stripe!.redirectToCheckout({sessionId})
-    setLoading(false)
+    try {
+      const {sessionId} = await fetch('/api/checkout/session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          amount: addProductInCartCount,
+          productId: product.id
+        })
+      }).then(res => res.json());
+  
+      const stripe = await stripePromise;
+      const { error } = await stripe!.redirectToCheckout({sessionId})
+      setLoading(false)
+    } catch {
+      toast.error('Checkout error')
+      setLoading(false)
+    }
   }
 
   return (
@@ -87,7 +101,7 @@ export function ProductActions({product}: ProductActionProps) {
         <div className="mt-8 flex items-center justify-center flex-col gap-2">
           <form method="POST" className="w-full">
             <section>
-              <button role="link" onClick={hanldeCheckout} className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
+              <button disabled={loading} role="link" onClick={handleCheckout} className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75 disabled:opacity-80">
                 Comprar
               </button>
             </section>
