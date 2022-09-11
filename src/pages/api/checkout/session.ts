@@ -34,7 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             },
             unit_amount: product.price * 100,
           },
-          quantity: 1,
+          quantity: amount,
         },
       ],
       mode: 'payment',
