@@ -34,7 +34,7 @@ export function CardProduct ({id, name, price, discount, image, brand}: CardProd
               </span>
               <span className='text-green-500 text-[14px]'>{discount}% OFF</span>
             </div>
-            <p className="mt-2 text-center text-gray-200 md:mt-3 text-[14px]">em 12x R${(15.42 / 12).toFixed(2)}</p>
+            <p className="mt-2 text-center text-gray-200 md:mt-3 text-[14px]">em 12x R${((price / 100) / 12).toFixed(2)}</p>
           </div>
         </div>
       </motion.div>
