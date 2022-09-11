@@ -73,7 +73,7 @@ export function ProductActions({product}: ProductActionProps) {
         <div className="mt-5 flex items-start gap-1">
           <span className="flex items-center gap-1">
             <p className="text-[20px] md:text-2xl">R$</p>
-            <p className="text-[20px] md:text-2xl">{product.price}</p>
+            <p className="text-[20px] md:text-2xl">{(product.price / 100).toFixed(2)}</p>
           </span>
           <span className="text-green-500 text-[14px]">{product.discount}% OFF</span>
         </div>

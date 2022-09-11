@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { HiMinusSm, HiOutlinePlusSm } from 'react-icons/hi'
+import { toast } from 'react-toastify'
 import { Header } from '../components/Header'
 import { Sidebar } from '../components/Sidebar'
 import { useCart } from '../hooks/useCart'
@@ -32,51 +33,59 @@ const item = {
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 export default function Cart () {
-  const { handleSetIsCartOpen, isCartOpen, cart, handleRemoveProduct, handleUpdateAmount } = useCart();
+  const { handleSetIsCartOpen, isCartOpen, cart, handleRemoveProduct, handleUpdateAmount, clearCart } = useCart();
   const [loading, setLoading] = useState(false);
 
   const cartSum = cart.reduce((previous, current) => {
-    previous += (current.price * current.amount)
+    previous += ((current.price / 100) * current.amount)
     return previous;
   }, 0)
-  
-  // const handleCartCheckout = async (event: any) => {
-  //   event.preventDefault();
-  //   setLoading(true)
-    
-  //   if (cart.length > 30) {
-  //     toast.error("Muitos items no carrinho, remova alguns para finalizar a compra")
-  //     setLoading(true)    
-  //     return;
-  //   }
 
-  //   try {
-  //     const cartProducts =  cart.map(product => {
-  //       return {
-  //         cartProductId: product.id,
-  //         cartAmount: product.amount
-  //       }
-  //     })
-  //     const {sessionId} = await fetch('/api/checkout/cart', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({
-  //         cartProducts
-  //       })
-  //     }).then(res => res.json());
   
-  //     // const stripe = await stripePromise;
-  //     // const { error } = await stripe!.redirectToCheckout({sessionId})
-      
-  //     setLoading(false)
-  //   } catch (err) {
-  //     toast.error('Erro ao finalizar a compra')
-  //     setLoading(false)
-  //   }
-  //   setLoading(false)
-  // }
+  const handleCartCheckout = async (event: any) => {
+    event.preventDefault();
+    setLoading(true)
+    
+    if (cart.length > 30) {
+      toast.error("Muitos items no carrinho, remova alguns para finalizar a compra")
+      setLoading(true)    
+      return;
+    }
+
+    try {
+      // GET CART PRODUCTS
+      const cartProducts =  cart.map(product => {
+        return {
+          cartProductId: product.id,
+          cartAmount: product.amount,
+          cartPrice: product.price,
+        }
+      })
+
+      // PRODUCT CHECKOUT
+      const {sessionId} = await fetch('/api/checkout/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          cartProducts
+        })
+      }).then(res => res.json());
+  
+      //REDIRECT TO CHECKOUT
+      const stripe = await stripePromise;
+      const { error } = await stripe!.redirectToCheckout({sessionId})
+    
+      // CLEAR CART AFTER CHECKOUT SUCCESSFUL
+      clearCart();
+      setLoading(false)
+    } catch (err) {
+      toast.error('Erro ao finalizar a compra')
+      setLoading(false)
+    }
+    setLoading(false)
+  }
 
   return (
     <>
@@ -111,16 +120,21 @@ export default function Cart () {
                                         <span className='flex items-center gap-1'>
                                           <p className='text-[16px] md:text-1xl font-medium'>R$</p>
                                         </span>
-                                        <p className='text-[16px] md:text-1xl font-medium'>{item.price}</p>
+                                        <p className='text-[16px] md:text-1xl font-medium'>{(item.price / 100).toFixed(2)}</p>
                                       </div>
                                   </div>
                                 </Link>
                                 <div className=' flex items-start justify-start gap-2'>
                                   <div>
                                     <div className="flex gap-1">
-                                      <button disabled={item.amount === 1} className="bg-gray-900 rounded-md flex items-center justify-center w-[30px] h-[25px] disabled:opacity-80" onClick={() => {
+                                      <button className="bg-gray-900 rounded-md flex items-center justify-center w-[30px] h-[25px]" onClick={() => {
                                         if (item.amount > 1) {
                                           handleUpdateAmount(item, item.amount - 1, "decrease")
+                                        }
+                                        // remove item from shopping cart
+                                        if (item.amount === 1) {
+                                          toast.success('Produto Removido do carrinho')
+                                          handleRemoveProduct(item)
                                         }
                                       }}>
                                         <HiMinusSm size={18} />
@@ -149,18 +163,18 @@ export default function Cart () {
                     <h2 className='text-[18px]'>Order Summary</h2>
                     <div className='flex items-center justify-between mt-8'>
                       <p className='font-bold'>Total: </p>
-                      <p className='font-bold'>R$ {cartSum.toFixed(2)}</p>
+                      <p className='font-bold'>R$ {(cartSum).toFixed(2)}</p>
                     </div>  
                   </motion.div>
                   <div className="hidden md:flex mt-8 items-center justify-center flex-col gap-2">
-                    <button role="link" className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
+                    <button role="link" onClick={handleCartCheckout} className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
                       Comprar
                     </button>
                   </div>
                 </div>
 
                 <div className="md:hidden mt-8 flex items-center justify-center flex-col gap-2">
-                  <button className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
+                  <button role="link" onClick={handleCartCheckout} className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
                     Comprar
                   </button>
                 </div>

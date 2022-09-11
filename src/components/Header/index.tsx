@@ -91,7 +91,7 @@ export function Header () {
                                       <span className='flex items-center gap-1'>
                                         <p className='text-[14px] md:text-1xl font-bold'>R$</p>
                                       </span>
-                                      <p className='text-[14px] md:text-1xl font-bold'>{item.price}</p>
+                                      <p className='text-[14px] md:text-1xl font-bold'>{(item.price) / 100}</p>
                                       <div>
                                             <div className="flex gap-1">
                                               <button disabled={item.amount === 1} className="bg-gray-900 rounded-md flex items-center justify-center w-[30px] h-[25px] disabled:opacity-80" onClick={() => {

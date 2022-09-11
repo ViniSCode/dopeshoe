@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { CartContext } from "../contexts/cartContext";
 
 export function useCart () {
-  const { handleSetIsCartOpen, isCartOpen, handleAddProduct, cart, handleRemoveProduct, handleUpdateAmount } = useContext(CartContext);
+  const { handleSetIsCartOpen, isCartOpen, handleAddProduct, cart, handleRemoveProduct, handleUpdateAmount, clearCart } = useContext(CartContext);
 
   return {
     handleSetIsCartOpen, 
@@ -10,6 +10,7 @@ export function useCart () {
     handleAddProduct, 
     handleRemoveProduct,
     handleUpdateAmount,
-    cart
+    clearCart,
+    cart,
   }
 }

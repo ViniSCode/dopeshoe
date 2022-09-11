@@ -29,7 +29,7 @@ export function SimilarProduct ({id, name, price, discount, image, brand}: CardP
             <div className='mt-1 flex items-start md:gap-1 justify-center md:mt-2'>
               <span className='flex items-center gap-1'>
                 <p className='text-[18px] md:text-2xl'>R$</p>
-                <p className='text-[18px] md:text-2xl'>{price}</p>
+                <p className='text-[18px] md:text-2xl'>{(price! / 100)}</p>
               </span>
               <span className='text-green-500 text-[14px]'>{discount}% OFF</span>
             </div>

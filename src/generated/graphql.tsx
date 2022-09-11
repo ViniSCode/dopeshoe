@@ -5391,6 +5391,13 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type CheckProductQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type CheckProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', id: string, name: string, description: string, available: number, price: number, image: Array<{ __typename?: 'Image', productImages: Array<{ __typename?: 'Asset', url: string }> }> } }> } };
+
 export type GetAllProductsQueryVariables = Exact<{
   limit: Scalars['Int'];
   offset: Scalars['Int'];
@@ -5407,6 +5414,30 @@ export type GetProductQueryVariables = Exact<{
 export type GetProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, available: number, id: string, discount?: number | null, description: string, brand?: { __typename?: 'Brand', brandName: string } | null, sales: Array<{ __typename?: 'Sale', id: string }>, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }> }, similar: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, available: number, id: string, discount?: number | null, description: string, brand?: { __typename?: 'Brand', brandName: string } | null, sales: Array<{ __typename?: 'Sale', id: string }>, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }> } };
 
 
+export const CheckProductDocument = gql`
+    query CheckProduct($id: ID!) {
+  product: productsConnection(where: {id: $id}) {
+    edges {
+      node {
+        id
+        name
+        description
+        available
+        price
+        image {
+          productImages {
+            url
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useCheckProductQuery(options: Omit<Urql.UseQueryArgs<CheckProductQueryVariables>, 'query'>) {
+  return Urql.useQuery<CheckProductQuery, CheckProductQueryVariables>({ query: CheckProductDocument, ...options });
+};
 export const GetAllProductsDocument = gql`
     query GetAllProducts($limit: Int!, $offset: Int!) {
   product: productsConnection(first: $limit, skip: $offset) {

@@ -7,6 +7,7 @@ interface CartContextDataProvider {
   handleAddProduct: (value: Product, amount: number) => void;
   handleUpdateAmount: (value: Product, amount: number, type: string) => void;
   handleRemoveProduct: (value: Product) => void;
+  clearCart: () => void;
   cart: Cart[];
 }
 
@@ -99,8 +100,7 @@ export function CartContextProvider ({ children }: CartContextProviderProps) {
     }
   }
 
-  function handleRemoveProduct (value: Product,) {
-    console.log(value.id)
+  function handleRemoveProduct (value: Product) {
     try {
       const  updateRemoveProducts = cart.filter(product => product.id !== value.id);      
             
@@ -170,9 +170,16 @@ export function CartContextProvider ({ children }: CartContextProviderProps) {
     }
   }
 
+  function clearCart () {
+    setCart([]);
+    
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('@dopeshoe:cart', JSON.stringify([]));
+    }
+  }
 
   return (
-    <CartContext.Provider value={{handleSetIsCartOpen, isCartOpen, handleAddProduct, cart, handleRemoveProduct, handleUpdateAmount}}>
+    <CartContext.Provider value={{handleSetIsCartOpen, isCartOpen, handleAddProduct, cart, handleRemoveProduct, handleUpdateAmount, clearCart}}>
       { children }
     </CartContext.Provider>
   )
