@@ -1,11 +1,11 @@
-// interface Cart {
-//   cartProductId: string;
-//   cartAmount: number;
-//  }
+interface Cart {
+  cartProductId: string;
+  cartAmount: number;
+ }
 
-// export function validateCartItems (cartItems: Cart[]) {
-//   cartItems.map(item => {
+export function validateCartItems (cartItems: Cart[]) {
+  cartItems.map(item => {
     
-//   })
+  })
 
-// }
+}

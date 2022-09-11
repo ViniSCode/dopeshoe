@@ -1,6 +1,5 @@
-// import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-// import Stripe from 'stripe';
 // import { validateCartItems } from '../../../utils/validateCartItems';
 // const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 //   apiVersion: "2022-08-01",
@@ -30,33 +29,33 @@
 // ]
 
 
-// export default async (req: NextApiRequest, res: NextApiResponse) => {
-//   if (req.method === 'POST') {
-//     const { cartProducts } = req.body;
-//     const line_items = validateCartItems(cartProducts);
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'POST') {
+    // const { cartProducts } = req.body;
+    // const line_items = validateCartItems(cartProducts);
 
-//     const session = await stripe.checkout.sessions.create({
-//       payment_method_types: ['card'],
-//       line_items: [
-//         {
-//           price_data: {
-//             currency: 'BRL',
-//             product_data: {
-//               // images: formattedProductImages,
-//               name: "product.name",
-//             },
-//             // unit_amount: product.price * 100,
-//           },
-//           quantity: 1,
-//         },
-//       ],
-//       mode: 'payment',
-//       success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
-//       cancel_url: `${req.headers.origin}/cart`,
-//     })
-//     res.status(200).json({ sessionId: session.id })
-//   } else {
-//     res.setHeader('Allow', 'POST')
-//     res.status(405).end('Method not allowed')
-//   }
-// }
+    // const session = await stripe.checkout.sessions.create({
+    //   payment_method_types: ['card'],
+    //   line_items: [
+    //     {
+    //       price_data: {
+    //         currency: 'BRL',
+    //         product_data: {
+    //           // images: formattedProductImages,
+    //           name: "product.name",
+    //         },
+    //         // unit_amount: product.price * 100,
+    //       },
+    //       quantity: 1,
+    //     },
+    //   ],
+    //   mode: 'payment',
+    //   success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
+    //   cancel_url: `${req.headers.origin}/cart`,
+    // })
+    // res.status(200).json({ sessionId: session.id })
+  } else {
+    res.setHeader('Allow', 'POST')
+    res.status(405).end('Method not allowed')
+  }
+}
