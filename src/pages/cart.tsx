@@ -1,6 +1,8 @@
+import { loadStripe } from '@stripe/stripe-js'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 import { BsArrowRightShort } from 'react-icons/bs'
 import { HiMinusSm, HiOutlinePlusSm } from 'react-icons/hi'
 import { Header } from '../components/Header'
@@ -27,20 +29,61 @@ const item = {
   }
 }
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
 export default function Cart () {
   const { handleSetIsCartOpen, isCartOpen, cart, handleRemoveProduct, handleUpdateAmount } = useCart();
+  const [loading, setLoading] = useState(false);
 
   const cartSum = cart.reduce((previous, current) => {
     previous += (current.price * current.amount)
     return previous;
   }, 0)
+  
+  // const handleCartCheckout = async (event: any) => {
+  //   event.preventDefault();
+  //   setLoading(true)
+    
+  //   if (cart.length > 30) {
+  //     toast.error("Muitos items no carrinho, remova alguns para finalizar a compra")
+  //     setLoading(true)    
+  //     return;
+  //   }
+
+  //   try {
+  //     const cartProducts =  cart.map(product => {
+  //       return {
+  //         cartProductId: product.id,
+  //         cartAmount: product.amount
+  //       }
+  //     })
+  //     const {sessionId} = await fetch('/api/checkout/cart', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({
+  //         cartProducts
+  //       })
+  //     }).then(res => res.json());
+  
+  //     // const stripe = await stripePromise;
+  //     // const { error } = await stripe!.redirectToCheckout({sessionId})
+      
+  //     setLoading(false)
+  //   } catch (err) {
+  //     toast.error('Erro ao finalizar a compra')
+  //     setLoading(false)
+  //   }
+  //   setLoading(false)
+  // }
 
   return (
     <>
       <div className='md:container-div'>
           <Header />
           <Sidebar />
-          <div className='lg:main-container-div max-w-[1120px] mx-auto'>
+          <div className='lg:main-container-div max-w-[1120px] lg:px-7 mx-auto'>
             <motion.main className="px-4 w-full mx-auto mt-[8rem] md:grid md:grid-cols-cart md:gap-10 md:items-start lg:mt-16">
               <motion.div  variants={container} initial="hidden" animate="visible" className='select-none mt-16 grid grid-cols-1 w-full h-full bg-gray-700 px-4 py-4 rounded-lg shadow-lg md:mt-0'>
                 <h2 className='text-[18px]'>{cart.length} Items</h2>
@@ -110,7 +153,7 @@ export default function Cart () {
                     </div>  
                   </motion.div>
                   <div className="hidden md:flex mt-8 items-center justify-center flex-col gap-2">
-                    <button className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
+                    <button role="link" className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75">
                       Comprar
                     </button>
                   </div>
