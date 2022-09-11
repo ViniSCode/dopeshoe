@@ -13,8 +13,8 @@ export default function Result() {
 
   return (
     <div>
-      <h1>Payment Result</h1>
-      <pre>{data ? JSON.stringify(data, null, 2) : 'Loading'}</pre>
+      <h1>Payment Successful</h1>
+      {/* <pre>{data ? JSON.stringify(data, null, 2) : 'Loading'}</pre> */}
     </div> 
   )
 }
