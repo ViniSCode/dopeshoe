@@ -15,7 +15,7 @@ export function ProductImages({ productImages, mainImage }: ProductImagesProps) 
         {
           productImages && mainImage ? (
             <div className="p-3 bg-gray-600 relative w-full h-full rounded-lg grid grid-cols-1 md:grid-cols-product-image lg:grid-cols-product-image-lg gap-2">
-              <div className="w-full h-[300px] bg-gray-900 rounded-lg p-4 md:p-4 lg:p-4">
+              <div className="w-full h-[300px] md:h-[full] bg-gray-900 rounded-lg p-4 md:p-4 lg:p-4">
               <AnimatePresence mode="wait">
                 <motion.div key={displayImage} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{duration: 0.2}} className="w-full h-full relative md:w-full md:h-full md:relative">
                   <Image src={displayImage} alt="product image" layout='fill' objectFit={'contain'} className='pointer-events-none' priority={mainImage === "https://media.graphassets.com/i5RtvtrhRseDy345Wr8V"}/>
@@ -26,7 +26,7 @@ export function ProductImages({ productImages, mainImage }: ProductImagesProps) 
                 {
                   productImages.map((image: any) => {
                     return (
-                      <motion.div key={image.url} whileHover={{ scale: 1.05 }} className="md:w-full md:h-full bg-gray-900 rounded-lg cursor-pointer p-2" onClick={() => setDisplayImage(image.url)}>
+                      <motion.div key={image.url} whileHover={{ scale: 1.05 }} className={`md:w-full md:h-full bg-gray-900 rounded-lg cursor-pointer p-2 ${displayImage === image.url && 'opacity-[77%] bg-gray-700'}`} onClick={() => setDisplayImage(image.url)}>
                         <div className='w-full h-full relative'>
                           <Image src={image.url} alt="product image" layout='fill' objectFit={'contain'} className='pointer-events-none'/>
                         </div>

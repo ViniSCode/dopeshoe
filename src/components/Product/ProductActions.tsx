@@ -29,15 +29,6 @@ export function ProductActions({product}: ProductActionProps) {
     event.preventDefault();
     setLoading(true)
 
-    // const {data} = await client.query(GetProductDocument, { id: product.id }).toPromise();
-    // const url = data.product.edges[0].node.image[0].productImages
-    // const image = url.map((u: any) => {
-    //     return (
-    //       u.url
-    //     )
-    //   })
-    // console.log(image)
-
     try {
       const {sessionId} = await fetch('/api/checkout/session', {
         method: 'POST',
@@ -62,7 +53,7 @@ export function ProductActions({product}: ProductActionProps) {
   return (
     <div className="bg-gray-700 p-2 w-full h-[full] rounded-[13px]">
       <div className="bg-gray-600 w-full h-full rounded-lg p-5">
-        <h2 className="text-[22px] w-full">{product.brand?.brandName} {product.name}</h2>
+        <h2 className="text-[22px] w-full truncate max-w-full">{product.brand?.brandName} {product.name}</h2>
         <div className="flex gap-1">
           <p className="text-gray-200">
            <span className="font-bold">{product.sales.length ?? 0} </span>vendidos de
