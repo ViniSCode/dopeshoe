@@ -20,6 +20,8 @@ export default function Result() {
       (url) => fetch(url).then(res => res.json())
   )
 
+  console.log(data)
+
   function handleCopy(paymentId: string) {
     setCopyText(paymentId)
   }

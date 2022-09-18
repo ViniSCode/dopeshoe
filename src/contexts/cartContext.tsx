@@ -11,7 +11,7 @@ interface CartContextDataProvider {
   cart: Cart[];
 }
 
-interface Product {
+export interface Product {
   id: string;
   name: string;
   price: number;
@@ -23,7 +23,7 @@ interface Product {
   } | null | undefined;
 }
 
-interface Cart {
+export interface Cart {
  id: string;
   name: string;
   price: number;

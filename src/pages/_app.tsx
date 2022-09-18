@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
+import { SessionProvider } from "next-auth/react"
 import type { AppProps } from 'next/app'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -14,14 +15,16 @@ function MyApp({ Component, pageProps, router }: AppProps) {
   }
   return (
     <Provider value={client}>
-      <AnimatePresence mode='wait' key={router.asPath}>
-        <motion.div initial="pageInitial" animate="pageAnimate" variants={{ pageInitial: { opacity: 0, }, pageAnimate: { opacity: 1, }, }}>
-          <ToastContainer position="top-right" autoClose={6000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
-          <CartContextProvider>
-              <Component {...pageProps} />
-          </CartContextProvider>
-        </motion.div>
-      </AnimatePresence>
+      <SessionProvider session={pageProps.session}>
+        <AnimatePresence mode='wait' key={router.asPath}>
+          <motion.div initial="pageInitial" animate="pageAnimate" variants={{ pageInitial: { opacity: 0, }, pageAnimate: { opacity: 1, }, }}>
+            <ToastContainer position="top-right" autoClose={6000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
+            <CartContextProvider>
+                <Component {...pageProps} />
+            </CartContextProvider>
+          </motion.div>
+        </AnimatePresence>
+      </SessionProvider>
     </Provider>
   )
 }
