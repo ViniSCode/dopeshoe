@@ -63,7 +63,6 @@ const menuItems = [
     href: '/login',
     name: 'Login'
   },
-
 ]
 
 
