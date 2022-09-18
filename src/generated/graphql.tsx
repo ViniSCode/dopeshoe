@@ -5404,7 +5404,7 @@ export type GetAllProductsQueryVariables = Exact<{
 }>;
 
 
-export type GetAllProductsQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, id: string, discount?: number | null, available: number, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }>, aggregate: { __typename?: 'Aggregate', count: number }, pageInfo: { __typename?: 'PageInfo', pageSize?: number | null, hasNextPage: boolean } } };
+export type GetAllProductsQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, id: string, discount?: number | null, available: number, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }>, aggregate: { __typename?: 'Aggregate', count: number }, pageInfo: { __typename?: 'PageInfo', pageSize?: number | null, hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null } } };
 
 export type GetProductQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -5412,6 +5412,13 @@ export type GetProductQueryVariables = Exact<{
 
 
 export type GetProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, available: number, id: string, discount?: number | null, description: string, brand?: { __typename?: 'Brand', brandName: string } | null, sales: Array<{ __typename?: 'Sale', id: string }>, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }> }, similar: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, available: number, id: string, discount?: number | null, description: string, brand?: { __typename?: 'Brand', brandName: string } | null, sales: Array<{ __typename?: 'Sale', id: string }>, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }> } };
+
+export type GetProductsPageInfoQueryVariables = Exact<{
+  pageSize: Scalars['Int'];
+}>;
+
+
+export type GetProductsPageInfoQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, aggregate: { __typename?: 'Aggregate', count: number } } };
 
 
 export const CheckProductDocument = gql`
@@ -5466,8 +5473,9 @@ export const GetAllProductsDocument = gql`
     }
     pageInfo {
       pageSize
+      hasPreviousPage
       hasNextPage
-      hasNextPage
+      startCursor
     }
   }
 }
@@ -5535,4 +5543,23 @@ export const GetProductDocument = gql`
 
 export function useGetProductQuery(options?: Omit<Urql.UseQueryArgs<GetProductQueryVariables>, 'query'>) {
   return Urql.useQuery<GetProductQuery, GetProductQueryVariables>({ query: GetProductDocument, ...options });
+};
+export const GetProductsPageInfoDocument = gql`
+    query GetProductsPageInfo($pageSize: Int!) {
+  product: productsConnection(first: $pageSize) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+export function useGetProductsPageInfoQuery(options: Omit<Urql.UseQueryArgs<GetProductsPageInfoQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetProductsPageInfoQuery, GetProductsPageInfoQueryVariables>({ query: GetProductsPageInfoDocument, ...options });
 };

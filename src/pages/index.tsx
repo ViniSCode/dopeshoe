@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import type { GetStaticProps, NextPage } from 'next'
-import { BsArrowRightShort } from 'react-icons/bs'
+import { useState } from 'react'
+import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs'
 import { CardProduct } from '../components/CardProduct'
 import { Header } from '../components/Header'
 import { SearchBar } from '../components/SearchBar'
@@ -9,109 +10,6 @@ import { Sidebar } from '../components/Sidebar'
 import { TopContentText } from '../components/TopContentText/index'
 import { GetAllProductsDocument, useGetAllProductsQuery } from '../generated/graphql'
 import { client, ssrCache } from '../lib/urql'
-
-const products = [
-  {
-    id: "123193sdjkfhsdf",
-    name: "Yeezy 350 V3",
-    price: 559,
-    brand: "Nike",
-    discount: 44,
-    sales: 79,
-    description: "Lançado como parte de um pacote ‘Mono’ de quatro peças, o adidas Yeezy Boost 350 V2 ‘Mono Cinder’ aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply.",
-    image: "/yeezy.png",
-  },
-  {
-    id: "1255fgsdg",
-    name: "Yeezy 350 V3",
-    price: 559,
-    brand: "Nike",
-    discount: 44,
-    sales: 79,
-    description: "Lançado como parte de um pacote ‘Mono’ de quatro peças, o adidas Yeezy Boost 350 V2 ‘Mono Cinder’ aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply.",
-    image: "/yeezy.png",
-  },
-  {
-    id: "21342dgsfhudau",
-    name: "Yeezy 350 V3",
-    price: 559,
-    brand: "Nike",
-    discount: 44,
-    sales: 79,
-    description: "Lançado como parte de um pacote ‘Mono’ de quatro peças, o adidas Yeezy Boost 350 V2 ‘Mono Cinder’ aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply.",
-    image: "/yeezy.png",
-  },
-  {
-    id: "2134rt457ag",
-    name: "Yeezy 350 V3",
-    price: 559,
-    brand: "Nike",
-    discount: 44,
-    sales: 79,
-    description: "Lançado como parte de um pacote ‘Mono’ de quatro peças, o adidas Yeezy Boost 350 V2 ‘Mono Cinder’ aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply.",
-    image: "/yeezy.png",
-  },
-  {
-    id: "51246iyrtsd",
-    name: "Yeezy 350 V3",
-    price: 559,
-    brand: "Nike",
-    discount: 44,
-    sales: 79,
-    description: "Lançado como parte de um pacote ‘Mono’ de quatro peças, o adidas Yeezy Boost 350 V2 ‘Mono Cinder’ aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply.",
-    image: "/yeezy.png",
-  },
-  {
-    id: "215jfssi46",
-    name: "Yeezy 350 V3",
-    price: 559,
-    brand: "Nike",
-    discount: 44,
-    sales: 79,
-    description: "Lançado como parte de um pacote ‘Mono’ de quatro peças, o adidas Yeezy Boost 350 V2 ‘Mono Cinder’ aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply.",
-    image: "/yeezy.png",
-  },
-  {
-    id: "73474rerhaez",
-    name: "Yeezy 350 V3",
-    price: 559,
-    brand: "Nike",
-    discount: 44,
-    sales: 79,
-    description: "Lançado como parte de um pacote ‘Mono’ de quatro peças, o adidas Yeezy Boost 350 V2 ‘Mono Cinder’ aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply.",
-    image: "/yeezy.png",
-  },
-  {
-    id: "865426hthujeqaujt",
-    name: "Yeezy 350 V3",
-    price: 559,
-    brand: "Nike",
-    discount: 44,
-    sales: 79,
-    description: "Lançado como parte de um pacote ‘Mono’ de quatro peças, o adidas Yeezy Boost 350 V2 ‘Mono Cinder’ aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply.",
-    image: "/yeezy.png",
-  },
-  {
-    id: "6243hds",
-    name: "Yeezy 350 V3",
-    price: 559,
-    brand: "Nike",
-    discount: 44,
-    sales: 79,
-    description: "Lançado como parte de um pacote ‘Mono’ de quatro peças, o adidas Yeezy Boost 350 V2 ‘Mono Cinder’ aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply.",
-    image: "/yeezy.png",
-  },
-  {
-    id: "g315asdgrhahjvnc",
-    name: "Yeezy 350 V3",
-    price: 559,
-    brand: "Nike",
-    discount: 44,
-    sales: 79,
-    description: "Lançado como parte de um pacote ‘Mono’ de quatro peças, o adidas Yeezy Boost 350 V2 ‘Mono Cinder’ aplica um acabamento black-out ao tênis estilo de vida. O design revisado apresenta uma parte superior trabalhada em malha de monofilamento, reforçada com uma gaiola interna e acentuada com uma faixa lateral lateral tonal. Uma aba de puxar de correia no calcanhar permite que a construção semelhante a uma meia seja facilmente colocada e retirada. A paleta furtiva se estende até a sola intermediária, com amortecimento Boost envolto que percorre todo o comprimento da sola de borracha. Este sapato foi lançado exclusivamente pela Yeezy Supply.",
-    image: "/yeezy.png",
-  },
-]
 
 const container = {
   hidden: { opacity: 1, scale: 0 },
@@ -133,11 +31,16 @@ const item = {
   }
 }
 
+
 const Home: NextPage = () => {
+  const [offset, setOffset] = useState(0);
+  const productsPerPage = 6;
+  const [page, setPage] =  useState(1);
+
   const [{ data }] = useGetAllProductsQuery({
     variables: {
-      limit: 12,
-      offset: 0
+      limit: productsPerPage,
+      offset: offset,
     }
   })
 
@@ -171,20 +74,38 @@ const Home: NextPage = () => {
               }
             </motion.div>
           </motion.main>
-        <motion.footer initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 1}} className='select-none flex items-center justify-between mb-24 px-4 md:px-10 max-w-[1120px] mx-auto'>
-          <div>
-            <p className="text-gray-500 underline">
-              Discover All <br />
-              Products
-            </p>
-          </div>
-          <div className='flex items-center gap-4 cursor-pointer'>
-            <p className='text-[18px]'>Next page</p>
-            <BsArrowRightShort fontSize={30}/>
-          </div>
-          <div>
-            <span>{" < 1 > "}</span>
-          </div>
+        <motion.footer initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 1}} className='select-none flex items-center justify-between mb-24 px-4 md:px-10 md:pb-4 max-w-[1120px] mx-auto'>
+          <>
+            <div>
+              <p className="text-gray-500 underline">
+                All
+              </p>
+            </div>
+
+            <div className='flex items-center justify-center gap-2'>
+              <div onClick={() => {
+                if (data?.product.pageInfo.hasPreviousPage) {
+                  setOffset(offset - productsPerPage);
+                  setPage(page - 1)
+                }
+              }} className={`flex items-center gap-4 cursor-pointer transition-colors hover:text-yellow-500 ${!data?.product.pageInfo.hasPreviousPage && 'text-gray-500 hover:text-gray-500 opacity-80 cursor-auto'}`}>
+                <BsArrowLeftShort fontSize={30}/>
+              </div>
+              <span>{String(page)}</span>
+              <div onClick={() => {
+                if (data?.product.pageInfo.hasNextPage) {
+                  setOffset(offset + productsPerPage);
+                  setPage(page + 1)
+                }
+              }} className={`flex items-center gap-4 cursor-pointer transition-colors hover:text-yellow-500 ${!data?.product.pageInfo.hasNextPage && 'text-gray-500 hover:text-gray-500 opacity-80 cursor-auto'}`}>
+                <BsArrowRightShort fontSize={30}/>
+              </div>
+            </div>
+
+            <div>
+              <span>{String(page)}</span>
+            </div>
+          </> 
         </motion.footer>
       </div>
   )
@@ -194,7 +115,6 @@ export default Home
 
 export const getStaticProps: GetStaticProps = async () => {
   await client.query(GetAllProductsDocument, { limit: 12, offset: 0 }).toPromise();
-
 
   return {
     props: {

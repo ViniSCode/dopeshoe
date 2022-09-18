@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     <Provider value={client}>
       <AnimatePresence mode='wait' key={router.asPath}>
         <motion.div initial="pageInitial" animate="pageAnimate" variants={{ pageInitial: { opacity: 0, }, pageAnimate: { opacity: 1, }, }}>
-          <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
+          <ToastContainer position="top-right" autoClose={6000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
           <CartContextProvider>
               <Component {...pageProps} />
           </CartContextProvider>

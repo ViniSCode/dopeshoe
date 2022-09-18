@@ -25,8 +25,9 @@ query GetAllProducts($limit: Int!, $offset: Int!) {
     }
     pageInfo {
       pageSize
+      hasPreviousPage
       hasNextPage
-      hasNextPage
+      startCursor
     }
   }
 }

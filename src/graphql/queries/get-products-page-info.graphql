@@ -1,0 +1,14 @@
+query GetProductsPageInfo ($pageSize: Int!) {
+  product: productsConnection(first: $pageSize) {
+		pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+      
+    aggregate {
+      count
+    }
+  }
+}
