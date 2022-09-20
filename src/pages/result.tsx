@@ -27,10 +27,12 @@ export default function Result() {
   }
 
   useEffect(() => {
-    toast.warning('STRIPE - educational purpose only, your order was not actually placed')
+    if (!error && router.query.session_id) {
+      toast.warning('STRIPE - educational purpose only, your order was not actually placed')
+    }
   }, [])
 
-  return router.query.session_id ? (
+  return !error && router.query.session_id ? (
     <div className="max-w-[500px] mx-auto flex flex-col items-center justify-center h-[100vh] gap-4">
       <BiCheckCircle size={40} className="text-green-500"/>
       <h1 className="text-2xl">Payment Successful</h1>

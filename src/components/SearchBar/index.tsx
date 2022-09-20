@@ -15,7 +15,7 @@ const container = {
 
 export function SearchBar () {
   return (
-    <motion.div className="mt-[2rem] max-w-[500px] mx-auto select-none" variants={container} initial="hidden" animate="visible" transition={{duration: 0.5, delay: 0.2}}>
+    <motion.div className="mt-[2rem] max-w-[400px] md:max-w-[500px] mx-auto select-none" variants={container} initial="hidden" animate="visible" transition={{duration: 0.5, delay: 0.2}}>
     <label className="flex items-center justify-center relative z-10">
       <div className="w-full">
         <div className='gap-1 cursor-pointer h-full absolute z-10 bg-gradient-to-r from-[#ca2765] to-[#ec5a68] flex items-center md:gap-2 px-3 py-2 rounded-[7px] w-fit ml-1'>

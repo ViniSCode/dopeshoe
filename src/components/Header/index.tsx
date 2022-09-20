@@ -9,9 +9,6 @@ export function Header () {
   const { handleSetIsCartOpen, isCartOpen, cart, handleRemoveProduct, handleUpdateAmount } = useCart();
   const {data: session} = useSession();
 
-  if (session) {
-    console.log(session.user?.image)
-  }
   return (
     <header>
       <nav className="select-none max-w-[1120px] mx-auto fixed inset-0 z-50 px-9 lg:px-10 w-full h-[5rem] bg-gray-800 shadow-lg lg:bg-transparent lg:shadow-none lg:relative">
@@ -46,7 +43,9 @@ export function Header () {
               <li className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
                 <Link href='/profile'>
                   <div className="rounded-full p-[3px] relative bg-gradient-to-r from-red-500 via-yellow-500 to-green-500">
-                    <img src={session.user!.image!} className="rounded-full h-8 w-8" />
+                    {session.user?.image ? (
+                      <img src={session.user!.image!} className="rounded-full h-8 w-8" />
+                    ) : (session.user?.name)}
                   </div>
                 </Link>
               </li>

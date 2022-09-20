@@ -1,10 +1,12 @@
 import { AnimatePresence, motion, useCycle } from "framer-motion";
-import Link from 'next/link';
+import { useSession } from "next-auth/react";
 import { AiOutlineLogin, AiOutlinePhone } from 'react-icons/ai';
+import { CgProfile } from "react-icons/cg";
 import { GiRunningShoe } from 'react-icons/gi';
 import { HiMenuAlt3 } from 'react-icons/hi';
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
 import { SiNike } from 'react-icons/si';
+import { SidebarItems } from "./SidebarItems";
 
 const itemVariants = {
   closed: { opacity: 0 },
@@ -37,37 +39,21 @@ const aside = {
   }
 }
 
+export function Sidebar () {
+const [open, cycleOpen] = useCycle(false, true);
+const {data: session} = useSession();
+
+  
 const menuItems = [
-  {
-    icon: <GiRunningShoe size={22}/>,
-    href: '/',
-    name: 'All'
-  },
-  {
-    icon: <SiNike size={22}/>,
-    href: '/brands',
-    name: 'Brands'
-  },
-  {
-    icon: <AiOutlinePhone size={22}/>,
-    href: '/contact',
-    name: 'Contact'
-  },
-  {
-    icon: <MdOutlineFavoriteBorder size={22}/>,
-    href: '/favorites',
-    name: 'Favorites'
-  },
-  {
-    icon: <AiOutlineLogin size={22}/>,
-    href: '/login',
-    name: 'Login'
-  },
+  { icon: <GiRunningShoe size={22}/>, href: '/', name: 'All' },
+  { icon: <SiNike size={22}/>, href: '/brands', name: 'Brands' },
+  { icon: <AiOutlinePhone size={22}/>, href: '/contact', name: 'Contact' },
+  { icon: <MdOutlineFavoriteBorder size={22}/>, href: '/favorites', name: 'Favorites' },
+  { icon: <CgProfile size={22}/>, href: '/profile', name: 'Profile' },
+  { icon: <AiOutlineLogin size={22}/>, href: '/login', name: 'Login', isLoggedIn: session},
 ]
 
 
-export function Sidebar () {
-  const [open, cycleOpen] = useCycle(false, true);
   return (
     <div className="lg:hidden select-none">
       <HiMenuAlt3 size={26} className="cursor-pointer ml-4 fixed top-6 left-0 right-0 bottom-0 z-[100] shadow-lg lg:hidden" onClick={() => cycleOpen()} />
@@ -86,17 +72,8 @@ export function Sidebar () {
                 variants={sideVariants}  
                 className='container flex flex-col gap-10'
               >
-                {menuItems.map(({ name, href, icon }) => (
-                  <Link href={href} key={name}>
-                    <motion.div className="ml-10 flex items-center gap-4 cursor-pointer transition-colors hover:text-yellow-500"
-                      whileHover={{ scale: 1.1 }}
-                      variants={itemVariants}
-                      transition={{duration: 0.2}}
-                    >
-                      {icon}
-                      <span>{name}</span>
-                    </motion.div>
-                  </Link>
+                {menuItems.map((navItem) => (
+                  <SidebarItems href={navItem.href} icon={navItem.icon} name={navItem.name} key={navItem.name} isLoggedIn={session}/>
                 ))}
               </motion.div>
             </motion.aside>
