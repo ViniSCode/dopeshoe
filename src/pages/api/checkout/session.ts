@@ -8,8 +8,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 })
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const {amount} = req.body;
-  const {productId} = req.body;
+  const { amount } = req.body;
+  const { productId } = req.body;
+  const { session } = req.body;
+
+  const customer = await stripe.customers.create({
+    email: session.user.email
+  })
   
   if (req.method === 'POST') {
     // PRODUCTID COMES FROM REQUEST BODY (FETCH)
@@ -50,6 +55,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin}/${product.id}`,
     });
+
+    // TODO
+    // create stripe customer
+    // create GraphCMS customer 
+    // create customer order at GraphCMS
+    // handle duplicated customer
 
     res.status(200).json({ sessionId: session.id })
   } else {

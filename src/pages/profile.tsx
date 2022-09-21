@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
 import type { GetServerSideProps } from 'next'
 import { getSession } from 'next-auth/react'
+import Link from 'next/link'
 import { AiOutlineLogin, AiOutlinePhone } from 'react-icons/ai'
 import { BiPurchaseTagAlt } from 'react-icons/bi'
+import { BsArrowLeftShort } from 'react-icons/bs'
 import { CgProfile } from 'react-icons/cg'
 import { MdOutlineFavoriteBorder } from 'react-icons/md'
 import { Header } from '../components/Header'
@@ -64,10 +66,13 @@ export default function Profile () {
                 </div>
             </motion.div>
           </motion.main>
-        <motion.footer initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 1}} className='select-none flex items-center justify-between mb-24 px-4 md:px-10 md:pb-4 max-w-[1120px] mx-auto'>
-          <div className='text-center'>
-            footer
-          </div> 
+        <motion.footer initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 1}} className='select-none flex items-center justify-center mb-24 px-4 md:px-10 md:pb-4 max-w-[1120px] mx-auto'>
+          <Link href="/">
+            <div className="flex items-center gap-4 cursor-pointer transition-colors hover:text-yellow-500">
+              <BsArrowLeftShort fontSize={30} />
+              <p className="text-[18px]">Voltar</p>
+            </div>
+          </Link>
         </motion.footer>
       </div>
   )

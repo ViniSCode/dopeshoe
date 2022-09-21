@@ -1,4 +1,5 @@
 import { loadStripe } from "@stripe/stripe-js";
+import { getSession, signIn } from "next-auth/react";
 import { useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { HiMinusSm, HiOutlinePlusSm } from "react-icons/hi";
@@ -27,7 +28,13 @@ export function ProductActions({product}: ProductActionProps) {
 
   const handleCheckout = async (event: any) => {
     event.preventDefault();
-    setLoading(true)
+    setLoading(true);
+    const session = await getSession();
+
+    if (!session) {
+      signIn('google');
+      toast.warning('Você precisa estar logado para efetuar o checkout');
+    }
 
     try {
       const {sessionId} = await fetch('/api/checkout/session', {
@@ -37,7 +44,8 @@ export function ProductActions({product}: ProductActionProps) {
         },
         body: JSON.stringify({
           amount: addProductInCartCount,
-          productId: product.id
+          productId: product.id,
+          session: session
         })
       }).then(res => res.json());
   

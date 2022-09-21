@@ -1,5 +1,6 @@
 import { loadStripe } from '@stripe/stripe-js'
 import { motion } from 'framer-motion'
+import { getSession, signIn } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -35,7 +36,6 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 export default function Cart () {
   const { handleSetIsCartOpen, isCartOpen, cart, handleRemoveProduct, handleUpdateAmount, clearCart } = useCart();
   const [loading, setLoading] = useState(false);
-
   const cartSum = cart.reduce((previous, current) => {
     previous += ((current.price / 100) * current.amount)
     return previous;
@@ -44,7 +44,13 @@ export default function Cart () {
   
   const handleCartCheckout = async (event: any) => {
     event.preventDefault();
-    setLoading(true)
+    setLoading(true);
+    const session = await getSession();
+
+    if (!session) {
+      toast.warning('Você precisa estar logado para efetuar o checkout');
+      signIn('google');
+    }
     
     if (cart.length > 30) {
       toast.error("Muitos items no carrinho, remova alguns para finalizar a compra")
