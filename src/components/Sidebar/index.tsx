@@ -50,7 +50,7 @@ const menuItems = [
   { icon: <AiOutlinePhone size={22}/>, href: '/contact', name: 'Contact' },
   { icon: <MdOutlineFavoriteBorder size={22}/>, href: '/favorites', name: 'Favorites' },
   { icon: <CgProfile size={22}/>, href: '/profile', name: 'Profile' },
-  { icon: <AiOutlineLogin size={22}/>, href: '/login', name: 'Login', isLoggedIn: session},
+  { icon: <AiOutlineLogin size={22}/>, href: '', name: 'Login', isLoggedIn: session},
 ]
 
 
