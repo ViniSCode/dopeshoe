@@ -1,0 +1,7 @@
+mutation CreateCustomer ($email: String!, $createdAt: DateTime){
+  createCustomer(data: {email: $email, createdAt: $createdAt}) {
+    id,
+    email,
+    createdAt
+  }
+}

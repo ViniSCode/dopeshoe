@@ -39,7 +39,7 @@ export function Header () {
               </Link>
             </li>
            {
-            session ? (
+            session?.user?.image ? (
               <li className='hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer'>
                 <Link href='/profile'>
                   <div className="rounded-full p-[3px] relative bg-gradient-to-r from-red-500 via-yellow-500 to-green-500">
