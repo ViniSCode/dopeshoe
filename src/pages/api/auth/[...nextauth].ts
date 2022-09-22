@@ -16,9 +16,9 @@ export default NextAuth({
 
       try {
         const {data: { customers }} = await client.query(UserAlreadyExistsDocument, {email}).toPromise();
-
+        
         if (customers.length > 0) {
-          console.log('Already Exists')
+          // if customer already exists
         } else {
           try {
             await createCustomer(email!)

@@ -14,18 +14,18 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     ssrCache.restoreData(pageProps.urqlState);
   }
   return (
-    <Provider value={client}>
-      <SessionProvider session={pageProps.session}>
-        <AnimatePresence mode='wait' key={router.asPath}>
-          <motion.div initial="pageInitial" animate="pageAnimate" variants={{ pageInitial: { opacity: 0, }, pageAnimate: { opacity: 1, }, }}>
-            <ToastContainer position="top-right" autoClose={6000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
-            <CartContextProvider>
-                <Component {...pageProps} />
-            </CartContextProvider>
-          </motion.div>
-        </AnimatePresence>
-      </SessionProvider>
-    </Provider>
+    <SessionProvider session={pageProps.session}>
+      <Provider value={client}>
+          <AnimatePresence mode='wait' key={router.asPath}>
+            <motion.div initial="pageInitial" animate="pageAnimate" variants={{ pageInitial: { opacity: 0, }, pageAnimate: { opacity: 1, }, }}>
+              <ToastContainer position="top-right" autoClose={6000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
+              <CartContextProvider>
+                  <Component {...pageProps} />
+              </CartContextProvider>
+            </motion.div>
+          </AnimatePresence>
+      </Provider>
+    </SessionProvider>
   )
 }
 

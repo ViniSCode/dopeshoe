@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 interface SidebarItemsProps {
   name: string;
-  href: string;
+  href: string | {};
   icon: any; 
   isLoggedIn?: any;
 }
@@ -21,6 +21,10 @@ export function SidebarItems ({ name, href, icon, isLoggedIn }: SidebarItemsProp
   }
   function handleLogout () {
     signOut();
+  }
+
+  if (href === '') {
+    
   }
 
   if (isLoggedIn && name === 'Login') {

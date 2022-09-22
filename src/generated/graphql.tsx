@@ -1224,6 +1224,7 @@ export type Customer = Node & {
   scheduledIn: Array<ScheduledOperation>;
   /** System stage field */
   stage: Stage;
+  stripeId?: Maybe<Scalars['String']>;
   /** The time the document was updated */
   updatedAt: Scalars['DateTime'];
   /** User that last updated this document */
@@ -1303,6 +1304,7 @@ export type CustomerCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   email: Scalars['String'];
   orders?: InputMaybe<OrderCreateManyInlineInput>;
+  stripeId?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -1418,6 +1420,25 @@ export type CustomerManyWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  stripeId?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  stripeId_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  stripeId_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  stripeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  stripeId_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  stripeId_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  stripeId_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  stripeId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  stripeId_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  stripeId_starts_with?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1445,6 +1466,8 @@ export enum CustomerOrderByInput {
   IdDesc = 'id_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
+  StripeIdAsc = 'stripeId_ASC',
+  StripeIdDesc = 'stripeId_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
   UpdatedAtDesc = 'updatedAt_DESC'
 }
@@ -1452,6 +1475,7 @@ export enum CustomerOrderByInput {
 export type CustomerUpdateInput = {
   email?: InputMaybe<Scalars['String']>;
   orders?: InputMaybe<OrderUpdateManyInlineInput>;
+  stripeId?: InputMaybe<Scalars['String']>;
 };
 
 export type CustomerUpdateManyInlineInput = {
@@ -1472,8 +1496,7 @@ export type CustomerUpdateManyInlineInput = {
 };
 
 export type CustomerUpdateManyInput = {
-  /** No fields in updateMany data input */
-  _?: InputMaybe<Scalars['String']>;
+  stripeId?: InputMaybe<Scalars['String']>;
 };
 
 export type CustomerUpdateManyWithNestedWhereInput = {
@@ -1614,6 +1637,25 @@ export type CustomerWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  stripeId?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  stripeId_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  stripeId_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  stripeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values that are not equal to given value. */
+  stripeId_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  stripeId_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  stripeId_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  stripeId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** All values not starting with the given string. */
+  stripeId_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  stripeId_starts_with?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -7008,7 +7050,7 @@ export type UserAlreadyExistsQueryVariables = Exact<{
 }>;
 
 
-export type UserAlreadyExistsQuery = { __typename?: 'Query', customers: Array<{ __typename?: 'Customer', id: string }> };
+export type UserAlreadyExistsQuery = { __typename?: 'Query', customers: Array<{ __typename?: 'Customer', id: string, stripeId?: string | null }> };
 
 
 export const CreateCustomerDocument = gql`
@@ -7170,6 +7212,7 @@ export const UserAlreadyExistsDocument = gql`
     query UserAlreadyExists($email: String!) {
   customers(where: {email: $email}) {
     id
+    stripeId
   }
 }
     `;
