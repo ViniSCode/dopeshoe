@@ -45,6 +45,7 @@ export default function Cart () {
   const handleCartCheckout = async (event: any) => {
     event.preventDefault();
     setLoading(true);
+    
     const session = await getSession();
 
     if (!session) {
@@ -75,7 +76,8 @@ export default function Cart () {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          cartProducts
+          cartProducts,
+          session: session
         })
       }).then(res => res.json());
   

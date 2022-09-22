@@ -1,8 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { UserAlreadyExistsDocument } from '../../../generated/graphql';
+import { client } from '../../../lib/urql';
 import { stripe } from '../../../services/stripe';
 import { validateCartItems } from '../../../utils/validateCartItems';
+import { updateCustomer } from './session';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const { session } = req.body;
+  const email = session.user.email;
+  
   if (req.method === 'POST') {
     const { cartProducts } = req.body;
 
@@ -12,9 +18,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (line_items.length === 0) {
       throw new Error('Invalid Products');
     }
+    
+    const {data: { customers }} = await client.query(UserAlreadyExistsDocument, {email}).toPromise();
+    
+    let customerId = customers[0].stripeId;
+    
+    customerId = customers[0].stripeId;
+    
+    if (customerId === null) {
+      const stripeCustomer = await stripe.customers.create({
+        name: session.user.name,
+        email: session.user.email,
+      });
+  
+      await updateCustomer(email, stripeCustomer.id);
+      customerId = stripeCustomer.id;
+    }
+
 
     try {
       const session = await stripe.checkout.sessions.create({
+        customer: customerId,
         submit_type: 'pay',
         payment_method_types: ['card'],
         billing_address_collection: 'auto',

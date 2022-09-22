@@ -26,6 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     await updateCustomer(email, stripeCustomer.id);
+    customerId = stripeCustomer.id;
   }
 
   if (req.method === 'POST') {
@@ -84,7 +85,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   
 // update (HyGraph) customer (add stripeId).
-async function updateCustomer (email: string, stripeId: string) {
+export async function updateCustomer (email: string, stripeId: string) {
   await fetch(`https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`, {
     method: "POST",
     headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${process.env.API_ACCESS_TOKEN}`,},
