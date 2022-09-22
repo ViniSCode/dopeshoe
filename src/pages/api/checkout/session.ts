@@ -40,6 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
     
+    
     // FORMAT PRODUCT IMAGES
     const productImages = product.image[0].productImages;
     const formattedProductImages = productImages.map((image: any) => {
