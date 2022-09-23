@@ -51,6 +51,7 @@ export default function Cart () {
     if (!session) {
       toast.warning('Você precisa estar logado para efetuar o checkout');
       signIn('google');
+      return
     }
     
     if (cart.length > 30) {
