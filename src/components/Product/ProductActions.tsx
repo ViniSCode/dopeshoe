@@ -34,6 +34,7 @@ export function ProductActions({product}: ProductActionProps) {
     if (!session) {
       signIn('google');
       toast.warning('Você precisa estar logado para efetuar o checkout');
+      return
     }
 
     try {

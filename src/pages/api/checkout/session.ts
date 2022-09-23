@@ -70,11 +70,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       cancel_url: `${req.headers.origin}/${product.id}`,
     });
 
-    // TODO
-    // create stripe customer
-    // create GraphCMS customer 
-    // create customer order at GraphCMS
-    // handle duplicated customer
+    // store customer orders
+    
 
     res.status(200).json({ sessionId: session.id })
   } else {

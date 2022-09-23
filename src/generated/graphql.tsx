@@ -7031,6 +7031,13 @@ export type GetAllProductsQueryVariables = Exact<{
 
 export type GetAllProductsQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, id: string, discount?: number | null, available: number, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }>, aggregate: { __typename?: 'Aggregate', count: number }, pageInfo: { __typename?: 'PageInfo', pageSize?: number | null, hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null } } };
 
+export type GetCustomerByStripeIdQueryVariables = Exact<{
+  customerId: Scalars['String'];
+}>;
+
+
+export type GetCustomerByStripeIdQuery = { __typename?: 'Query', customers: Array<{ __typename?: 'Customer', email: string }> };
+
 export type GetProductQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
 }>;
@@ -7128,6 +7135,17 @@ export const GetAllProductsDocument = gql`
 
 export function useGetAllProductsQuery(options: Omit<Urql.UseQueryArgs<GetAllProductsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetAllProductsQuery, GetAllProductsQueryVariables>({ query: GetAllProductsDocument, ...options });
+};
+export const GetCustomerByStripeIdDocument = gql`
+    query getCustomerByStripeId($customerId: String!) {
+  customers(where: {stripeId: $customerId}) {
+    email
+  }
+}
+    `;
+
+export function useGetCustomerByStripeIdQuery(options: Omit<Urql.UseQueryArgs<GetCustomerByStripeIdQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetCustomerByStripeIdQuery, GetCustomerByStripeIdQueryVariables>({ query: GetCustomerByStripeIdDocument, ...options });
 };
 export const GetProductDocument = gql`
     query GetProduct($id: ID) {
