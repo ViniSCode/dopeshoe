@@ -40,7 +40,11 @@ export async function validateCartItems (cartItems: Cart[]) {
         price: dbProduct.price,
         image: dbProductImages,
         cartAmount: item.cartAmount,
-        currency: 'BRL'
+        currency: 'BRL',
+        metadata: {
+          brand: dbProduct.brand.brandName,
+          image: dbProduct.image[0].mainImage.url
+        },
       }
     } else {
       // invalid cart products
@@ -58,6 +62,7 @@ export async function validateCartItems (cartItems: Cart[]) {
           product_data: {
             name: data!.name,
             images: data!.image,
+            metadata: data!.metadata
           },
         },
         quantity: data!.cartAmount

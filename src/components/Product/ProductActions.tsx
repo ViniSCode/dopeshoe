@@ -46,10 +46,13 @@ export function ProductActions({product}: ProductActionProps) {
         body: JSON.stringify({
           amount: addProductInCartCount,
           productId: product.id,
+          productName: `${product.brand?.brandName} ${product.name}`,
           session: session
         })
       }).then(res => res.json());
   
+
+
       const stripe = await stripePromise;
       const { error } = await stripe!.redirectToCheckout({sessionId})
       setLoading(false)

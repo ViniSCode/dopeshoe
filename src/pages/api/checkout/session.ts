@@ -11,6 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { amount } = req.body;
   const { productId } = req.body;
   const { session } = req.body;
+  const { productName } = req.body;
   const email = session.user.email;
   
   const {data: { customers }} = await client.query(UserAlreadyExistsDocument, {email}).toPromise();
@@ -59,12 +60,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             product_data: {
               images: formattedProductImages,
               name: product.name,
+              metadata: {
+                brand: product.brand.brandName,
+                image: product.image[0].mainImage.url
+              },
             },
             unit_amount: product.price,
           },
           quantity: amount,
         },
       ],
+      expand: ['line_items'],
       mode: 'payment',
       success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin}/${product.id}`,
@@ -95,4 +101,3 @@ export async function updateCustomer (email: string, stripeId: string) {
     }),
   });
 }
-

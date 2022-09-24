@@ -5,10 +5,16 @@ query CheckProduct ($id: ID!) {
         id
         name
         description
+        brand {
+          brandName
+        }
         available
         price
         image {
           productImages {
+            url
+          }
+          mainImage {
             url
           }
         }

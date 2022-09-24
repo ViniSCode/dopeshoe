@@ -43,6 +43,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         payment_method_types: ['card'],
         billing_address_collection: 'auto',
         line_items,
+        expand: ['line_items'],
         mode: 'payment',
         success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/cart`,

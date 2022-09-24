@@ -47,6 +47,7 @@ export type Asset = Node & {
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID'];
+  imageOrder: Array<Order>;
   /** System Locale field */
   locale: Locale;
   /** Get the other localizations for this document */
@@ -100,6 +101,19 @@ export type AssetHistoryArgs = {
   limit?: Scalars['Int'];
   skip?: Scalars['Int'];
   stageOverride?: InputMaybe<Stage>;
+};
+
+
+/** Asset system model */
+export type AssetImageOrderArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: InputMaybe<Array<Locale>>;
+  orderBy?: InputMaybe<OrderOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<OrderWhereInput>;
 };
 
 
@@ -199,6 +213,7 @@ export type AssetCreateInput = {
   fileName: Scalars['String'];
   handle: Scalars['String'];
   height?: InputMaybe<Scalars['Float']>;
+  imageOrder?: InputMaybe<OrderCreateManyInlineInput>;
   /** Inline mutations for managing document localizations excluding the default locale */
   localizations?: InputMaybe<AssetCreateLocalizationsInput>;
   mainImageImage?: InputMaybe<ImageCreateManyInlineInput>;
@@ -302,6 +317,9 @@ export type AssetManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  imageOrder_every?: InputMaybe<OrderWhereInput>;
+  imageOrder_none?: InputMaybe<OrderWhereInput>;
+  imageOrder_some?: InputMaybe<OrderWhereInput>;
   mainImageImage_every?: InputMaybe<ImageWhereInput>;
   mainImageImage_none?: InputMaybe<ImageWhereInput>;
   mainImageImage_some?: InputMaybe<ImageWhereInput>;
@@ -380,6 +398,7 @@ export type AssetUpdateInput = {
   fileName?: InputMaybe<Scalars['String']>;
   handle?: InputMaybe<Scalars['String']>;
   height?: InputMaybe<Scalars['Float']>;
+  imageOrder?: InputMaybe<OrderUpdateManyInlineInput>;
   /** Manage document localizations */
   localizations?: InputMaybe<AssetUpdateLocalizationsInput>;
   mainImageImage?: InputMaybe<ImageUpdateManyInlineInput>;
@@ -614,6 +633,9 @@ export type AssetWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  imageOrder_every?: InputMaybe<OrderWhereInput>;
+  imageOrder_none?: InputMaybe<OrderWhereInput>;
+  imageOrder_some?: InputMaybe<OrderWhereInput>;
   mainImageImage_every?: InputMaybe<ImageWhereInput>;
   mainImageImage_none?: InputMaybe<ImageWhereInput>;
   mainImageImage_some?: InputMaybe<ImageWhereInput>;
@@ -1866,7 +1888,6 @@ export type ImageConnection = {
 };
 
 export type ImageCreateInput = {
-  cl8bsut830bdc01t92ej56p2m?: InputMaybe<OrderCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   mainImage: AssetCreateOneInlineInput;
   product?: InputMaybe<ProductCreateOneInlineInput>;
@@ -2025,7 +2046,6 @@ export type ImageTransformationInput = {
 };
 
 export type ImageUpdateInput = {
-  cl8bsut830bdc01t92ej56p2m?: InputMaybe<OrderUpdateManyInlineInput>;
   mainImage?: InputMaybe<AssetUpdateOneInlineInput>;
   product?: InputMaybe<ProductUpdateOneInlineInput>;
   productImages?: InputMaybe<AssetUpdateManyInlineInput>;
@@ -3442,15 +3462,17 @@ export type Order = Node & {
   createdAt: Scalars['DateTime'];
   /** User that created this document */
   createdBy?: Maybe<User>;
+  customer?: Maybe<Customer>;
   /** Get the document in other stages */
   documentInStages: Array<Order>;
   /** List of Order versions */
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID'];
-  images: Array<Image>;
+  image?: Maybe<Asset>;
   name: Scalars['String'];
   orderId: Scalars['String'];
+  price: Scalars['Int'];
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']>;
   /** User that last published this document */
@@ -3470,6 +3492,11 @@ export type OrderCreatedByArgs = {
 };
 
 
+export type OrderCustomerArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
 export type OrderDocumentInStagesArgs = {
   includeCurrent?: Scalars['Boolean'];
   inheritLocale?: Scalars['Boolean'];
@@ -3484,15 +3511,8 @@ export type OrderHistoryArgs = {
 };
 
 
-export type OrderImagesArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
+export type OrderImageArgs = {
   locales?: InputMaybe<Array<Locale>>;
-  orderBy?: InputMaybe<ImageOrderByInput>;
-  skip?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ImageWhereInput>;
 };
 
 
@@ -3535,12 +3555,13 @@ export type OrderConnection = {
 
 export type OrderCreateInput = {
   amount: Scalars['Int'];
-  cl8bsx5wt0akw01t9d64b6hcm?: InputMaybe<CustomerCreateManyInlineInput>;
   cl8bvv0c503ci01ulfwxr3qrw?: InputMaybe<ProductCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  images?: InputMaybe<ImageCreateManyInlineInput>;
+  customer?: InputMaybe<CustomerCreateOneInlineInput>;
+  image?: InputMaybe<AssetCreateOneInlineInput>;
   name: Scalars['String'];
   orderId: Scalars['String'];
+  price: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
@@ -3608,6 +3629,7 @@ export type OrderManyWhereInput = {
   /** All values that are not contained in given list. */
   createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
+  customer?: InputMaybe<CustomerWhereInput>;
   documentInStages_every?: InputMaybe<OrderWhereStageInput>;
   documentInStages_none?: InputMaybe<OrderWhereStageInput>;
   documentInStages_some?: InputMaybe<OrderWhereStageInput>;
@@ -3630,9 +3652,7 @@ export type OrderManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
-  images_every?: InputMaybe<ImageWhereInput>;
-  images_none?: InputMaybe<ImageWhereInput>;
-  images_some?: InputMaybe<ImageWhereInput>;
+  image?: InputMaybe<AssetWhereInput>;
   name?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   name_contains?: InputMaybe<Scalars['String']>;
@@ -3671,6 +3691,21 @@ export type OrderManyWhereInput = {
   orderId_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   orderId_starts_with?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  price_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  price_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  price_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  /** All values less than the given value. */
+  price_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  price_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  price_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  price_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -3719,6 +3754,8 @@ export enum OrderOrderByInput {
   NameDesc = 'name_DESC',
   OrderIdAsc = 'orderId_ASC',
   OrderIdDesc = 'orderId_DESC',
+  PriceAsc = 'price_ASC',
+  PriceDesc = 'price_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
@@ -3727,11 +3764,12 @@ export enum OrderOrderByInput {
 
 export type OrderUpdateInput = {
   amount?: InputMaybe<Scalars['Int']>;
-  cl8bsx5wt0akw01t9d64b6hcm?: InputMaybe<CustomerUpdateManyInlineInput>;
   cl8bvv0c503ci01ulfwxr3qrw?: InputMaybe<ProductUpdateManyInlineInput>;
-  images?: InputMaybe<ImageUpdateManyInlineInput>;
+  customer?: InputMaybe<CustomerUpdateOneInlineInput>;
+  image?: InputMaybe<AssetUpdateOneInlineInput>;
   name?: InputMaybe<Scalars['String']>;
   orderId?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['Int']>;
 };
 
 export type OrderUpdateManyInlineInput = {
@@ -3754,6 +3792,7 @@ export type OrderUpdateManyInlineInput = {
 export type OrderUpdateManyInput = {
   amount?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['Int']>;
 };
 
 export type OrderUpdateManyWithNestedWhereInput = {
@@ -3846,6 +3885,7 @@ export type OrderWhereInput = {
   /** All values that are not contained in given list. */
   createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
+  customer?: InputMaybe<CustomerWhereInput>;
   documentInStages_every?: InputMaybe<OrderWhereStageInput>;
   documentInStages_none?: InputMaybe<OrderWhereStageInput>;
   documentInStages_some?: InputMaybe<OrderWhereStageInput>;
@@ -3868,9 +3908,7 @@ export type OrderWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
-  images_every?: InputMaybe<ImageWhereInput>;
-  images_none?: InputMaybe<ImageWhereInput>;
-  images_some?: InputMaybe<ImageWhereInput>;
+  image?: InputMaybe<AssetWhereInput>;
   name?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   name_contains?: InputMaybe<Scalars['String']>;
@@ -3909,6 +3947,21 @@ export type OrderWhereInput = {
   orderId_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   orderId_starts_with?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  price_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  price_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  price_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  /** All values less than the given value. */
+  price_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  price_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  price_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  price_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -7021,7 +7074,7 @@ export type CheckProductQueryVariables = Exact<{
 }>;
 
 
-export type CheckProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', id: string, name: string, description: string, available: number, price: number, image: Array<{ __typename?: 'Image', productImages: Array<{ __typename?: 'Asset', url: string }> }> } }> } };
+export type CheckProductQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', id: string, name: string, description: string, available: number, price: number, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', productImages: Array<{ __typename?: 'Asset', url: string }>, mainImage: { __typename?: 'Asset', url: string } }> } }> } };
 
 export type GetAllProductsQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -7036,7 +7089,7 @@ export type GetCustomerByStripeIdQueryVariables = Exact<{
 }>;
 
 
-export type GetCustomerByStripeIdQuery = { __typename?: 'Query', customers: Array<{ __typename?: 'Customer', email: string }> };
+export type GetCustomerByStripeIdQuery = { __typename?: 'Query', customers: Array<{ __typename?: 'Customer', stripeId?: string | null, email: string }> };
 
 export type GetProductQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -7081,10 +7134,16 @@ export const CheckProductDocument = gql`
         id
         name
         description
+        brand {
+          brandName
+        }
         available
         price
         image {
           productImages {
+            url
+          }
+          mainImage {
             url
           }
         }
@@ -7139,6 +7198,7 @@ export function useGetAllProductsQuery(options: Omit<Urql.UseQueryArgs<GetAllPro
 export const GetCustomerByStripeIdDocument = gql`
     query getCustomerByStripeId($customerId: String!) {
   customers(where: {stripeId: $customerId}) {
+    stripeId
     email
   }
 }
