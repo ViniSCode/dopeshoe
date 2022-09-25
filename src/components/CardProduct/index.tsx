@@ -46,8 +46,9 @@ export function CardProduct({
               objectFit={"contain"}
               priority={
                 image[0].mainImage.url ===
-                "https://media.graphassets.com/i5RtvtrhRseDy345Wr8V" ||
-                image[0].mainImage.url === "https://media.graphassets.com/FyRdhk3vSruYu7UlYwn6"
+                  "https://media.graphassets.com/i5RtvtrhRseDy345Wr8V" ||
+                image[0].mainImage.url ===
+                  "https://media.graphassets.com/FyRdhk3vSruYu7UlYwn6"
               }
             />
           </div>

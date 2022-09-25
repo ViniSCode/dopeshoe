@@ -1,0 +1,12 @@
+query GetProductAvailable ($id: ID) {
+  product: productsConnection(where: {id: $id}) {
+    edges {
+      node {
+        available
+        image {
+          id
+        }
+      }
+    }
+  }
+}

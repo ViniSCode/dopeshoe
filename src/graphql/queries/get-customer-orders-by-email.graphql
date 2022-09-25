@@ -1,0 +1,15 @@
+ query GetCustomerOrdersByEmail ($email: String!) {
+  orders (first: 10, where: {customer: {email: $email}}) {
+    orderId,
+    name, 
+    image {
+      id
+      mainImage {
+        url
+      }
+    },
+    amount,
+    price,
+    createdAt
+  }
+}
