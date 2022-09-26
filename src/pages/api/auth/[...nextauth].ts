@@ -15,8 +15,7 @@ export default NextAuth({
       const { email } = user;
 
       try {
-        const {
-          data: { customers }} = await client.query(UserAlreadyExistsDocument, { email }).toPromise();
+        const {data: { customers }} = await client.query(UserAlreadyExistsDocument, { email }).toPromise();
 
         if (customers.length > 0) {
           // if customer already exists
@@ -47,7 +46,7 @@ async function createCustomer(email: string) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.API_ACCESS_TOKEN}`,
+        "Authorization": `Bearer ${process.env.API_ACCESS_TOKEN}`,
       },
       body: JSON.stringify({
         query: `
