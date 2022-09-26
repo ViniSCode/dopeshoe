@@ -17,12 +17,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { productName } = req.body;
   const email = session.user.email;
 
-  const {
-    data: { customers },
-  } = await client.query(UserAlreadyExistsDocument, { email }).toPromise();
+  const { data: { customers } } = await client.query(UserAlreadyExistsDocument, { email }).toPromise();
 
   let customerId = customers[0].stripeId;
-
   customerId = customers[0].stripeId;
 
   if (customerId === null) {
