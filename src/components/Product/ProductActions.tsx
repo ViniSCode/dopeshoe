@@ -61,9 +61,11 @@ export function ProductActions({ product }: ProductActionProps) {
 
       const stripe = await stripePromise;
       const { error } = await stripe!.redirectToCheckout({ sessionId });
+      console.log(error);
       setLoading(false);
-    } catch {
+    } catch (err: any){
       toast.error("Checkout error");
+      console.log('catch: ', err.message)
       setLoading(false);
     }
   };

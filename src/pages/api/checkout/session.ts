@@ -37,9 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === "POST") {
     // PRODUCTID COMES FROM REQUEST BODY (FETCH)
-    const { data } = await client
-      .query(GetProductDocument, { id: productId })
-      .toPromise();
+    const { data } = await client.query(GetProductDocument, { id: productId }).toPromise();
     const product = data.product.edges[0].node;
 
     // CHECK AGAIN IF PRODUCT AMOUNT IS AVAILABLE
