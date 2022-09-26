@@ -1,3 +1,6 @@
+export function Help () {
+  return ('')
+}
 // import { NextApiRequest, NextApiResponse } from "next";
 // import { Readable } from "stream";
 // import Stripe from "stripe";
