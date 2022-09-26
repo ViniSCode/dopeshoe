@@ -66,12 +66,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           quantity: amount,
         },
       ],
-      expand: ["line_items", "payment_intent"],
-      metadata: {
-        productId: productId,
-        productImage: product.image[0].mainImage.url,
-        productName: productName,
-      },
+      // expand: ["line_items", "payment_intent"],
+      // metadata: {
+      //   productId: productId,
+      //   productImage: product.image[0].mainImage.url,
+      //   productName: productName,
+      // },
       mode: "payment",
       success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin}/${product.id}`,
