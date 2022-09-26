@@ -8,7 +8,6 @@ import { CartContextProvider } from "../contexts/cartContext";
 import { client, ssrCache } from "../lib/urql";
 import "../styles/globals.css";
 
-// if we're using same data, don't request new data | reuse previous cache
 function MyApp({ Component, pageProps, router }: AppProps) {
   if (pageProps.urqlState) {
     ssrCache.restoreData(pageProps.urqlState);
