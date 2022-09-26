@@ -97,7 +97,7 @@ export async function updateCustomer(email: string, stripeId: string) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.API_ACCESS_TOKEN}`,
+        "Authorization": `Bearer ${process.env.API_ACCESS_TOKEN}`,
       },
       body: JSON.stringify({
         query: `
