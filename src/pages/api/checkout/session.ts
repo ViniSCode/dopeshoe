@@ -2,8 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { client } from "../../../lib/urql";
 import {
-  GetProductDocument,
-  UserAlreadyExistsDocument
+  GetProductDocument
 } from "./../../../generated/graphql";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -17,27 +16,31 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { productName } = req.body;
   const email = session.user.email;
 
-  const { data: { customers } } = await client.query(UserAlreadyExistsDocument, { email }).toPromise();
-  console.log('JA TEM CUSTOMER???: ', customers)
+  const {data: { customers }} = await client.query(`
+  query UserAlreadyExists($email: String!) {
+    customers(where: {email: $email}) {
+      id
+      stripeId
+    }
+  }`, {email: session!.user!.email}).toPromise();
+
+  console.log('CLIENT EXISTS?? trying urql async await')
+  
   let customerId = null;
 
   // if customer not exists
   if (customers.length > 0) {
     // if customer already exists
-    console.log('já tem customer')
     customerId = customers[0].stripeId;
-    console.log('customerId', customerId);
   } else {
     try {
       await createCustomer(email);
-      console.log('CRIOU CUSTOMER HYGRAPH');
     } catch (err) {
       console.log(err);
     }
   }
 
   if (customerId === null) {
-    console.log('STRIPEID precisa ser nulo aqui', customerId)
     const stripeCustomer = await stripe.customers.create({
       name: session.user.name,
       email: session.user.email,
@@ -46,7 +49,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     await updateCustomer(email, stripeCustomer.id);
     customerId = stripeCustomer.id;
   } else {
-    console.log('não pode ser nulo aqui', customerId)
     customerId = customers[0].stripeId;
   }
 
@@ -148,7 +150,6 @@ async function createCustomer(email: string) {
     }
   );
   
-  console.log('PASSOU PELA FUNÇÃO - 2');
 
   return data;
 }
