@@ -40,7 +40,7 @@ export default NextAuth({
 
 // create a new (HyGraph) customer, to store their orders.
 async function createCustomer(email: string) {
-  await fetch(
+  const data = await fetch(
     `https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`,
     {
       method: "POST",
@@ -57,4 +57,6 @@ async function createCustomer(email: string) {
       }),
     }
   );
+
+  return data;
 }
