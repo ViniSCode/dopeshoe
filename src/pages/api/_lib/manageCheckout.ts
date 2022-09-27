@@ -21,16 +21,13 @@ export async function saveCheckout(
     .query(GetProductAvailableDocument, { id: metadata.productId })
     .toPromise();
   const productAvailable =
-    product.edges[0].node.available - lineItems.data[0].quantity!; // available - amount
+    product.edges[0].node.available - lineItems.data[0].quantity!; 
   const email = customers.customers[0].email;
 
   try {
     if (lineItems.data.length > 1) {
       // save orders (shopping cart + 1 items)
-      // console.log(lineItems);
     } else {
-      // save product order (1 product)
-
       await fetch(
         `https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`,
         {
