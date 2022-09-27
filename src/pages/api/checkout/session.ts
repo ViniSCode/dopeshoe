@@ -20,16 +20,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { data: { customers } } = await client.query(UserAlreadyExistsDocument, { email }).toPromise();
 
   let customerId = customers[0].stripeId;
-  customerId = customers[0].stripeId;
 
   if (customerId === null) {
     const stripeCustomer = await stripe.customers.create({
       name: session.user.name,
       email: session.user.email,
-    });
+    })
 
     await updateCustomer(email, stripeCustomer.id);
     customerId = stripeCustomer.id;
+  } else {
+    customerId = customers[0].stripeId;
   }
 
   if (req.method === "POST") {

@@ -1,6 +1,6 @@
 query UserAlreadyExists ($email: String!) {
-  customers (where: {email: $email}) {
-    id
+  customers(where: {email: $email}) {
+    id,
     stripeId
   }
 }
