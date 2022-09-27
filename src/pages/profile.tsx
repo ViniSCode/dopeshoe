@@ -7,10 +7,8 @@ import { Header } from "../components/Header";
 import { ProfileContent } from "../components/Profile/ProfileContent";
 import { Sidebar } from "../components/Sidebar";
 import {
-  GetCustomerOrdersByEmailDocument,
   useGetCustomerOrdersByEmailQuery
 } from "../generated/graphql";
-import { client, ssrCache } from "../lib/urql";
 
 export default function Profile({ session }: any) {
   const [{ data }] = useGetCustomerOrdersByEmailQuery({
@@ -57,13 +55,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  await client
-    .query(GetCustomerOrdersByEmailDocument, { email: session!.user!.email })
-    .toPromise();
+  // await client.query(GetCustomerOrdersByEmailDocument, { email: session.user!.email }).toPromise();
 
   return {
     props: {
-      urqlState: ssrCache.extractData(),
+      // urqlState: ssrCache.extractData(),
       session,
     },
   };

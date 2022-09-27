@@ -26,8 +26,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }`, {email: session.user.email}).toPromise();
   
-    console.log('CLIENT EXISTS?? trying urql async await', customers);
-
     // if customer not exists
     if (customers.length > 0) {
       // if customer already exists
@@ -41,7 +39,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (customerId === null) {
-      console.log("CUSTOMER DOESN'T EXISTS: ", customerId)
       const stripeCustomer = await stripe.customers.create({
         name: session.user.name,
         email: session.user.email,
@@ -50,7 +47,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       await updateCustomer(email, stripeCustomer.id);
       customerId = stripeCustomer.id;
     } else {
-      console.log("CUSTOMER ALREADY EXISTS: ", customerId)
       customerId = customers[0].stripeId;
     }
 
