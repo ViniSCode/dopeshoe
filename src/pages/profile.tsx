@@ -55,11 +55,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  // await client.query(GetCustomerOrdersByEmailDocument, { email: session.user!.email }).toPromise();
-
   return {
     props: {
-      // urqlState: ssrCache.extractData(),
       session,
     },
   };
