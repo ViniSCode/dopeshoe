@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
+import { gql } from "urql";
 import { client } from "../../../lib/urql";
 import {
   GetProductDocument
@@ -18,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   let customerId = null;
   
   try {
-    const {data: { customers }} = await client.query(`
+    const {data: { customers }} = await client.query(gql`
     query UserAlreadyExists($email: String!) {
       customers(where: {email: $email}) {
         id
@@ -31,11 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // if customer already exists
       customerId = customers[0].stripeId;
     } else {
-      try {
-        await createCustomer(email);
-      } catch (err) {
-        console.log(err);
-      }
+     customerId = null;
     }
 
     if (customerId === null) {
