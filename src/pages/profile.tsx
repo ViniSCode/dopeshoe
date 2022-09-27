@@ -19,6 +19,8 @@ export default function Profile({ session }: any) {
     },
   });
 
+  console.log(data);
+
   return (
     <div>
       <Header />
