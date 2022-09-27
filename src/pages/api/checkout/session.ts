@@ -15,43 +15,47 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { session } = req.body;
   const { productName } = req.body;
   const email = session.user.email;
-
-  const {data: { customers }} = await client.query(`
-  query UserAlreadyExists($email: String!) {
-    customers(where: {email: $email}) {
-      id
-      stripeId
-    }
-  }`, {email: session!.user!.email}).toPromise();
-
-  console.log('CLIENT EXISTS?? trying urql async await')
-  
   let customerId = null;
+  
+  try {
+    const {data: { customers }} = await client.query(`
+    query UserAlreadyExists($email: String!) {
+      customers(where: {email: $email}) {
+        id
+        stripeId
+      }
+    }`, {email: session.user.email}).toPromise();
+  
+    console.log('CLIENT EXISTS?? trying urql async await');
 
-  // if customer not exists
-  if (customers.length > 0) {
-    // if customer already exists
-    customerId = customers[0].stripeId;
-  } else {
-    try {
-      await createCustomer(email);
-    } catch (err) {
-      console.log(err);
+    // if customer not exists
+    if (customers.length > 0) {
+      // if customer already exists
+      customerId = customers[0].stripeId;
+    } else {
+      try {
+        await createCustomer(email);
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
 
-  if (customerId === null) {
-    console.log("CUSTOMER DOESN'T EXISTS: ", customerId)
-    const stripeCustomer = await stripe.customers.create({
-      name: session.user.name,
-      email: session.user.email,
-    })
+    if (customerId === null) {
+      console.log("CUSTOMER DOESN'T EXISTS: ", customerId)
+      const stripeCustomer = await stripe.customers.create({
+        name: session.user.name,
+        email: session.user.email,
+      })
 
-    await updateCustomer(email, stripeCustomer.id);
-    customerId = stripeCustomer.id;
-  } else {
-    console.log("CUSTOMER ALREADY EXISTS: ", customerId)
-    customerId = customers[0].stripeId;
+      await updateCustomer(email, stripeCustomer.id);
+      customerId = stripeCustomer.id;
+    } else {
+      console.log("CUSTOMER ALREADY EXISTS: ", customerId)
+      customerId = customers[0].stripeId;
+    }
+
+  } catch (err: any) {
+    console.log(err)
   }
 
   if (req.method === "POST") {
