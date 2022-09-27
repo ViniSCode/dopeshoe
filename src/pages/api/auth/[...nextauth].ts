@@ -57,6 +57,6 @@ async function createCustomer(email: string) {
       }),
     }
   );
-
+  
   return data;
 }
