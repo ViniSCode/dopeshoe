@@ -18,12 +18,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const email = session.user.email;
 
   const { data: { customers } } = await client.query(UserAlreadyExistsDocument, { email }).toPromise();
+  console.log('JA TEM CUSTOMER???: ', customers)
+  let customerId = null;
 
-  console.log('AQUI TEM QUE IMPRIMIR O CUSTOMER SEM O STRIPE ID', customers)
+  // if customer not exists
+  if (customers.length > 0) {
+    // if customer already exists
+    customerId = customers[0].stripeId;
+  } else {
+    try {
+      await createCustomer(email);
+      console.log('CRIOU CUSTOMER HYGRAPH');
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-  let customerId;
-
-  if (customers[0].stripeId === null) {
+  if (customerId === null) {
+    console.log('STRIPEID precisa ser nulo aqui', customerId)
     const stripeCustomer = await stripe.customers.create({
       name: session.user.name,
       email: session.user.email,
@@ -32,6 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     await updateCustomer(email, stripeCustomer.id);
     customerId = stripeCustomer.id;
   } else {
+    console.log('não pode ser nulo aqui', customerId)
     customerId = customers[0].stripeId;
   }
 
@@ -108,6 +121,32 @@ export async function updateCustomer(email: string, stripeId: string) {
       }),
     }
   );
+
+  return data;
+}
+
+
+// create a new (HyGraph) customer, to store their orders.
+async function createCustomer(email: string) {
+  const data = await fetch(
+    `https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.API_ACCESS_TOKEN}`,
+      },
+      body: JSON.stringify({
+        query: `
+        mutation CrateCustomer {
+          createCustomer(data: {email: "${email}"}) { id },
+          publishCustomer (where: {email: "${email}"}) { id }
+        }`,
+      }),
+    }
+  );
+  
+  console.log('PASSOU PELA FUNÇÃO - 2');
 
   return data;
 }
