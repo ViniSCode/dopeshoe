@@ -24,7 +24,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // if customer not exists
   if (customers.length > 0) {
     // if customer already exists
+    console.log('já tem customer')
     customerId = customers[0].stripeId;
+    console.log('customerId', customerId);
   } else {
     try {
       await createCustomer(email);
