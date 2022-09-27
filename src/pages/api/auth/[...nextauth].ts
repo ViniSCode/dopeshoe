@@ -21,7 +21,10 @@ export default NextAuth({
           // if customer already exists
         } else {
           try {
+            console.log('VAI CRIAR AGORA - 1')
             await createCustomer(email!);
+            console.log('CRIOU USUÁRIO - 3');
+
           } catch (err) {
             console.log(err);
           }
@@ -58,5 +61,7 @@ async function createCustomer(email: string) {
     }
   );
   
+  console.log('PASSOU PELA FUNÇÃO - 2');
+
   return data;
 }
