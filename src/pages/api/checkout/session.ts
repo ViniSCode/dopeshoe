@@ -29,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log('CLIENT EXISTS?? trying urql async await', customers);
 
     // if customer not exists
-    if (customers.length > 0) {
+    if (customers[0].stripeId) {
       // if customer already exists
       customerId = customers[0].stripeId;
     } else {
