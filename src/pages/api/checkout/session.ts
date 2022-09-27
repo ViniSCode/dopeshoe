@@ -26,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }`, {email: session.user.email}).toPromise();
   
-    console.log('CLIENT EXISTS?? trying urql async await');
+    console.log('CLIENT EXISTS?? trying urql async await', customers);
 
     // if customer not exists
     if (customers.length > 0) {
