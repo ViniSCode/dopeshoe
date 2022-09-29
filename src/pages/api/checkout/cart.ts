@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { UserAlreadyExistsDocument } from "../../../generated/graphql";
 import { client } from "../../../lib/urql";
 import { stripe } from "../../../services/stripe";
+import { getProductsMetadata } from "../../../utils/getProductsMetadata";
 import { validateCartItems } from "../../../utils/validateCartItems";
 import { updateCustomer } from "./session";
 
@@ -14,6 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // VALIDATE CART PRODUCTS
     const line_items = await validateCartItems(cartProducts);
+    const products_metadata =  getProductsMetadata(line_items);
 
     if (line_items.length === 0) {
       throw new Error("Invalid Products");
@@ -46,6 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         line_items,
         expand: ["line_items"],
         mode: "payment",
+        metadata: products_metadata,
         success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/cart`,
       });

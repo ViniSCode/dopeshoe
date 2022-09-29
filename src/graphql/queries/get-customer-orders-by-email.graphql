@@ -1,15 +1,39 @@
- query GetCustomerOrdersByEmail ($email: String!) {
+query GetCustomerOrdersByEmail ($email: String!) {
   orders (first: 10, where: {customer: {email: $email}}) {
     orderId,
-    name, 
-    image {
+    product {
       id
-      mainImage {
-        url
+      name
+      brand { 
+      	brandName
       }
-    },
+      image {
+        mainImage {
+          url
+        }
+      }
+    }
     amount,
     price,
     createdAt
   }
 }
+
+# query GetCustomerOrdersByEmail{
+#   orders (first: 10, where: {customer: {email: "livesdovini@gmail.com"}}) {
+#     orderId,
+#     name, 
+#     product {
+#       id
+#       image {
+#         mainImage {
+#           url
+#         }
+#       }
+#     }
+#     amount,
+#     price,
+#     createdAt
+#   }
+# }
+

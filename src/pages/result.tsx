@@ -14,6 +14,7 @@ export default function Result() {
     (url) => fetch(url).then((res) => res.json())
   );
 
+
   useEffect(() => {
     if (!error && router.query.session_id) {
       toast.warning(

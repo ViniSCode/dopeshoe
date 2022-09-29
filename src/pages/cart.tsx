@@ -233,9 +233,10 @@ export default function Cart() {
               </motion.div>
               <div className="hidden md:flex mt-8 items-center justify-center flex-col gap-2">
                 <button
+                  disabled={loading}
                   role="link"
                   onClick={handleCartCheckout}
-                  className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75"
+                  className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75 disabled:opacity-80"
                 >
                   Comprar
                 </button>
@@ -244,9 +245,10 @@ export default function Cart() {
 
             <div className="md:hidden mt-8 flex items-center justify-center flex-col gap-2">
               <button
+                disabled={loading}
                 role="link"
                 onClick={handleCartCheckout}
-                className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75"
+                className="bg-red-500 w-full rounded py-2 px-4 transition-filter hover:brightness-75 disabled:opacity-80"
               >
                 Comprar
               </button>

@@ -3450,7 +3450,7 @@ export type Order = Node & {
   /** The unique identifier */
   id: Scalars['ID'];
   image?: Maybe<Image>;
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   orderId: Scalars['String'];
   price: Scalars['Int'];
   product?: Maybe<Product>;
@@ -3544,7 +3544,7 @@ export type OrderCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   customer?: InputMaybe<CustomerCreateOneInlineInput>;
   image?: InputMaybe<ImageCreateOneInlineInput>;
-  name: Scalars['String'];
+  name?: InputMaybe<Scalars['String']>;
   orderId: Scalars['String'];
   price: Scalars['Int'];
   product?: InputMaybe<ProductCreateOneInlineInput>;
@@ -7084,7 +7084,7 @@ export type GetCustomerOrdersByEmailQueryVariables = Exact<{
 }>;
 
 
-export type GetCustomerOrdersByEmailQuery = { __typename?: 'Query', orders: Array<{ __typename?: 'Order', orderId: string, name: string, amount: number, price: number, createdAt: any, image?: { __typename?: 'Image', id: string, mainImage: { __typename?: 'Asset', url: string } } | null }> };
+export type GetCustomerOrdersByEmailQuery = { __typename?: 'Query', orders: Array<{ __typename?: 'Order', orderId: string, amount: number, price: number, createdAt: any, product?: { __typename?: 'Product', id: string, name: string, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string } }> } | null }> };
 
 export type GetProductAvailableQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -7213,11 +7213,16 @@ export const GetCustomerOrdersByEmailDocument = gql`
     query GetCustomerOrdersByEmail($email: String!) {
   orders(first: 10, where: {customer: {email: $email}}) {
     orderId
-    name
-    image {
+    product {
       id
-      mainImage {
-        url
+      name
+      brand {
+        brandName
+      }
+      image {
+        mainImage {
+          url
+        }
       }
     }
     amount

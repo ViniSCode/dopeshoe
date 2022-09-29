@@ -8,13 +8,19 @@ interface Cart {
   cartPrice: number;
 }
 
-interface CustomLineItems {
+export interface CustomLineItems {
   price_data: {
     currency: string;
     unit_amount: any;
     product_data: {
       name: any;
       images: any;
+      metadata: {
+        productId: string;
+        brand: string;
+        image: string;
+        productName: string;
+      }
     };
   };
   quantity: number;
@@ -49,8 +55,10 @@ export async function validateCartItems(cartItems: Cart[]) {
           cartAmount: item.cartAmount,
           currency: "BRL",
           metadata: {
+            productId: dbProduct.id,
             brand: dbProduct.brand.brandName,
             image: dbProduct.image[0].mainImage.url,
+            productName: dbProduct.name
           },
         };
       } else {
@@ -86,3 +94,9 @@ export async function validateCartItems(cartItems: Cart[]) {
 
   return [];
 }
+
+
+//productId: productId,
+// productImage: product.image[0].mainImage.url,
+// productName: productName,
+
