@@ -20,6 +20,7 @@ export interface CustomLineItems {
         brand: string;
         image: string;
         productName: string;
+        available: number;
       }
     };
   };
@@ -58,7 +59,8 @@ export async function validateCartItems(cartItems: Cart[]) {
             productId: dbProduct.id,
             brand: dbProduct.brand.brandName,
             image: dbProduct.image[0].mainImage.url,
-            productName: dbProduct.name
+            productName: dbProduct.name,
+            available: dbProduct.available
           },
         };
       } else {
