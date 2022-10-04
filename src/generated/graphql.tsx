@@ -3450,6 +3450,7 @@ export type Order = Node & {
   /** The unique identifier */
   id: Scalars['ID'];
   image?: Maybe<Image>;
+  isMoreThanOneProduct?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   orderId: Scalars['String'];
   price: Scalars['Int'];
@@ -3544,6 +3545,7 @@ export type OrderCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   customer?: InputMaybe<CustomerCreateOneInlineInput>;
   image?: InputMaybe<ImageCreateOneInlineInput>;
+  isMoreThanOneProduct?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   orderId: Scalars['String'];
   price: Scalars['Int'];
@@ -3639,6 +3641,9 @@ export type OrderManyWhereInput = {
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
   image?: InputMaybe<ImageWhereInput>;
+  isMoreThanOneProduct?: InputMaybe<Scalars['Boolean']>;
+  /** All values that are not equal to given value. */
+  isMoreThanOneProduct_not?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   name_contains?: InputMaybe<Scalars['String']>;
@@ -3737,6 +3742,8 @@ export enum OrderOrderByInput {
   CreatedAtDesc = 'createdAt_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
+  IsMoreThanOneProductAsc = 'isMoreThanOneProduct_ASC',
+  IsMoreThanOneProductDesc = 'isMoreThanOneProduct_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
   OrderIdAsc = 'orderId_ASC',
@@ -3753,6 +3760,7 @@ export type OrderUpdateInput = {
   amount?: InputMaybe<Scalars['Int']>;
   customer?: InputMaybe<CustomerUpdateOneInlineInput>;
   image?: InputMaybe<ImageUpdateOneInlineInput>;
+  isMoreThanOneProduct?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   orderId?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['Int']>;
@@ -3778,6 +3786,7 @@ export type OrderUpdateManyInlineInput = {
 
 export type OrderUpdateManyInput = {
   amount?: InputMaybe<Scalars['Int']>;
+  isMoreThanOneProduct?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['Int']>;
 };
@@ -3896,6 +3905,9 @@ export type OrderWhereInput = {
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
   image?: InputMaybe<ImageWhereInput>;
+  isMoreThanOneProduct?: InputMaybe<Scalars['Boolean']>;
+  /** All values that are not equal to given value. */
+  isMoreThanOneProduct_not?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   name_contains?: InputMaybe<Scalars['String']>;
@@ -7084,7 +7096,7 @@ export type GetCustomerOrdersByEmailQueryVariables = Exact<{
 }>;
 
 
-export type GetCustomerOrdersByEmailQuery = { __typename?: 'Query', orders: Array<{ __typename?: 'Order', orderId: string, amount: number, price: number, createdAt: any, product?: { __typename?: 'Product', id: string, name: string, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string } }> } | null }> };
+export type GetCustomerOrdersByEmailQuery = { __typename?: 'Query', orders: Array<{ __typename?: 'Order', orderId: string, isMoreThanOneProduct?: boolean | null, amount: number, price: number, createdAt: any, product?: { __typename?: 'Product', id: string, name: string, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string } }> } | null }> };
 
 export type GetProductAvailableQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -7213,6 +7225,7 @@ export const GetCustomerOrdersByEmailDocument = gql`
     query GetCustomerOrdersByEmail($email: String!) {
   orders(first: 10, where: {customer: {email: $email}}) {
     orderId
+    isMoreThanOneProduct
     product {
       id
       name

@@ -20,22 +20,55 @@ export async function saveCheckout(
       // save orders (First Product + 3 items)
 
         const sumTotal = lineItems.data.reduce((prev, curr) => prev + curr.amount_total, 0);
+        const totalAmount = lineItems.data.reduce((prev, curr) => prev + curr.quantity!, 0);
 
-        const createOrderProducts = await Promise.all(lineItems.data.map(async (item) => {
-          const productsMetadata = await stripe.products.retrieve(
-            item.price!.product.toString()
-          );
+        const productsMetadata = await stripe.products.retrieve(
+          lineItems.data[0].price!.product.toString()
+        );
 
-          const productAvailable = Number(productsMetadata.metadata.available) - item.quantity!;
+        const productAvailable = Number(productsMetadata.metadata.available) - lineItems.data[0].quantity!;
           
-          await createShoppingCartOrder(checkoutId, item, email, productsMetadata, productAvailable)
-
-          return;
-        }))
-
+        try {
+          await fetch(
+            `https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${process.env.API_ACCESS_TOKEN}`,
+              },
+              body: JSON.stringify({
+                query: `
+                mutation CreateCustomerOrder {
+                  createOrder (
+                    data: {
+                      orderId: "${checkoutId}", 
+                      amount: ${totalAmount},
+                      price: ${sumTotal},
+                      customer: {connect: {email: "${email}"} },
+                      isMoreThanOneProduct: true,
+                      product: {connect: {id: "${productsMetadata.metadata.productId}"}}
+                    }
+                  ) {
+                    id
+                  }
+                  updateProduct (where: {id: "${productsMetadata.metadata.productId}"}, data: {available: ${productAvailable}}) { id }
+                
+                  publishOrder (where: {orderId: "${checkoutId}"}) { id }
+                  publishCustomer (where: {email: "${email}"}) { id }
+                  publishProduct (where: {id: "${productsMetadata.metadata.productId}"}) { id }
+                }    
+                `,
+              }),
+            }
+          );
+        } catch(err: any) {
+          console.log(err.message)
+        }
     } else {
       const { data: { product } } = await client.query(GetProductAvailableDocument, { id: metadata.productId }).toPromise();
-      const productAvailable = product.edges[0].node.available - lineItems.data[0].quantity!;       
+      const productAvailable = product.edges[0].node.available - lineItems.data[0].quantity!
+      
       await fetch(
         `https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`,
         {
@@ -75,51 +108,43 @@ export async function saveCheckout(
 }
 
 
-async function createShoppingCartOrder (
-  checkoutId: any,
-  item: any,
-  email: any,
-  productsMetadata: any,
-  productAvailable: any
-) {
-
-  console.log('FOI QUANTAS VEZES??')
-  console.log(item)
-
-  // SAME CHECKOUT ORDER FOR BOTH PRODUCTS GENERATIN AN ERROR
-  
-  //   await fetch(
-  //     `https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`,
-  //     {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${process.env.API_ACCESS_TOKEN}`,
-  //       },
-  //       body: JSON.stringify({
-  //         query: `
-  //         mutation CreateCustomerOrder {
-  //           createOrder (
-  //             data: {
-  //               orderId: "${checkoutId}", 
-  //               amount: ${item.quantity},
-  //               price: ${item.amount_total},
-  //               customer: {connect: {email: "${email}"} },
-  //               product: {connect: {id: "${productsMetadata.metadata.productId}"}}
-  //             }
-  //           ) {
-  //             id
-  //           }
-  //           updateProduct (where: {id: "${productsMetadata.metadata.productId}"}, data: {available: ${productAvailable}}) { id }
-          
-  //           publishOrder (where: {orderId: "${checkoutId}"}) { id }
-  //           publishCustomer (where: {email: "${email}"}) { id }
-  //           publishProduct (where: {id: "${productsMetadata.metadata.productId}"}) { id }
-  //         }    
-  //         `,
-  //       }),
-  //     }
-  //   );
-  // console.log('PASSOU')
-
-}
+// async function createShoppingCartOrder (
+//   checkoutId: any,
+//   item: any,
+//   email: any,
+//   productsMetadata: any,
+//   productAvailable: any
+// ) {
+//   await fetch(
+//     `https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`,
+//     {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${process.env.API_ACCESS_TOKEN}`,
+//       },
+//       body: JSON.stringify({
+//         query: `
+//         mutation CreateCustomerOrder {
+//           createOrder (
+//             data: {
+//               orderId: "${checkoutId}", 
+//               amount: ${item.quantity},
+//               price: ${item.amount_total},
+//               customer: {connect: {email: "${email}"} },
+//               product: {connect: {id: "${productsMetadata.metadata.productId}"}}
+//             }
+//           ) {
+//             id
+//           }
+//           updateProduct (where: {id: "${productsMetadata.metadata.productId}"}, data: {available: ${productAvailable}}) { id }
+        
+//           publishOrder (where: {orderId: "${checkoutId}"}) { id }
+//           publishCustomer (where: {email: "${email}"}) { id }
+//           publishProduct (where: {id: "${productsMetadata.metadata.productId}"}) { id }
+//         }    
+//         `,
+//       }),
+//     }
+//   );
+// }

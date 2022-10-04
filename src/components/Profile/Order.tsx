@@ -7,6 +7,7 @@ interface OrderProps {
     amount: number, 
     price: number, 
     createdAt: any, 
+    isMoreThanOneProduct?: boolean | null | any;
     product?: { 
       __typename?: 'Product', 
       id: string, 
@@ -37,9 +38,9 @@ export function Order({ order }: OrderProps) {
       <div className="overflow-hidden">
         <div className="overflow-hidden max-w-[130px] md:max-w-[200px]">
           <p className="text-[18px] w-full truncate max-w-full">
-            <span className="font-bold">{order.amount}x </span>
-            <span>{order.product!.brand!.brandName} </span>
-            <span>{order.product!.name}</span>
+            <span className="font-bold">{order.isMoreThanOneProduct ? order.amount : order.amount}x </span>
+            <span>{order.isMoreThanOneProduct ? 'Items...' : order.product!.brand!.brandName} </span>
+            {!order.isMoreThanOneProduct && <span>{order.product!.name}</span>}
           </p>
         </div>
         <div className=" flex items-start justify-start gap-2">
