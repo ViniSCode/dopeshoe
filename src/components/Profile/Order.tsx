@@ -36,10 +36,10 @@ export function Order({ order }: OrderProps) {
         </div>
       </div>
       <div className="overflow-hidden">
-        <div className="overflow-hidden max-w-[130px] md:max-w-[200px]">
+        <div className="overflow-hidden max-w-[130px] md:max-w-[200px] lg:max-w-full">
           <p className="text-[18px] w-full truncate max-w-full">
-            <span className="font-bold">{order.isMoreThanOneProduct ? order.amount : order.amount}x </span>
-            <span>{order.isMoreThanOneProduct ? 'Items...' : order.product!.brand!.brandName} </span>
+            <span className="font-bold">{`${order.isMoreThanOneProduct ? '' : `${order.amount}x`}`} </span>
+            <span>{order.isMoreThanOneProduct ? `${order.product?.name} + ${order.amount - 1} items` : order.product!.brand!.brandName}</span>
             {!order.isMoreThanOneProduct && <span>{order.product!.name}</span>}
           </p>
         </div>
