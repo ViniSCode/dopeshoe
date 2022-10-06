@@ -16,9 +16,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { session } = req.body;
   const { productName } = req.body;
   const email = session.user.email;
+  
   let customerId = null;
   
   try {
+    // get customer if already exists
     const {data: { customers }} = await client.query(gql`
     query UserAlreadyExists($email: String!) {
       customers(where: {email: $email}) {
@@ -27,24 +29,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }`, {email: session.user.email}).toPromise();
   
-    // if customer not exists
-    if (customers.length > 0) {
+    if (customers[0]?.stripeId) {
       // if customer already exists
-      customerId = customers[0].stripeId;
+      customerId = customers[0]?.stripeId;
     } else {
-     customerId = null;
-    }
-
-    if (customerId === null) {
+      // if customer not exists
       const stripeCustomer = await stripe.customers.create({
         name: session.user.name,
         email: session.user.email,
       })
-
+ 
       await updateCustomer(email, stripeCustomer.id);
       customerId = stripeCustomer.id;
-    } else {
-      customerId = customers[0].stripeId;
     }
 
   } catch (err: any) {
@@ -125,30 +121,7 @@ export async function updateCustomer(email: string, stripeId: string) {
     }
   );
 
-  return data;
-}
+  const response = await data.json();
 
-
-// create a new (HyGraph) customer, to store their orders.
-async function createCustomer(email: string) {
-  const data = await fetch(
-    `https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.API_ACCESS_TOKEN}`,
-      },
-      body: JSON.stringify({
-        query: `
-        mutation CrateCustomer {
-          createCustomer(data: {email: "${email}"}) { id },
-          publishCustomer (where: {email: "${email}"}) { id }
-        }`,
-      }),
-    }
-  );
-  
-
-  return data;
+  return response;
 }

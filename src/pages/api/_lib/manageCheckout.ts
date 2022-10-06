@@ -10,21 +10,26 @@ export async function saveCheckout(
   metadata: any
 ) {
   // get user by customerId
-  const { data: customers } = await client.query(GetCustomerByStripeIdDocument, { customerId }).toPromise();
+  const {data: {customers}} = await client.query(GetCustomerByStripeIdDocument, { customerId }).toPromise();
   const lineItems = await stripe.checkout.sessions.listLineItems(checkoutId);
-  const email = customers.customers[0].email;
+  const email = customers[0].email;
 
   try {
     const sumTotal = lineItems.data.reduce((prev, curr) => prev + curr.amount_total, 0);
+    console.log(lineItems.data)
     const totalAmount = lineItems.data.reduce((prev, curr) => prev + curr.quantity!, 0);
     const isMoreThanOneProduct = lineItems.data.length > 1 ? true : false;
-
+    
     const productsMetadata = await stripe.products.retrieve(
       lineItems.data[0].price!.product.toString()
-    );
-
-    const productAvailable = Number(productsMetadata.metadata.available) - lineItems.data[0].quantity!;
+      );
       
+    const productAvailable = Number(productsMetadata.metadata.available) - lineItems.data[0].quantity!;
+
+
+    // productAvailable error = NaN
+    // for each items in cart update products amount
+
     try {
       await fetch(
         `https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`,

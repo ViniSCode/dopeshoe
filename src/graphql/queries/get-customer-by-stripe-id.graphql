@@ -1,5 +1,5 @@
 query getCustomerByStripeId ($customerId: String!) {
-  customers (where: {stripeId: $customerId}) {
+  customers(where: {stripeId: $customerId}) {
     stripeId, 
     email
   }

@@ -1,7 +1,9 @@
-mutation CreateCustomer ($email: String!, $createdAt: DateTime){
-  createCustomer(data: {email: $email, createdAt: $createdAt}) {
+mutation CreateCustomer {
+  createCustomer(data: {email: "email@email.com"}) {
     id,
     email,
     createdAt
   }
+  
+  publishCustomer(where: {email: "email@email.com"})
 }
