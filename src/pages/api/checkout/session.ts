@@ -73,6 +73,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           price_data: {
             currency: "BRL",
             product_data: {
+              metadata: {
+                productId: productId,
+                productImage: product.image[0].mainImage.url,
+                productName: productName,
+                brand: product.brand.brandName,
+                image: product.image[0].mainImage.url,
+                available: product.available
+              },
               images: formattedProductImages,
               name: product.name,
             },
@@ -82,11 +90,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         },
       ],
       expand: ["line_items", "payment_intent"],
-      metadata: {
-        productId: productId,
-        productImage: product.image[0].mainImage.url,
-        productName: productName,
-      },
       mode: "payment",
       success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin}/${product.id}`,

@@ -27,9 +27,6 @@ export default function Result() {
     <div className="max-w-[500px] mx-auto flex flex-col items-center justify-center h-[100vh] gap-4">
       <BiCheckCircle size={40} className="text-green-500" />
       <h1 className="text-2xl">Payment Successful</h1>
-      <h2 className="text-1xl md:text-2xl text-yellow-500">
-        Heads up! You must Copy or Order ID
-      </h2>
       <button
         onClick={() => router.push("/")}
         className="px-8 py-2 bg-green-500 mt-10 text-white rounded flex items-center justify-center gap-2"
