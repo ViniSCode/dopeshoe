@@ -1,10 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { UserAlreadyExistsDocument } from "../../../generated/graphql";
+import { gql } from "urql";
 import { client } from "../../../lib/urql";
 import { stripe } from "../../../services/stripe";
 import { getProductsMetadata } from "../../../utils/getProductsMetadata";
 import { validateCartItems } from "../../../utils/validateCartItems";
 import { updateCustomer } from "./session";
+
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { session } = req.body;
@@ -21,22 +22,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       throw new Error("Invalid Products");
     }
 
-    const {
-      data: { customers },
-    } = await client.query(UserAlreadyExistsDocument, { email }).toPromise();
-
-    let customerId = customers[0].stripeId;
-
-    customerId = customers[0].stripeId;
-
-    if (customerId === null) {
-      const stripeCustomer = await stripe.customers.create({
-        name: session.user.name,
-        email: session.user.email,
-      });
-
-      await updateCustomer(email, stripeCustomer.id);
-      customerId = stripeCustomer.id;
+    let customerId = null;
+  
+    try {
+      // get customer if already exists
+      const {data: { customers }} = await client.query(gql`
+      query UserAlreadyExists($email: String!) {
+        customers(where: {email: $email}) {
+          id
+          stripeId
+        }
+      }`, {email: session.user.email}).toPromise();
+    
+      if (customers[0]?.stripeId) {
+        // if customer already exists
+        customerId = customers[0]?.stripeId;
+      } else {
+        // if customer not exists
+        const stripeCustomer = await stripe.customers.create({
+          name: session.user.name,
+          email: session.user.email,
+        })
+   
+        await updateCustomer(email, stripeCustomer.id);
+        customerId = stripeCustomer.id;
+      }
+  
+    } catch (err: any) {
+      console.log(err)
     }
 
     try {
