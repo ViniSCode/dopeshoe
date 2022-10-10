@@ -48,7 +48,8 @@ export function CardProduct({
                 image[0].mainImage.url ===
                   "https://media.graphassets.com/i5RtvtrhRseDy345Wr8V" ||
                 image[0].mainImage.url ===
-                  "https://media.graphassets.com/FyRdhk3vSruYu7UlYwn6"
+                  "https://media.graphassets.com/FyRdhk3vSruYu7UlYwn6" ||
+                image[0].mainImage.url === "https://media.graphassets.com/tM049MKQWCpD3f03mEs0"
               }
             />
           </div>

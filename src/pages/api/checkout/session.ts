@@ -28,6 +28,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         stripeId
       }
     }`, {email: session.user.email}).toPromise();
+
+    console.log(customers)
   
     if (customers[0]?.stripeId) {
       // if customer already exists

@@ -19,59 +19,6 @@ const container = {
   },
 };
 
-const menuItems = [
-  {
-    icon: <CgProfile className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />,
-    href: "/profile",
-    name: "Profile",
-  },
-  {
-    icon: (
-      <BiPurchaseTagAlt className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
-    ),
-    href: "/orders",
-    name: "Orders",
-  },
-  {
-    icon: (
-      <AiOutlinePhone className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
-    ),
-    href: "/contact",
-    name: "Contact",
-  },
-  {
-    icon: (
-      <MdOutlineFavoriteBorder className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
-    ),
-    href: "/favorites",
-    name: "Favorites",
-  },
-  {
-    icon: (
-      <AiOutlineLogin className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
-    ),
-    href: "/login",
-    name: "Login",
-  },
-];
-const menuItemsMobile = [
-  {
-    icon: <BiPurchaseTagAlt className="h-[22px] w-[22px]" />,
-    href: "/orders",
-    name: "Orders",
-  },
-  {
-    icon: <MdOutlineFavoriteBorder className="h-[22px] w-[22px]" />,
-    href: "/favorites",
-    name: "Favorites",
-  },
-  {
-    icon: <AiOutlineLogin className="h-[22px] w-[22px]" />,
-    href: "/login",
-    name: "Login",
-  },
-];
-
 interface ProfileContentProps {
   session: {
     user: {
@@ -84,6 +31,61 @@ interface ProfileContentProps {
 }
 
 export function ProfileContent({ session, data }: ProfileContentProps) {
+
+  const menuItems = [
+    {
+      icon: <CgProfile className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />,
+      href: "/profile",
+      name: "Profile",
+    },
+    {
+      icon: (
+        <BiPurchaseTagAlt className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
+      ),
+      href: "/orders",
+      name: "Orders",
+    },
+    {
+      icon: (
+        <AiOutlinePhone className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
+      ),
+      href: "/contact",
+      name: "Contact",
+    },
+    {
+      icon: (
+        <MdOutlineFavoriteBorder className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
+      ),
+      href: "/favorites",
+      name: "Favorites",
+    },
+    {
+      icon: (
+        <AiOutlineLogin className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
+      ),
+      href: "/",
+      name: "Logout",
+    },
+  ];
+
+  const menuItemsMobile = [
+    {
+      icon: <BiPurchaseTagAlt className="h-[22px] w-[22px]" />,
+      href: "/orders",
+      name: "Orders",
+    },
+    {
+      icon: <MdOutlineFavoriteBorder className="h-[22px] w-[22px]" />,
+      href: "/favorites",
+      name: "Favorites",
+    },
+    {
+      icon: <AiOutlineLogin className="h-[22px] w-[22px]" />,
+      href: "/",
+      name: "Logout",
+    },
+  ];
+
   return (
     <>
       <motion.div
