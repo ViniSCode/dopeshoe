@@ -50,8 +50,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
             await saveCheckout(
               checkoutSession.id.toString(),
-              checkoutSession.customer!.toString(),
-              checkoutSession.metadata
+              // checkoutSession.customer!.toString(),
+              // checkoutSession.metadata
             );
             break;
           default:

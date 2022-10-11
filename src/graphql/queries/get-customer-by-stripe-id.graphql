@@ -1,6 +1,5 @@
-query getCustomerByStripeId ($customerId: String!) {
-  customers(where: {stripeId: $customerId}) {
-    stripeId, 
+query getCustomerByEmail($email: String!) {
+  customers(where: {email: $email }) {
     email
   }
 }

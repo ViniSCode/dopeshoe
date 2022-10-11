@@ -1,6 +1,4 @@
-import {
-  GetCustomerByStripeIdDocument
-} from "../../../generated/graphql";
+import { GetCustomerByEmailDocument } from "../../../generated/graphql";
 import { client } from "../../../lib/urql";
 import { stripe } from "../../../services/stripe";
 
@@ -12,23 +10,21 @@ import { stripe } from "../../../services/stripe";
 
 export async function saveCheckout(
   checkoutId: string,
-  customerId: string,
-  metadata: any
+  // customerId: string,
+  // metadata: any
 ) {
   // get user by customerId
-  const {data: {customers}} = await client.query(GetCustomerByStripeIdDocument, { customerId }).toPromise();
-  const lineItems = await stripe.checkout.sessions.listLineItems(checkoutId);
-  const email = customers[0].email;
+  const lineItems = await stripe.checkout.sessions.listLineItems(checkoutId);  
+  const productsMetadata = await stripe.products.retrieve(
+    lineItems.data[0].price!.product.toString()
+    );
+  const email = productsMetadata.metadata.email;    
+  const {data: {customers}} = await client.query(GetCustomerByEmailDocument, { email: email }).toPromise();
 
   try {
     const sumTotal = lineItems.data.reduce((prev, curr) => prev + curr.amount_total, 0);
     const totalAmount = lineItems.data.reduce((prev, curr) => prev + curr.quantity!, 0);
     const isMoreThanOneProduct = lineItems.data.length > 1 ? true : false;
-    
-    const productsMetadata = await stripe.products.retrieve(
-      lineItems.data[0].price!.product.toString()
-    );
-      
     const productAvailable = Number(productsMetadata.metadata.available) - lineItems.data[0].quantity!;
 
     try {
@@ -98,22 +94,22 @@ export async function saveCheckout(
 
 
 async function updateRemainingProductsAvailableAmount (item: any, productsMetadata: any, itemAvailable: any) {
-  // await fetch(
-  //   `https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`,
-  //   {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "Authorization": `Bearer ${process.env.API_ACCESS_TOKEN}`,
-  //     },
-  //     body: JSON.stringify({
-  //       query: `
-  //       mutation CreateCustomerOrder {
-  //         updateProduct (where: {id: "${productsMetadata.metadata.productId}"}, data: {available: ${itemAvailable}}) { id }
-  //         publishProduct (where: {id: "${productsMetadata.metadata.productId}"}) { id }
-  //       }    
-  //       `,
-  //     }),
-  //   }
-  // );
+  await fetch(
+    `https://api-sa-east-1.hygraph.com/v2/cl76lacb209q101ta1ko0b7nl/master`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.API_ACCESS_TOKEN}`,
+      },
+      body: JSON.stringify({
+        query: `
+        mutation CreateCustomerOrder {
+          updateProduct (where: {id: "${productsMetadata.metadata.productId}"}, data: {available: ${itemAvailable}}) { id }
+          publishProduct (where: {id: "${productsMetadata.metadata.productId}"}) { id }
+        }    
+        `,
+      }),
+    }
+  );
 }

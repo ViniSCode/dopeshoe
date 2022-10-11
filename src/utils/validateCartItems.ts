@@ -21,6 +21,7 @@ export interface CustomLineItems {
         image: string;
         productName: string;
         available: number;
+        email: any;
       }
     };
   };
@@ -29,7 +30,7 @@ export interface CustomLineItems {
 
 // check cart products (valid, not valid);
 // if valid => return line_items to checkout
-export async function validateCartItems(cartItems: Cart[]) {
+export async function validateCartItems(cartItems: Cart[], email: any) {
   const isValidData = await Promise.all(
     cartItems.map(async (item) => {
       const response = await client
@@ -60,7 +61,8 @@ export async function validateCartItems(cartItems: Cart[]) {
             brand: dbProduct.brand.brandName,
             image: dbProduct.image[0].mainImage.url,
             productName: dbProduct.name,
-            available: dbProduct.available
+            available: dbProduct.available,
+            email: email
           },
         };
       } else {

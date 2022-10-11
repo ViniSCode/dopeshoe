@@ -7061,14 +7061,6 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
-export type CreateCustomerMutationVariables = Exact<{
-  email: Scalars['String'];
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-}>;
-
-
-export type CreateCustomerMutation = { __typename?: 'Mutation', createCustomer?: { __typename?: 'Customer', id: string, email: string, createdAt: any } | null };
-
 export type CheckProductQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -7084,12 +7076,12 @@ export type GetAllProductsQueryVariables = Exact<{
 
 export type GetAllProductsQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, id: string, discount?: number | null, available: number, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }>, aggregate: { __typename?: 'Aggregate', count: number }, pageInfo: { __typename?: 'PageInfo', pageSize?: number | null, hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null } } };
 
-export type GetCustomerByStripeIdQueryVariables = Exact<{
-  customerId: Scalars['String'];
+export type GetCustomerByEmailQueryVariables = Exact<{
+  email: Scalars['String'];
 }>;
 
 
-export type GetCustomerByStripeIdQuery = { __typename?: 'Query', customers: Array<{ __typename?: 'Customer', stripeId?: string | null, email: string }> };
+export type GetCustomerByEmailQuery = { __typename?: 'Query', customers: Array<{ __typename?: 'Customer', email: string }> };
 
 export type GetCustomerOrdersByEmailQueryVariables = Exact<{
   email: Scalars['String'];
@@ -7127,19 +7119,6 @@ export type UserAlreadyExistsQueryVariables = Exact<{
 export type UserAlreadyExistsQuery = { __typename?: 'Query', customers: Array<{ __typename?: 'Customer', id: string, stripeId?: string | null }> };
 
 
-export const CreateCustomerDocument = gql`
-    mutation CreateCustomer($email: String!, $createdAt: DateTime) {
-  createCustomer(data: {email: $email, createdAt: $createdAt}) {
-    id
-    email
-    createdAt
-  }
-}
-    `;
-
-export function useCreateCustomerMutation() {
-  return Urql.useMutation<CreateCustomerMutation, CreateCustomerMutationVariables>(CreateCustomerDocument);
-};
 export const CheckProductDocument = gql`
     query CheckProduct($id: ID!) {
   product: productsConnection(where: {id: $id}) {
@@ -7209,17 +7188,16 @@ export const GetAllProductsDocument = gql`
 export function useGetAllProductsQuery(options: Omit<Urql.UseQueryArgs<GetAllProductsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetAllProductsQuery, GetAllProductsQueryVariables>({ query: GetAllProductsDocument, ...options });
 };
-export const GetCustomerByStripeIdDocument = gql`
-    query getCustomerByStripeId($customerId: String!) {
-  customers(where: {stripeId: $customerId}) {
-    stripeId
+export const GetCustomerByEmailDocument = gql`
+    query getCustomerByEmail($email: String!) {
+  customers(where: {email: $email}) {
     email
   }
 }
     `;
 
-export function useGetCustomerByStripeIdQuery(options: Omit<Urql.UseQueryArgs<GetCustomerByStripeIdQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetCustomerByStripeIdQuery, GetCustomerByStripeIdQueryVariables>({ query: GetCustomerByStripeIdDocument, ...options });
+export function useGetCustomerByEmailQuery(options: Omit<Urql.UseQueryArgs<GetCustomerByEmailQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetCustomerByEmailQuery, GetCustomerByEmailQueryVariables>({ query: GetCustomerByEmailDocument, ...options });
 };
 export const GetCustomerOrdersByEmailDocument = gql`
     query GetCustomerOrdersByEmail($email: String!) {

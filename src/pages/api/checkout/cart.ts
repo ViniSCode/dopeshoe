@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { cartProducts } = req.body;
 
     // VALIDATE CART PRODUCTS
-    const line_items = await validateCartItems(cartProducts);
+    const line_items = await validateCartItems(cartProducts, email);
     const products_metadata =  getProductsMetadata(line_items);
 
     if (line_items.length === 0) {

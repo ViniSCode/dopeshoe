@@ -1,9 +1,0 @@
-mutation CreateCustomer {
-  createCustomer(data: {email: "email@email.com"}) {
-    id,
-    email,
-    createdAt
-  }
-  
-  publishCustomer(where: {email: "email@email.com"})
-}

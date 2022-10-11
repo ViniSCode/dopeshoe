@@ -133,8 +133,8 @@ export function ProfileContent({ session, data }: ProfileContentProps) {
         <div className="mt-10">
           <strong className="text-lg">Last Orders:</strong>
           <div className="mt-10 flex flex-col items-center justify-center gap-6">
-            {data?.orders.reverse() ? (
-              data.orders.map((order) => (
+            {data?.orders ? (
+              data.orders.reverse().map((order) => (
                 <Order key={order.orderId} order={order} />
               ))
             ) : (
