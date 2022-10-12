@@ -28,13 +28,7 @@ export function Header() {
               <Link href="/">All</Link>
             </li>
             <li className="hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer">
-              <Link href="/">Brands</Link>
-            </li>
-            <li className="hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer">
-              <Link href="/">Contact</Link>
-            </li>
-            <li className="hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer">
-              <Link href="/">Favorites</Link>
+              <Link href="https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/">Contact</Link>
             </li>
             {session?.user?.image ? (
               <li className="hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer">

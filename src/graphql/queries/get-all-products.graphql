@@ -1,5 +1,5 @@
-query GetAllProducts($limit: Int!, $offset: Int!, $search: String) {
-  product: productsConnection (first: $limit, skip: $offset, where: {_search: $search}) {
+query GetAllProducts($limit: Int!, $offset: Int!, $search: String, $orderBy: ProductOrderByInput) {
+  product: productsConnection (first: $limit, skip: $offset, where: {_search: $search}, orderBy: $orderBy) {
     edges {
       node {
         name

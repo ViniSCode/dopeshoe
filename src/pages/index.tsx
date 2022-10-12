@@ -39,17 +39,19 @@ const Home: NextPage = () => {
   const productsPerPage = 8;
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [orderBy, setOrderBy] = useState('name_ASC');
 
   const [{ data }] = useGetAllProductsQuery({
     variables: {
       limit: productsPerPage,
       offset: offset,
-      search: search
+      search: search,
+      // orderBy: 'name_ASC'
     },
   });
 
   useEffect(() => {
-    let timer = setTimeout(async () => {
+    let timer = setTimeout(() => {
       if (search) {
         setSearch(search);
       }

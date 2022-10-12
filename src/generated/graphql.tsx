@@ -7072,6 +7072,7 @@ export type GetAllProductsQueryVariables = Exact<{
   limit: Scalars['Int'];
   offset: Scalars['Int'];
   search?: InputMaybe<Scalars['String']>;
+  orderBy?: InputMaybe<ProductOrderByInput>;
 }>;
 
 
@@ -7158,11 +7159,12 @@ export function useCheckProductQuery(options: Omit<Urql.UseQueryArgs<CheckProduc
   return Urql.useQuery<CheckProductQuery, CheckProductQueryVariables>({ query: CheckProductDocument, ...options });
 };
 export const GetAllProductsDocument = gql`
-    query GetAllProducts($limit: Int!, $offset: Int!, $search: String) {
+    query GetAllProducts($limit: Int!, $offset: Int!, $search: String, $orderBy: ProductOrderByInput) {
   product: productsConnection(
     first: $limit
     skip: $offset
     where: {_search: $search}
+    orderBy: $orderBy
   ) {
     edges {
       node {
@@ -7213,7 +7215,7 @@ export function useGetCustomerByEmailQuery(options: Omit<Urql.UseQueryArgs<GetCu
 };
 export const GetCustomerOrdersByEmailDocument = gql`
     query GetCustomerOrdersByEmail($email: String!) {
-  orders(first: 10, where: {customer: {email: $email}}) {
+  orders(orderBy: createdAt_DESC, first: 10, where: {customer: {email: $email}}) {
     orderId
     isMoreThanOneProduct
     product {

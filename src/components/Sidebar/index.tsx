@@ -4,8 +4,6 @@ import { AiOutlineLogin, AiOutlinePhone } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { GiRunningShoe } from "react-icons/gi";
 import { HiMenuAlt3 } from "react-icons/hi";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
-import { SiNike } from "react-icons/si";
 import { SidebarItems } from "./SidebarItems";
 
 const itemVariants = {
@@ -45,13 +43,7 @@ export function Sidebar() {
 
   const menuItems = [
     { icon: <GiRunningShoe size={22} />, href: "/", name: "All" },
-    { icon: <SiNike size={22} />, href: "/brands", name: "Brands" },
     { icon: <AiOutlinePhone size={22} />, href: "/contact", name: "Contact" },
-    {
-      icon: <MdOutlineFavoriteBorder size={22} />,
-      href: "/favorites",
-      name: "Favorites",
-    },
     { icon: <CgProfile size={22} />, href: "/profile", name: "Profile" },
     {
       icon: <AiOutlineLogin size={22} />,

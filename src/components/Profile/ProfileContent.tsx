@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { AiOutlineLogin, AiOutlinePhone } from "react-icons/ai";
 import { BiPurchaseTagAlt } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { GetCustomerOrdersByEmailQuery } from "../../generated/graphql";
 import { Order } from "./Order";
 import { ProfileSidebar } from "./ProfileSidebar";
@@ -49,15 +48,8 @@ export function ProfileContent({ session, data }: ProfileContentProps) {
       icon: (
         <AiOutlinePhone className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
       ),
-      href: "/contact",
+      href: "https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/",
       name: "Contact",
-    },
-    {
-      icon: (
-        <MdOutlineFavoriteBorder className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
-      ),
-      href: "/favorites",
-      name: "Favorites",
     },
     {
       icon: (
@@ -75,14 +67,16 @@ export function ProfileContent({ session, data }: ProfileContentProps) {
       name: "Orders",
     },
     {
-      icon: <MdOutlineFavoriteBorder className="h-[22px] w-[22px]" />,
-      href: "/favorites",
-      name: "Favorites",
-    },
-    {
       icon: <AiOutlineLogin className="h-[22px] w-[22px]" />,
       href: "/",
       name: "Logout",
+    },
+    {
+      icon: (
+        <AiOutlinePhone className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
+      ),
+      href: "https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/",
+      name: "Contact",
     },
   ];
 
@@ -134,7 +128,7 @@ export function ProfileContent({ session, data }: ProfileContentProps) {
           <strong className="text-lg">Last Orders:</strong>
           <div className="mt-10 flex flex-col items-center justify-center gap-6">
             {data?.orders ? (
-              data.orders.reverse().map((order) => (
+              data.orders.map((order) => (
                 <Order key={order.orderId} order={order} />
               ))
             ) : (

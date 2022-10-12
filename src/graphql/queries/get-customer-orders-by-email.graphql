@@ -1,5 +1,5 @@
 query GetCustomerOrdersByEmail ($email: String!) {
-  orders (first: 10, where: {customer: {email: $email}}) {
+  orders (orderBy:createdAt_DESC, first: 10, where: {customer: {email: $email}}) {
     orderId,
     isMoreThanOneProduct,
     product {
