@@ -36,7 +36,7 @@ const item = {
 
 const Home: NextPage = () => {
   const [offset, setOffset] = useState(0);
-  const productsPerPage = 6;
+  const productsPerPage = 8;
   const [page, setPage] = useState(1);
 
   const [{ data }] = useGetAllProductsQuery({
