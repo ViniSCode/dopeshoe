@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import type { GetStaticProps, NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
 import { CardProduct } from "../components/CardProduct";
 import { Header } from "../components/Header";
@@ -38,13 +38,25 @@ const Home: NextPage = () => {
   const [offset, setOffset] = useState(0);
   const productsPerPage = 8;
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
 
   const [{ data }] = useGetAllProductsQuery({
     variables: {
       limit: productsPerPage,
       offset: offset,
+      search: search
     },
   });
+
+  useEffect(() => {
+    let timer = setTimeout(async () => {
+      if (search) {
+        setSearch(search);
+      }
+    }, 800)
+
+    return () => clearTimeout(timer);
+  }, [search])
 
   return (
     <div>
@@ -53,31 +65,38 @@ const Home: NextPage = () => {
       <motion.main className="mb-16 px-4 max-w-[1120px] mx-auto mt-[8rem] min-h-[100vh]">
         <div>
           <TopContentText />
-          <SearchBar />
+          <SearchBar search={search} setSearch={setSearch}/>
         </div>
         <SearchFilter />
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="visible"
-          className="select-none mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 flex-wrap max-w-[400px] md:max-w-full mx-auto"
-        >
-          {data?.product.edges.map((product) => {
-            return (
-              <motion.div key={product.node.id} variants={item}>
-                <CardProduct
-                  id={product.node.id}
-                  name={product.node.name}
-                  price={product.node.price}
-                  discount={product.node.discount}
-                  image={product.node.image}
-                  brand={product.node.brand}
-                />
-              </motion.div>
-            );
-          })}
-        </motion.div>
+        {
+          data!.product.aggregate.count < 1 ? (
+            <span className="text-2xl text-center mt-40 block text-gray-500">Nenhum produto encontrado</span>
+          ) : (
+            <motion.div
+              variants={container}
+              initial="hidden"
+              animate="visible"
+              className="select-none mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 flex-wrap max-w-[400px] md:max-w-full mx-auto"
+            >
+              {data?.product.edges.map((product) => {
+                return (
+                  <motion.div key={product.node.id} variants={item}>
+                    <CardProduct
+                      id={product.node.id}
+                      name={product.node.name}
+                      price={product.node.price}
+                      discount={product.node.discount}
+                      image={product.node.image}
+                      brand={product.node.brand}
+                    />
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          )
+        }
+
       </motion.main>
       <motion.footer
         initial={{ opacity: 0 }}
@@ -135,7 +154,7 @@ export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
   await client
-    .query(GetAllProductsDocument, { limit: 12, offset: 0 })
+    .query(GetAllProductsDocument, { limit: 8, offset: 0, search: "" })
     .toPromise();
 
   return {

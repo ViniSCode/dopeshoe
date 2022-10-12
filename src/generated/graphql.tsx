@@ -7071,6 +7071,7 @@ export type CheckProductQuery = { __typename?: 'Query', product: { __typename?: 
 export type GetAllProductsQueryVariables = Exact<{
   limit: Scalars['Int'];
   offset: Scalars['Int'];
+  search?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -7111,6 +7112,13 @@ export type GetProductsPageInfoQueryVariables = Exact<{
 
 export type GetProductsPageInfoQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null }, aggregate: { __typename?: 'Aggregate', count: number } } };
 
+export type SearchProductsQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type SearchProductsQuery = { __typename?: 'Query', product: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', node: { __typename?: 'Product', name: string, price: number, id: string, discount?: number | null, available: number, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string }, productImages: Array<{ __typename?: 'Asset', url: string }> }> } }>, aggregate: { __typename?: 'Aggregate', count: number }, pageInfo: { __typename?: 'PageInfo', pageSize?: number | null, hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null } } };
+
 export type UserAlreadyExistsQueryVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -7150,8 +7158,12 @@ export function useCheckProductQuery(options: Omit<Urql.UseQueryArgs<CheckProduc
   return Urql.useQuery<CheckProductQuery, CheckProductQueryVariables>({ query: CheckProductDocument, ...options });
 };
 export const GetAllProductsDocument = gql`
-    query GetAllProducts($limit: Int!, $offset: Int!) {
-  product: productsConnection(first: $limit, skip: $offset) {
+    query GetAllProducts($limit: Int!, $offset: Int!, $search: String) {
+  product: productsConnection(
+    first: $limit
+    skip: $offset
+    where: {_search: $search}
+  ) {
     edges {
       node {
         name
@@ -7322,6 +7334,45 @@ export const GetProductsPageInfoDocument = gql`
 
 export function useGetProductsPageInfoQuery(options: Omit<Urql.UseQueryArgs<GetProductsPageInfoQueryVariables>, 'query'>) {
   return Urql.useQuery<GetProductsPageInfoQuery, GetProductsPageInfoQueryVariables>({ query: GetProductsPageInfoDocument, ...options });
+};
+export const SearchProductsDocument = gql`
+    query SearchProducts($search: String) {
+  product: productsConnection(where: {_search: $search}) {
+    edges {
+      node {
+        name
+        brand {
+          brandName
+        }
+        price
+        id
+        discount
+        available
+        image {
+          mainImage {
+            url
+          }
+          productImages {
+            url
+          }
+        }
+      }
+    }
+    aggregate {
+      count
+    }
+    pageInfo {
+      pageSize
+      hasPreviousPage
+      hasNextPage
+      startCursor
+    }
+  }
+}
+    `;
+
+export function useSearchProductsQuery(options?: Omit<Urql.UseQueryArgs<SearchProductsQueryVariables>, 'query'>) {
+  return Urql.useQuery<SearchProductsQuery, SearchProductsQueryVariables>({ query: SearchProductsDocument, ...options });
 };
 export const UserAlreadyExistsDocument = gql`
     query UserAlreadyExists($email: String!) {

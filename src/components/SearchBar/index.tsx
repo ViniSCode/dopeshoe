@@ -2,6 +2,11 @@ import { motion } from "framer-motion";
 import { BiSearch } from "react-icons/bi";
 import { TbArrowDownCircle } from "react-icons/tb";
 
+interface SearchBarProps {
+  search: string;
+  setSearch: any;
+}
+
 const container = {
   hidden: {
     opacity: 0,
@@ -12,7 +17,8 @@ const container = {
   duration: {},
 };
 
-export function SearchBar() {
+
+export function SearchBar({search, setSearch}: SearchBarProps) {
   return (
     <motion.div
       className="mt-[2rem] max-w-[400px] md:max-w-[500px] mx-auto select-none"
@@ -32,6 +38,8 @@ export function SearchBar() {
               type="text"
               className="relative bg-gray-600 pr-4 pl-28 md:pl-32 py-3 w-full rounded-[7px] text-gray-200 placeholder-gray-200 focus:outline-none"
               placeholder="Search shoes"
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
             />
             <BiSearch
               fontSize={20}
