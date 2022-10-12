@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import type { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import Link from "next/link";
+import { useState } from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { Header } from "../components/Header";
 import { ProfileContent } from "../components/Profile/ProfileContent";
@@ -11,9 +12,14 @@ import {
 } from "../generated/graphql";
 
 export default function Profile({ session }: any) {
+  const [offset, setOffset] = useState(0);
+  const productsPerPage = 8;
+
   const [{ data }] = useGetCustomerOrdersByEmailQuery({
     variables: {
       email: session.user.email,
+      limit: productsPerPage,
+      offset: offset,
     },
   });
 

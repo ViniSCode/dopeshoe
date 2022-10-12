@@ -67,17 +67,17 @@ export function ProfileContent({ session, data }: ProfileContentProps) {
       name: "Orders",
     },
     {
-      icon: <AiOutlineLogin className="h-[22px] w-[22px]" />,
-      href: "/",
-      name: "Logout",
-    },
-    {
       icon: (
         <AiOutlinePhone className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
-      ),
-      href: "https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/",
-      name: "Contact",
-    },
+        ),
+        href: "https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/",
+        name: "Contact",
+      },
+      {
+        icon: <AiOutlineLogin className="h-[22px] w-[22px]" />,
+        href: "/",
+        name: "Logout",
+      },
   ];
 
   return (

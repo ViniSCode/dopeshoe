@@ -7086,11 +7086,13 @@ export type GetCustomerByEmailQueryVariables = Exact<{
 export type GetCustomerByEmailQuery = { __typename?: 'Query', customers: Array<{ __typename?: 'Customer', email: string }> };
 
 export type GetCustomerOrdersByEmailQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
   email: Scalars['String'];
 }>;
 
 
-export type GetCustomerOrdersByEmailQuery = { __typename?: 'Query', orders: Array<{ __typename?: 'Order', orderId: string, isMoreThanOneProduct?: boolean | null, amount: number, price: number, createdAt: any, product?: { __typename?: 'Product', id: string, name: string, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string } }> } | null }> };
+export type GetCustomerOrdersByEmailQuery = { __typename?: 'Query', orders: Array<{ __typename?: 'Order', orderId: string, isMoreThanOneProduct?: boolean | null, amount: number, price: number, createdAt: any, product?: { __typename?: 'Product', id: string, name: string, brand?: { __typename?: 'Brand', brandName: string } | null, image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string } }> } | null }>, ordersConnection: { __typename?: 'OrderConnection', pageInfo: { __typename?: 'PageInfo', pageSize?: number | null, hasPreviousPage: boolean, hasNextPage: boolean, startCursor?: string | null } } };
 
 export type GetProductAvailableQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -7214,8 +7216,13 @@ export function useGetCustomerByEmailQuery(options: Omit<Urql.UseQueryArgs<GetCu
   return Urql.useQuery<GetCustomerByEmailQuery, GetCustomerByEmailQueryVariables>({ query: GetCustomerByEmailDocument, ...options });
 };
 export const GetCustomerOrdersByEmailDocument = gql`
-    query GetCustomerOrdersByEmail($email: String!) {
-  orders(orderBy: createdAt_DESC, first: 10, where: {customer: {email: $email}}) {
+    query GetCustomerOrdersByEmail($limit: Int!, $offset: Int!, $email: String!) {
+  orders(
+    orderBy: createdAt_DESC
+    first: $limit
+    skip: $offset
+    where: {customer: {email: $email}}
+  ) {
     orderId
     isMoreThanOneProduct
     product {
@@ -7233,6 +7240,18 @@ export const GetCustomerOrdersByEmailDocument = gql`
     amount
     price
     createdAt
+  }
+  ordersConnection(
+    first: $limit
+    skip: $offset
+    where: {customer: {email: $email}}
+  ) {
+    pageInfo {
+      pageSize
+      hasPreviousPage
+      hasNextPage
+      startCursor
+    }
   }
 }
     `;

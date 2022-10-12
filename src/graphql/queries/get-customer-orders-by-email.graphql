@@ -1,5 +1,5 @@
-query GetCustomerOrdersByEmail ($email: String!) {
-  orders (orderBy:createdAt_DESC, first: 10, where: {customer: {email: $email}}) {
+query GetCustomerOrdersByEmail ($limit: Int!, $offset:Int!, $email: String!) {
+  orders (orderBy:createdAt_DESC, first: $limit, skip: $offset, where: {customer: {email: $email}}) {
     orderId,
     isMoreThanOneProduct,
     product {
@@ -17,5 +17,13 @@ query GetCustomerOrdersByEmail ($email: String!) {
     amount,
     price,
     createdAt
+  }
+  ordersConnection (first: $limit, skip: $offset, where: {customer: {email: $email}}) {
+    pageInfo {
+      pageSize
+      hasPreviousPage
+      hasNextPage
+      startCursor
+    }
   }
 }
