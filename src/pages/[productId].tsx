@@ -63,7 +63,6 @@ export default function Product() {
         <Link href="/">
           <p className="text-gray-500 underline transition-colors hover:text-yellow-500 cursor-pointer">
             All <br />
-            Products
           </p>
         </Link>
         <Link href="/">

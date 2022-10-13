@@ -4,7 +4,7 @@ import { getSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { BsArrowRightShort } from "react-icons/bs";
+import { BsArrowLeftShort } from "react-icons/bs";
 import { HiMinusSm, HiOutlinePlusSm } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { Header } from "../components/Header";
@@ -95,9 +95,9 @@ export default function Cart() {
       //REDIRECT TO CHECKOUT
       const stripe = await stripePromise;
       const { error } = await stripe!.redirectToCheckout({ sessionId });
+      clearCart();
 
       // CLEAR CART AFTER CHECKOUT SUCCESSFUL
-      clearCart();
       setLoading(false);
     } catch (err) {
       toast.error("Erro ao finalizar a compra");
@@ -111,7 +111,7 @@ export default function Cart() {
       <div className="md:container-div">
         <Header />
         <Sidebar />
-        <div className="lg:main-container-div max-w-[1120px] lg:px-7 mx-auto">
+        <div className="lg:main-container-div max-w-[1120px] lg:px-7 mx-auto min-h-[78vh]">
           <motion.main className="px-4 w-full mx-auto mt-[8rem] md:grid md:grid-cols-cart md:gap-10 md:items-start lg:mt-16">
             <motion.div
               variants={container}
@@ -260,18 +260,19 @@ export default function Cart() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
-        className="mt-20 select-none flex items-center justify-between mb-2 px-4 max-w-[1120px] md:mt-0 mx-auto"
+        className="flex items-center px-4 justify-between mb-24 md:px-10 max-w-[1120px] mx-auto"
       >
-        <div>
-          <p className="text-gray-500 underline">
-            Discover All <br />
-            Products
+        <Link href="/">
+          <p className="text-gray-500 underline transition-colors hover:text-yellow-500 cursor-pointer">
+            All <br />
           </p>
-        </div>
-        <div className="flex items-center gap-4 cursor-pointer">
-          <p className="text-[18px]">Next page</p>
-          <BsArrowRightShort fontSize={30} />
-        </div>
+        </Link>
+        <Link href="/">
+          <div className="flex items-center gap-4 cursor-pointer transition-colors hover:text-yellow-500">
+            <BsArrowLeftShort fontSize={30} />
+            <p className="text-[18px]">Voltar</p>
+          </div>
+        </Link>
         <div>
           <span>{" < 1 > "}</span>
         </div>
