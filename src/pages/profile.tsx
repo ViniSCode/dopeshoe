@@ -13,7 +13,7 @@ import {
 
 export default function Profile({ session }: any) {
   const [offset, setOffset] = useState(0);
-  const productsPerPage = 8;
+  const productsPerPage = 4;
 
   const [{ data }] = useGetCustomerOrdersByEmailQuery({
     variables: {
@@ -27,7 +27,7 @@ export default function Profile({ session }: any) {
     <div>
       <Header />
       <Sidebar />
-      <motion.main className="px-4 max-w-[1120px] mx-auto mt-[8rem] min-h-[100vh] lg:grid lg:grid-cols-profile">
+      <motion.main className="px-4 max-w-[1120px] mx-auto mt-[8rem] lg:mt-[4rem] min-h-[100vh] lg:grid lg:grid-cols-profile">
         {data && session && <ProfileContent session={session} data={data} />}
       </motion.main>
       <motion.footer

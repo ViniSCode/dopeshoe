@@ -4,16 +4,14 @@ import { getSession } from "next-auth/react";
 import { useState } from "react";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
 import { Header } from "../components/Header";
-import { Order } from "../components/Profile/Order";
+import { AllOrders } from "../components/Profile/AllOrders";
 import { Sidebar } from "../components/Sidebar";
 import { useGetCustomerOrdersByEmailQuery } from "../generated/graphql";
 
 export default function Orders ({ session }: any) {
   const [offset, setOffset] = useState(0);
-  const productsPerPage = 10;
+  const productsPerPage = 6;
   const [page, setPage] = useState(1);
-
-  console.log(session)
 
   const [{ data }] = useGetCustomerOrdersByEmailQuery({
     variables: {
@@ -27,11 +25,11 @@ export default function Orders ({ session }: any) {
     <div>
       <Header />
       <Sidebar />
-      <motion.main className="px-4 max-w-[1120px] mx-auto mt-[8rem] min-h-[70vh]">
+      <motion.main className="px-4 max-w-[1120px] mx-auto mt-[8rem] lg:mt-[2rem] min-h-[78vh]">
         <div className="flex flex-col align-center justify-center gap-4">
           {data?.orders ? (
             data.orders.map((order) => (
-              <Order key={order.orderId} order={order} />
+              <AllOrders key={order.orderId} order={order} />
             ))
           ) : (
             <span>No orders yet...</span>
