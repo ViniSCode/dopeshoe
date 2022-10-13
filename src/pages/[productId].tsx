@@ -7,10 +7,8 @@ import { Header } from "../components/Header";
 import { ProductActions } from "../components/Product/ProductActions";
 import { ProductDescription } from "../components/Product/ProductDescription";
 import { ProductImages } from "../components/Product/ProductImages";
-import { SearchBar } from "../components/SearchBar";
 import { Sidebar } from "../components/Sidebar";
 import { ShowSimilarProducts } from "../components/SimilarProduct/ShowSimilarProducts";
-import { TopContentText } from "../components/TopContentText";
 import { GetProductDocument, useGetProductQuery } from "../generated/graphql";
 import { client, ssrCache } from "../lib/urql";
 
@@ -30,10 +28,6 @@ export default function Product() {
       <Sidebar />
       {data && (
         <motion.main className="mb-16 px-4 md:px-10 max-w-[1120px] mx-auto mt-[8rem] min-h-[100vh]">
-          <div>
-            <TopContentText />
-            <SearchBar />
-          </div>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

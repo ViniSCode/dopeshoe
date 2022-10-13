@@ -15,7 +15,6 @@ interface ProductActionProps {
     discount?: number | null;
     description: string;
     brand?: { __typename?: "Brand"; brandName: string } | null;
-    sales: Array<{ __typename?: "Sale"; id: string }>;
     image: Array<{
       __typename?: "Image";
       mainImage: { __typename?: "Asset"; url: string };
