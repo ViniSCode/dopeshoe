@@ -1,7 +1,6 @@
 import { GetCustomerByEmailDocument } from "../../../generated/graphql";
 import { client } from "../../../lib/urql";
 import { stripe } from "../../../services/stripe";
-import { clearShoppingCart } from "../../../utils/clearShoppingCart";
 
 // SAVE CUSTOMER ORDERS ON HYGRAPH
 // ONLY THE REFERENCE TO THE STRIPE ORDER
@@ -87,9 +86,6 @@ export async function saveCheckout(
     } catch(err: any) {
       console.log(err.message)
     }
-    
-    // clear shopping cart
-    clearShoppingCart()
 
   } catch (err: any) {
     console.log(err);
