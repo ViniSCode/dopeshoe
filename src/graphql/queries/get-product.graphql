@@ -11,9 +11,6 @@ query GetProduct ($id: ID) {
         }
     		discount
     		description
-    		sales {
-      		id
-    		}
     		image {
           mainImage {
             url
@@ -37,9 +34,6 @@ query GetProduct ($id: ID) {
         }
     		discount
     		description
-    		sales {
-      		id
-    		}
     		image {
           mainImage {
             url
