@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import type { GetStaticProps, NextPage } from "next";
 import { useEffect, useState } from "react";
-import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
 import { CardProduct } from "../components/CardProduct";
 import { Header } from "../components/Header";
+import { IndexPageFooter } from "../components/IndexPageFooter";
 import { SearchBar } from "../components/SearchBar";
 import { SearchFilter } from "../components/SearchFilter";
 import { Sidebar } from "../components/Sidebar";
@@ -100,54 +100,15 @@ const Home: NextPage = () => {
         }
 
       </motion.main>
-      <motion.footer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="select-none flex items-center justify-between mb-24 px-4 md:px-10 md:pb-4 max-w-[1120px] mx-auto"
-      >
-        <>
-          <div>
-            <p className="text-gray-500 underline">All</p>
-          </div>
 
-          <div className="flex items-center justify-center gap-2">
-            <div
-              onClick={() => {
-                if (data?.product.pageInfo.hasPreviousPage) {
-                  setOffset(offset - productsPerPage);
-                  setPage(page - 1);
-                }
-              }}
-              className={`flex items-center gap-4 cursor-pointer transition-colors hover:text-yellow-500 ${
-                !data?.product.pageInfo.hasPreviousPage &&
-                "text-gray-500 hover:text-gray-500 opacity-80 cursor-auto"
-              }`}
-            >
-              <BsArrowLeftShort fontSize={30} />
-            </div>
-            <span>{String(page)}</span>
-            <div
-              onClick={() => {
-                if (data?.product.pageInfo.hasNextPage) {
-                  setOffset(offset + productsPerPage);
-                  setPage(page + 1);
-                }
-              }}
-              className={`flex items-center gap-4 cursor-pointer transition-colors hover:text-yellow-500 ${
-                !data?.product.pageInfo.hasNextPage &&
-                "text-gray-500 hover:text-gray-500 opacity-80 cursor-auto"
-              }`}
-            >
-              <BsArrowRightShort fontSize={30} />
-            </div>
-          </div>
-
-          <div>
-            <span>{String(page)}</span>
-          </div>
-        </>
-      </motion.footer>
+      <IndexPageFooter 
+        data={data}
+        offset={offset}
+        page={page}
+        productsPerPage={productsPerPage}
+        setOffset={setOffset}
+        setPage={setPage}
+      />
     </div>
   );
 };

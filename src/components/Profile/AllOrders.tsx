@@ -27,7 +27,7 @@ export function AllOrders({ order }: OrderProps) {
   return (
     <div className="cursor-pointer relative border-b-2 border-b-gray-700 p-2 border-lg w-full h-[100px] mx-auto rounded-lg flex items-center gap-2 last-of-type:mb-10">
       <div className="absolute top-2 right-2"></div>
-      <div className="bg-gray-900 h-full w-full min-w-[100px] max-w-[100px] rounded-lg p-1">
+      <div className="bg-gray-900 h-full w-full min-w-[75px] max-w-[75px] md:min-w-[100px] md:max-w-[100px] rounded-lg p-1">
         <div className="relative h-full w-full inset-0">
           <Image
             src={order!.product!.image[0].mainImage.url}

@@ -29,38 +29,36 @@ interface ProfileContentProps {
   data: GetCustomerOrdersByEmailQuery | undefined;
 }
 
-export function ProfileContent({ session, data }: ProfileContentProps) {
+export const menuItems = [
+  {
+    icon: <CgProfile className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />,
+    href: "/profile",
+    name: "Profile",
+  },
+  {
+    icon: (
+      <BiPurchaseTagAlt className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
+    ),
+    href: "/orders",
+    name: "Orders",
+  },
+  {
+    icon: (
+      <AiOutlinePhone className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
+    ),
+    href: "https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/",
+    name: "Contact",
+  },
+  {
+    icon: (
+      <AiOutlineLogin className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
+    ),
+    href: "/",
+    name: "Logout",
+  },
+];
 
-  const menuItems = [
-    {
-      icon: <CgProfile className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />,
-      href: "/profile",
-      name: "Profile",
-    },
-    {
-      icon: (
-        <BiPurchaseTagAlt className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
-      ),
-      href: "/orders",
-      name: "Orders",
-    },
-    {
-      icon: (
-        <AiOutlinePhone className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
-      ),
-      href: "https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/",
-      name: "Contact",
-    },
-    {
-      icon: (
-        <AiOutlineLogin className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />
-      ),
-      href: "/",
-      name: "Logout",
-    },
-  ];
-
-  const menuItemsMobile = [
+export const menuItemsMobile = [
     {
       icon: <BiPurchaseTagAlt className="h-[22px] w-[22px]" />,
       href: "/orders",
@@ -80,6 +78,7 @@ export function ProfileContent({ session, data }: ProfileContentProps) {
       },
   ];
 
+export function ProfileContent({ session, data }: ProfileContentProps) {
   return (
     <>
       <motion.div
@@ -127,13 +126,19 @@ export function ProfileContent({ session, data }: ProfileContentProps) {
         <div className="mt-10">
           <strong className="text-lg">Last Orders:</strong>
           <div className="mt-10 flex flex-col items-center justify-center gap-6">
-            {data?.orders ? (
-              data.orders.map((order) => (
-                <Order key={order.orderId} order={order} />
-              ))
-            ) : (
-              <span>No orders yet...</span>
-            )}
+              {
+                data?.orders && (
+                  <div className="flex flex-col align-center justify-center gap-4">
+                    {data!.orders.length > 0 ? (
+                      data!.orders.map((order) => (
+                        <Order key={order.orderId} order={order} />
+                      ))
+                    ) : (
+                      <span className="text-center">No orders yet...</span>
+                    )}
+                  </div>
+                )
+              }
           </div>
         </div>
       </motion.div>

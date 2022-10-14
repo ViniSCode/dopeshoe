@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { CgProfile } from "react-icons/cg";
 
 const itemVariants = {
   closed: { opacity: 0 },
@@ -11,13 +12,19 @@ interface ProfileSidebarProps {
   icon: any;
   href: string;
   name: string;
-  isLoggedIn?: any;
+  isOrders?: boolean;
 }
 
-export function ProfileSidebar({ icon, href, name, isLoggedIn }: ProfileSidebarProps) {
+export function ProfileSidebar({ icon, href, name, isOrders}: ProfileSidebarProps) {
 
   function handleLogout() {
     signOut();
+  }
+
+  if (isOrders && name === "Orders") {
+    name = "Profile"
+    href = "/profile"
+    icon = <CgProfile className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" /> 
   }
 
   return (
