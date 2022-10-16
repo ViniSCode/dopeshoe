@@ -15,7 +15,7 @@ export function TopContentText() {
     >
       <div className="mt-[4rem] max-w-[450px] mx-auto select-none">
         <h2 className="text-[25px] md:text-[1.875rem] md:whitespace-nowrap text-center">
-          Ofertas especiais em setembro!
+          Ofertas especiais em outubro!
         </h2>
         <p className="text-sm text-gray-500 text-center">
           Assine a nossa newsletter e fique por dentro das novas ofertas.

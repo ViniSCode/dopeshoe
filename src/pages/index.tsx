@@ -10,6 +10,7 @@ import { Sidebar } from "../components/Sidebar";
 import { TopContentText } from "../components/TopContentText/index";
 import {
   GetAllProductsDocument,
+  ProductOrderByInput,
   useGetAllProductsQuery
 } from "../generated/graphql";
 import { client, ssrCache } from "../lib/urql";
@@ -39,14 +40,15 @@ const Home: NextPage = () => {
   const productsPerPage = 8;
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  const [orderBy, setOrderBy] = useState('name_ASC');
+  const [filterSelected, setFilterSelected] = useState("all");
+  const [orderBy, setOrderBy] = useState(() => ProductOrderByInput.NameAsc);
 
   const [{ data }] = useGetAllProductsQuery({
     variables: {
       limit: productsPerPage,
       offset: offset,
       search: search,
-      // orderBy: 'name_ASC'
+      orderBy: orderBy
     },
   });
 
@@ -71,36 +73,37 @@ const Home: NextPage = () => {
           <TopContentText />
           <SearchBar search={search} setSearch={setSearch} setPage={setPage}/>
         </div>
-        <SearchFilter />
-
+        <SearchFilter setOrderBy={setOrderBy} setFilterSelected={setFilterSelected} filterSelected={filterSelected} setPage={setPage}/>
+    
         {
-          data!.product.aggregate.count < 1 ? (
-            <span className="text-2xl text-center mt-40 block text-gray-500">Nenhum produto encontrado</span>
-          ) : (
-            <motion.div
-              variants={container}
-              initial="hidden"
-              animate="visible"
-              className="select-none mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 flex-wrap max-w-[400px] md:max-w-full mx-auto"
-            >
-              {data?.product.edges.map((product) => {
-                return (
-                  <motion.div key={product.node.id} variants={item}>
-                    <CardProduct
-                      id={product.node.id}
-                      name={product.node.name}
-                      price={product.node.price}
-                      discount={product.node.discount}
-                      image={product.node.image}
-                      brand={product.node.brand}
-                    />
-                  </motion.div>
-                );
-              })}
-            </motion.div>
+          data && (
+            data!.product.aggregate.count < 1 ? (
+              <span className="text-2xl text-center mt-40 block text-gray-500">Nenhum produto encontrado</span>
+            ) : (
+              <motion.div
+                variants={container}
+                initial="hidden"
+                animate="visible"
+                className="select-none mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 flex-wrap max-w-[400px] md:max-w-full mx-auto"
+              >
+                {data?.product.edges.map((product) => {
+                  return (
+                    <motion.div key={product.node.id} variants={item}>
+                      <CardProduct
+                        id={product.node.id}
+                        name={product.node.name}
+                        price={product.node.price}
+                        discount={product.node.discount}
+                        image={product.node.image}
+                        brand={product.node.brand}
+                      />
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            )
           )
         }
-
       </motion.main>
 
       <IndexPageFooter 
