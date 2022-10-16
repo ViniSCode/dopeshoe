@@ -3,7 +3,7 @@ import { AiOutlineLogin, AiOutlinePhone } from "react-icons/ai";
 import { BiPurchaseTagAlt } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { GetCustomerOrdersByEmailQuery } from "../../generated/graphql";
-import { Order } from "./Order";
+import { AllOrders } from "./AllOrders";
 import { ProfileSidebar } from "./ProfileSidebar";
 
 const container = {
@@ -100,7 +100,7 @@ export function ProfileContent({ session, data }: ProfileContentProps) {
         variants={container}
         initial="hidden"
         animate="visible"
-        className="select-none w-[290px] mx-auto md:w-[420px]"
+        className="select-none w-[290px] mx-auto md:w-[680px]"
       >
         <div className="flex flex-col items-center gap-4 lg:flex-row">
           {session.user.image && (
@@ -128,10 +128,10 @@ export function ProfileContent({ session, data }: ProfileContentProps) {
           <div className="mt-10 flex flex-col items-center justify-center gap-6">
               {
                 data?.orders && (
-                  <div className="flex flex-col align-center justify-center gap-4">
+                  <div className="w-full flex flex-col align-center justify-center gap-4">
                     {data!.orders.length > 0 ? (
                       data!.orders.map((order) => (
-                        <Order key={order.orderId} order={order} />
+                        <AllOrders key={order.orderId} order={order} />
                       ))
                     ) : (
                       <span className="text-center">No orders yet...</span>
