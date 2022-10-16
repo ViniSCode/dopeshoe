@@ -53,6 +53,8 @@ const Home: NextPage = () => {
   useEffect(() => {
     let timer = setTimeout(() => {
       if (search) {
+        setOffset(0)
+        setPage(1)
         setSearch(search);
       }
     }, 800)
@@ -67,7 +69,7 @@ const Home: NextPage = () => {
       <motion.main className="mb-16 px-4 max-w-[1120px] mx-auto mt-[8rem] min-h-[100vh]">
         <div>
           <TopContentText />
-          <SearchBar search={search} setSearch={setSearch}/>
+          <SearchBar search={search} setSearch={setSearch} setPage={setPage}/>
         </div>
         <SearchFilter />
 
