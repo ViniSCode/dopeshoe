@@ -38,7 +38,6 @@
 - [x] Create Profile Page (Orders...)
 - [x] Customer Orders pagination
 
-
 # Layout Images
 ### Home Page
 ![Home page](https://github.com/ViniSCode/dopeshoe/blob/main/public/assets/home.png?raw=true)
