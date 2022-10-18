@@ -2,12 +2,13 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BiCheckCircle } from "react-icons/bi";
 import { BsArrowLeft } from "react-icons/bs";
-import { toast } from "react-toastify";
 import useSWR from "swr";
+import { useCart } from "../hooks/useCart";
 
 export default function Result() {
   const [copy, setCopy] = useState(false);
   const router = useRouter();
+  const { clearCart } = useCart();
 
   const { data, error } = useSWR(
     router.query.session_id ? `/api/checkout/${router.query.session_id}` : null,
@@ -15,11 +16,7 @@ export default function Result() {
   );
 
   useEffect(() => {
-    if (!error && router.query.session_id) {
-      toast.warning(
-        "STRIPE - educational purpose only, your order was not actually placed"
-      );
-    }
+    clearCart();
   }, []);
 
   return !error && router.query.session_id ? (

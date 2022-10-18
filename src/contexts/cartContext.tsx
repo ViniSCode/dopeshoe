@@ -218,7 +218,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
 
   function clearCart() {
     if (typeof window !== "undefined") {
-      localStorage.setItem("@dopeshoe:cart", JSON.stringify([]));
+      localStorage.removeItem("@dopeshoe:cart");
     }
     
     setCart([]);

@@ -42,7 +42,6 @@ const Home: NextPage = () => {
   const [search, setSearch] = useState("");
   const [filterSelected, setFilterSelected] = useState("all");
   const [orderBy, setOrderBy] = useState(() => ProductOrderByInput.NameAsc);
-
   const [{ data }] = useGetAllProductsQuery({
     variables: {
       limit: productsPerPage,
