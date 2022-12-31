@@ -5,7 +5,7 @@
 
 
 ## Main Goals
-- [x] Create an e-commerce using Stripe
+- [x] Create an e-commerce using Stripe  
 	- [x] Learn Stripe (payments)
 	- [x] Learn Hygraph
 	- [x] Learn Tailwindcss (responsive)
@@ -58,3 +58,5 @@
 ![Mobile Home Page](https://github.com/ViniSCode/dopeshoe/blob/main/public/assets/mobile_product.png?raw=true)
 ### Profile Page
 ![Mobile Home Page](https://github.com/ViniSCode/dopeshoe/blob/main/public/assets/mobile_profile.png?raw=true)
+
+
