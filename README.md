@@ -22,7 +22,7 @@
 ## Technologies
 - [x] Next.JS | Typescript | Stripe | Hygraph  | GraphQL | Urql | Codegen | Tailwindcss | Framer Motion | Next Auth
 
-## ToDo
+## ToDo Process
 - [x] Create Responsive Layout
 - [x] Search bar (search shoes)
 - [x] Search bar filter (lower prices, higher prices, new)
