@@ -1,8 +1,8 @@
 
-# YOUR PROJECT TITLE
+# DopeShoe
 #### Video Demo:  [CS50 Final Project Preview](https://youtu.be/rhRzxupNWOs)
 #### Description:
-# DopeShoe | Sneakers e-commerce
+# Shoes E-commerce
 ### Created using NextJS, Typescript, Stripe, Hygraph, Tailwindcss, GraphQL (URQL), Codegen.
 ## [DopeShoe Website](https://dopeshoe.vercel.app/)
 
