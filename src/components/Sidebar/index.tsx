@@ -43,7 +43,7 @@ export function Sidebar() {
 
   const menuItems = [
     { icon: <GiRunningShoe size={22} />, href: "/", name: "All" },
-    { icon: <AiOutlinePhone size={22} />, href: "/contact", name: "Contact" },
+    { icon: <AiOutlinePhone size={22} />, href: "https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/", name: "Contact" },
     { icon: <CgProfile size={22} />, href: "/profile", name: "Profile" },
     {
       icon: <AiOutlineLogin size={22} />,
