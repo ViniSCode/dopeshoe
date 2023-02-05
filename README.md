@@ -1,6 +1,6 @@
 
 # DopeShoe | Shoes E-commerce
-![enter image description here](https://github.com/ViniSCode/dopeshoe/blob/main/public/assets/dopeshoe_preview.png?raw=true)
+![DopeShoe Preview](https://github.com/ViniSCode/dopeshoe/blob/main/public/assets/dopeshoe-preview.png?raw=true)
 ### [DopeShoe Live Preview](https://dopeshoe.vercel.app/)
 ### Created using NextJS, Typescript, Stripe, Hygraph, Tailwindcss, GraphQL (URQL), Codegen.
 
