@@ -5,40 +5,50 @@
 ### [DopeShoe Live Preview](https://dopeshoe.vercel.app/)
 ### Created using NextJS, Typescript, Stripe, Hygraph, Tailwindcss, GraphQL (URQL), Codegen.
 
+## Testing the App
+
+If you want to test the app, you can access the [live preview](https://dopeshoe.vercel.app/) and try out the features. To complete a test purchase, you can use the following test card details:
+
+- Card Number: 4242 4242 4242 4242
+- Expiration Date: 12/23
+- CVC: 123
+
+Please note that these are test card details and should only be used for testing purposes. Do not use real credit card information when testing the app. If you encounter any issues while testing, please let me know by opening an issue on this repository.
 
 ## Main Goals
-- [x] Create an e-commerce using Stripe  
-	- [x] Learn Stripe (payments)
-	- [x] Learn Hygraph
-	- [x] Learn Tailwindcss (responsive)
-	- [x] Learn Framer Motion
+- Create an e-commerce using Stripe  
+- Learn Stripe (payments)
+- Learn Hygraph
+- Learn Tailwindcss (responsive)
+- Learn Framer Motion
 
 ## App Goals
-- [x] Buy shoes
-- [x] Shopping Cart
-- [x] Show customer Orders
+- Allow customers to purchase shoes
+- Provide a shopping cart feature
+- Display customer orders
 
 ## Technologies
-- [x] Next.JS | Typescript | Stripe | Hygraph  | GraphQL | Urql | Codegen | Tailwindcss | Framer Motion | Next Auth
+- Next.JS | Typescript | Stripe | Hygraph  | GraphQL | Urql | Codegen | Tailwindcss | Framer Motion | Next Auth
 
 ## ToDo Process
-- [x] Create Responsive Layout
-- [x] Search bar (search shoes)
-- [x] Search bar filter (lower prices, higher prices, new)
-- [x] Get products from Hygraph
-- [x] Pagination 
+- [x] Create a responsive layout
+- [x] Implement a search bar to search for shoes
+- [x] Add search bar filters (e.g. lower prices, higher prices, new items)
+- [x] Retrieve products from Hygraph
+- [x] Create a "product" page (details, buy button, add to cart)
 - [x] "Product" page (product details, buy button, add to cart)
-- [x] Show similar products (shoes)
-- [x] Shopping Cart
-- [x] Setup Next Auth
+- [x] Display similar products (shoes)
+- [x] Provide a shopping cart
+- [x] Set up Next Auth
 - [x] Login with google
-- [x] Setup Stripe
-- [x] Validate products checkout
-- [x] Finish stripe checkout 
-- [x] Setup Stripe Webhooks
-- [x] Save customer orders (Hygraph)
-- [x] Create Profile Page (Orders...)
-- [x] Customer Orders pagination
+- [x] Set up Stripe integration
+- [x] Validate products during checkout
+- [x] Complete Stripe checkout process
+- [x] Configure Stripe Webhooks
+- [x] Save customer orders to Hygraph
+- [x] Create a profile page (orders, etc.)
+- [x] Add pagination to customer orders
+
 # Layout Images
 ### Home Page
 ![Home page](https://github.com/ViniSCode/dopeshoe/blob/main/public/assets/home.png?raw=true)
