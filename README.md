@@ -1,6 +1,7 @@
 
+
 # DopeShoe | Shoes E-commerce
-![DopeShoe Preview](https://github.com/ViniSCode/dopeshoe/blob/main/public/assets/dopeshoe-preview.png?raw=true)
+![DopeShoe Preview](https://github.com/ViniSCode/dopeshoe/blob/main/public/assets/app_cover.png?raw=true)
 ### [DopeShoe Live Preview](https://dopeshoe.vercel.app/)
 ### Created using NextJS, Typescript, Stripe, Hygraph, Tailwindcss, GraphQL (URQL), Codegen.
 
@@ -38,7 +39,6 @@
 - [x] Save customer orders (Hygraph)
 - [x] Create Profile Page (Orders...)
 - [x] Customer Orders pagination
-
 # Layout Images
 ### Home Page
 ![Home page](https://github.com/ViniSCode/dopeshoe/blob/main/public/assets/home.png?raw=true)
