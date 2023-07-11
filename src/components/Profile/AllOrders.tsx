@@ -2,22 +2,25 @@ import Image from "next/image";
 
 interface OrderProps {
   order: {
-    __typename?: 'Order', 
-    orderId: string, 
-    amount: number, 
-    price: number, 
-    createdAt: any, 
+    __typename?: "Order";
+    orderId: string;
+    amount: number;
+    price: number;
+    createdAt: any;
     isMoreThanOneProduct?: boolean | null | any;
-    product?: { 
-      __typename?: 'Product', 
-      id: string, 
-      name: string, 
-      brand?: { 
-        __typename?: 'Brand', 
-        brandName: string 
-      } | null, 
-      image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string } }> 
-    } | null 
+    product?: {
+      __typename?: "Product";
+      id: string;
+      name: string;
+      brand?: {
+        __typename?: "Brand";
+        brandName: string;
+      } | null;
+      image: Array<{
+        __typename?: "Image";
+        mainImage: { __typename?: "Asset"; url: string };
+      }>;
+    } | null;
   };
 }
 
@@ -34,14 +37,22 @@ export function AllOrders({ order }: OrderProps) {
             alt="product image"
             layout="fill"
             objectFit={"contain"}
+            loading="lazy"
+            quality={2}
           />
         </div>
       </div>
       <div className="overflow-hidden">
         <div className="overflow-hidden max-w-[100%] md:max-w-[100%] lg:max-w-full">
           <p className="text-[18px] w-full truncate max-w-full font-medium">
-            <span>{`${order.isMoreThanOneProduct ? '' : `${order.amount}x`}`} </span>
-            <span>{order.isMoreThanOneProduct ? `${order.product?.name} + ${order.amount - 1} products` : order.product!.brand!.brandName}</span>
+            <span>
+              {`${order.isMoreThanOneProduct ? "" : `${order.amount}x`}`}{" "}
+            </span>
+            <span>
+              {order.isMoreThanOneProduct
+                ? `${order.product?.name} + ${order.amount - 1} products`
+                : order.product!.brand!.brandName}
+            </span>
             {!order.isMoreThanOneProduct && <span>{order.product!.name}</span>}
           </p>
         </div>

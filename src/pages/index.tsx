@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import type { GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import { CardProduct } from "../components/CardProduct";
 import { Header } from "../components/Header";
@@ -11,7 +12,7 @@ import { TopContentText } from "../components/TopContentText/index";
 import {
   GetAllProductsDocument,
   ProductOrderByInput,
-  useGetAllProductsQuery
+  useGetAllProductsQuery,
 } from "../generated/graphql";
 import { client, ssrCache } from "../lib/urql";
 
@@ -47,65 +48,76 @@ const Home: NextPage = () => {
       limit: productsPerPage,
       offset: offset,
       search: search,
-      orderBy: orderBy
+      orderBy: orderBy,
     },
   });
 
   useEffect(() => {
     let timer = setTimeout(() => {
       if (search) {
-        setOffset(0)
-        setPage(1)
+        setOffset(0);
+        setPage(1);
         setSearch(search);
       }
-    }, 800)
+    }, 800);
 
     return () => clearTimeout(timer);
-  }, [search])
+  }, [search]);
 
   return (
     <div>
+      <Head>
+        <title>DopeShoe | Shoes E-commerce</title>
+        <meta
+          name="description"
+          content="Nike, New Balance, Adidas, DopeShoe shoe store with incredible prices. Visit us now and enjoy!"
+        />
+      </Head>
       <Header />
       <Sidebar />
-      <motion.main className="mb-16 px-4 max-w-[1120px] mx-auto mt-[8rem] min-h-[100vh]">
+      <motion.main className="mb-28 px-4 max-w-[1120px] mx-auto mt-[8rem] min-h-[100vh]">
         <div>
           <TopContentText />
-          <SearchBar search={search} setSearch={setSearch} setPage={setPage}/>
+          <SearchBar search={search} setSearch={setSearch} setPage={setPage} />
         </div>
-        <SearchFilter setOrderBy={setOrderBy} setFilterSelected={setFilterSelected} filterSelected={filterSelected} setPage={setPage}/>
-    
-        {
-          data && (
-            data!.product.aggregate.count < 1 ? (
-              <span className="text-2xl text-center mt-40 block text-gray-500">Nenhum produto encontrado</span>
-            ) : (
-              <motion.div
-                variants={container}
-                initial="hidden"
-                animate="visible"
-                className="select-none mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 flex-wrap max-w-[400px] md:max-w-full mx-auto"
-              >
-                {data?.product.edges.map((product) => {
-                  return (
-                    <motion.div key={product.node.id} variants={item}>
-                      <CardProduct
-                        id={product.node.id}
-                        name={product.node.name}
-                        price={product.node.price}
-                        discount={product.node.discount}
-                        image={product.node.image}
-                        brand={product.node.brand}
-                      />
-                    </motion.div>
-                  );
-                })}
-              </motion.div>
-            )
-          )
-        }
+        <SearchFilter
+          setOrderBy={setOrderBy}
+          setFilterSelected={setFilterSelected}
+          filterSelected={filterSelected}
+          setPage={setPage}
+        />
+
+        {data &&
+          (data!.product.aggregate.count < 1 ? (
+            <span className="text-2xl text-center mt-40 block text-gray-500">
+              Nenhum produto encontrado
+            </span>
+          ) : (
+            <motion.div
+              variants={container}
+              initial="hidden"
+              animate="visible"
+              className="select-none mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 flex-wrap max-w-[400px] md:max-w-full mx-auto"
+            >
+              {data?.product.edges.map((product) => {
+                return (
+                  <motion.div key={product.node.id} variants={item}>
+                    <CardProduct
+                      id={product.node.id}
+                      name={product.node.name}
+                      price={product.node.price}
+                      discount={product.node.discount}
+                      image={product.node.image}
+                      brand={product.node.brand}
+                    />
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          ))}
       </motion.main>
 
-      <IndexPageFooter 
+      <IndexPageFooter
         data={data}
         offset={offset}
         page={page}

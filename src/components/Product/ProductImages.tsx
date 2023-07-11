@@ -30,8 +30,9 @@ export function ProductImages({
                   src={displayImage}
                   alt="product image"
                   layout="fill"
+                  quality={30}
                   objectFit={"contain"}
-                  className="pointer-events-none"
+                  className="pointer-events-none w-full h-full"
                   priority
                 />
               </motion.div>
@@ -53,6 +54,8 @@ export function ProductImages({
                       src={image.url}
                       alt="product image"
                       layout="fill"
+                      loading="lazy"
+                      quality={5}
                       objectFit={"contain"}
                       className="pointer-events-none"
                     />

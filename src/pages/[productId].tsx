@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { Header } from "../components/Header";
 import { ProductActions } from "../components/Product/ProductActions";
@@ -10,7 +11,6 @@ import { Sidebar } from "../components/Sidebar";
 import { ShowSimilarProducts } from "../components/SimilarProduct/ShowSimilarProducts";
 import { GetProductDocument, useGetProductQuery } from "../generated/graphql";
 import { client, ssrCache } from "../lib/urql";
-
 export default function Product() {
   const router = useRouter();
   const productId: any = router.query.productId;
@@ -23,10 +23,30 @@ export default function Product() {
 
   return (
     <>
+      <Head>
+        {data ? (
+          <>
+            <title>
+              DopeShoe |{" "}
+              {data.product.edges[0].node.brand?.brandName +
+                data.product.edges[0].node.name}
+            </title>
+            <meta
+              name="description"
+              content={`${data.product.edges[0].node.description}`}
+            />
+          </>
+        ) : (
+          <>
+            <meta name="description" content="Buy Product" />
+            <title>DopeShoe | Product Description</title>
+          </>
+        )}
+      </Head>
       <Header />
       <Sidebar />
       {data && (
-        <motion.main className="mb-16 px-4 md:px-10 max-w-[1120px] mx-auto mt-[8rem] min-h-[100vh] lg:min-h-[90vh]">
+        <motion.main className="mb-28 px-4 md:px-10 max-w-[1120px] mx-auto mt-[8rem] min-h-[100vh] lg:min-h-[90vh]">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -53,7 +73,7 @@ export default function Product() {
           </motion.div>
         </motion.main>
       )}
-      
+
       <ProductFooter />
     </>
   );

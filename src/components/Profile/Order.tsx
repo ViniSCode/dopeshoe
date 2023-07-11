@@ -2,22 +2,25 @@ import Image from "next/image";
 
 interface OrderProps {
   order: {
-    __typename?: 'Order', 
-    orderId: string, 
-    amount: number, 
-    price: number, 
-    createdAt: any, 
+    __typename?: "Order";
+    orderId: string;
+    amount: number;
+    price: number;
+    createdAt: any;
     isMoreThanOneProduct?: boolean | null | any;
-    product?: { 
-      __typename?: 'Product', 
-      id: string, 
-      name: string, 
-      brand?: { 
-        __typename?: 'Brand', 
-        brandName: string 
-      } | null, 
-      image: Array<{ __typename?: 'Image', mainImage: { __typename?: 'Asset', url: string } }> 
-    } | null 
+    product?: {
+      __typename?: "Product";
+      id: string;
+      name: string;
+      brand?: {
+        __typename?: "Brand";
+        brandName: string;
+      } | null;
+      image: Array<{
+        __typename?: "Image";
+        mainImage: { __typename?: "Asset"; url: string };
+      }>;
+    } | null;
   };
 }
 
@@ -31,6 +34,8 @@ export function Order({ order }: OrderProps) {
             src={order!.product!.image[0].mainImage.url}
             alt="product image"
             layout="fill"
+            loading="lazy"
+            quality={2}
             objectFit={"contain"}
           />
         </div>
@@ -38,8 +43,14 @@ export function Order({ order }: OrderProps) {
       <div className="overflow-hidden">
         <div className="overflow-hidden max-w-[130px] md:max-w-[200px] lg:max-w-full">
           <p className="text-[18px] w-full truncate max-w-full">
-            <span className="font-bold">{`${order.isMoreThanOneProduct ? '' : `${order.amount}x`}`} </span>
-            <span>{order.isMoreThanOneProduct ? `${order.product?.name} + ${order.amount - 1} products` : order.product!.brand!.brandName}</span>
+            <span className="font-bold">
+              {`${order.isMoreThanOneProduct ? "" : `${order.amount}x`}`}{" "}
+            </span>
+            <span>
+              {order.isMoreThanOneProduct
+                ? `${order.product?.name} + ${order.amount - 1} products`
+                : order.product!.brand!.brandName}
+            </span>
             {!order.isMoreThanOneProduct && <span>{order.product!.name}</span>}
           </p>
         </div>

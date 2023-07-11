@@ -25,6 +25,7 @@ export function CartProducts({
             src={item.image[0].mainImage.url}
             alt="product image"
             layout="fill"
+            quality={2}
             objectFit={"contain"}
             priority={
               item.image[0].mainImage.url ===
@@ -56,18 +57,19 @@ export function CartProducts({
             <div className="flex gap-1">
               <button
                 disabled={item.amount === 1}
-                className="bg-gray-900 rounded-md flex items-center justify-center w-[30px] h-[25px] disabled:opacity-80"
+                className="indent-[-9999em] uppercase bg-gray-900 rounded-md flex items-center justify-center w-[30px] h-[25px] disabled:opacity-80"
                 onClick={() => {
                   if (item.amount > 1) {
                     handleUpdateAmount(item, item.amount - 1, "decrease");
                   }
                 }}
               >
+                Decrease
                 <HiMinusSm size={18} />
               </button>
               <button
                 disabled={item.available === item.amount}
-                className="bg-gray-900 rounded-lg flex items-center justify-center w-[30px] disabled:opacity-80"
+                className="indent-[-9999em] uppercase bg-gray-900 rounded-lg flex items-center justify-center w-[30px] disabled:opacity-80"
                 onClick={() => {
                   if (item.available > item.amount) {
                     handleUpdateAmount(item, item.amount + 1, "increase");
@@ -75,6 +77,7 @@ export function CartProducts({
                 }}
               >
                 <HiOutlinePlusSm size={18} />
+                Increase
               </button>
             </div>
           </div>

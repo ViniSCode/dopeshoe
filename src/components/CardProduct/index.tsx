@@ -42,15 +42,11 @@ export function CardProduct({
             <Image
               src={image[0].mainImage.url}
               alt="product image"
-              layout="fill"
+              width={200}
+              height={200}
               objectFit={"contain"}
-              priority={
-                image[0].mainImage.url ===
-                  "https://media.graphassets.com/i5RtvtrhRseDy345Wr8V" ||
-                image[0].mainImage.url ===
-                  "https://media.graphassets.com/FyRdhk3vSruYu7UlYwn6" ||
-                image[0].mainImage.url === "https://media.graphassets.com/tM049MKQWCpD3f03mEs0"
-              }
+              priority
+              quality={30}
             />
           </div>
           <div>

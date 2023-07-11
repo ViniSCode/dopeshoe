@@ -1,6 +1,7 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { motion } from "framer-motion";
 import { getSession, signIn } from "next-auth/react";
+import Head from "next/head";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { CartCheckout } from "../components/CartPage/CartCheckout";
@@ -36,11 +37,9 @@ export default function Cart() {
     const session = await getSession();
 
     if (cart.length < 1) {
-      toast.info(
-        "O carrinho está vazio"
-      );
+      toast.info("O carrinho está vazio");
       setLoading(false);
-      return
+      return;
     }
 
     if (!session) {
@@ -79,7 +78,6 @@ export default function Cart() {
         }),
       }).then((res) => res.json());
 
-      
       //REDIRECT TO CHECKOUT
       const stripe = await stripePromise;
       const { error } = await stripe!.redirectToCheckout({ sessionId });
@@ -97,12 +95,24 @@ export default function Cart() {
   return (
     <>
       <div className="md:container-div">
+        <Head>
+          <title>DopeShoe | Shopping Cart</title>
+          <meta name="description" content="Shoppping Cart" />
+        </Head>
         <Header />
         <Sidebar />
         <div className="lg:main-container-div max-w-[1120px] lg:px-7 mx-auto min-h-[78vh]">
           <motion.main className="px-4 w-full mx-auto mt-[8rem] md:grid md:grid-cols-cart md:gap-10 md:items-start lg:mt-16">
-            <CartItems cart={cart} handleRemoveProduct={handleRemoveProduct} handleUpdateAmount={handleUpdateAmount}/>
-            <CartCheckout cartSum={cartSum} handleCartCheckout={handleCartCheckout} loading={loading}/>
+            <CartItems
+              cart={cart}
+              handleRemoveProduct={handleRemoveProduct}
+              handleUpdateAmount={handleUpdateAmount}
+            />
+            <CartCheckout
+              cartSum={cartSum}
+              handleCartCheckout={handleCartCheckout}
+              loading={loading}
+            />
           </motion.main>
         </div>
       </div>

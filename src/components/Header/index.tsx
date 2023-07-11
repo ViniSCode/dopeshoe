@@ -28,7 +28,9 @@ export function Header() {
               <Link href="/">All</Link>
             </li>
             <li className="hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer">
-              <Link href="https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/">Contact</Link>
+              <Link href="https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/">
+                Contact
+              </Link>
             </li>
             {session?.user?.image ? (
               <li className="hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer">
@@ -38,6 +40,8 @@ export function Header() {
                       <img
                         src={session.user!.image!}
                         className="rounded-full h-8 w-8"
+                        alt={session.user!.name!}
+                        referrerPolicy="no-referrer"
                       />
                     ) : (
                       session.user?.name

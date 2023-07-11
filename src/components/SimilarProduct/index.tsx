@@ -33,7 +33,9 @@ export function SimilarProduct({
             src={image}
             alt="product image"
             layout="fill"
+            loading="lazy"
             objectFit={"contain"}
+            quality={5}
           />
         </div>
         <div>

@@ -12,21 +12,21 @@ import "../styles/globals.css";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   const [isPageLoading, setIsPageLoading] = useState(false);
-   
+
   useEffect(() => {
     router.events.on("routeChangeStart", (url) => {
       setIsPageLoading(true);
-    })
-     
+    });
+
     router.events.on("routeChangeComplete", (url) => {
       setIsPageLoading(false);
-    })  
+    });
   }, []);
-  
+
   if (pageProps.urqlState) {
     ssrCache.restoreData(pageProps.urqlState);
   }
-  
+
   return (
     <SessionProvider session={pageProps.session}>
       {isPageLoading && <Loading />}

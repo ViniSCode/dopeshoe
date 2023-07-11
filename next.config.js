@@ -2,13 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  pageExtensions: ['tsx', 'ts'],
-}
+  pageExtensions: ["tsx", "ts"],
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
 
 module.exports = {
   images: {
-    domains: ['media.graphassets.com'],
+    domains: ["media.graphassets.com", "lh3.googleusercontent.com"],
   },
-}
+};
