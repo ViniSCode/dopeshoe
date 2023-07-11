@@ -95,7 +95,7 @@ export function CartItems({
                     <div>
                       <div className="flex gap-1">
                         <button
-                          className="bg-gray-900 rounded-md flex items-center justify-center w-[30px] h-[25px]"
+                          className="indent-[-9999em] uppercase bg-gray-900 rounded-md flex items-center justify-center w-[30px] h-[25px]"
                           onClick={() => {
                             if (item.amount > 1) {
                               handleUpdateAmount(
@@ -111,11 +111,12 @@ export function CartItems({
                             }
                           }}
                         >
+                          Decrease
                           <HiMinusSm size={18} />
                         </button>
                         <button
                           disabled={item.available === item.amount}
-                          className="bg-gray-900 rounded-lg flex items-center justify-center w-[30px] disabled:opacity-80"
+                          className="indent-[-9999em] uppercase bg-gray-900 rounded-lg flex items-center justify-center w-[30px] disabled:opacity-80"
                           onClick={() => {
                             if (item.available > item.amount) {
                               handleUpdateAmount(
@@ -126,6 +127,7 @@ export function CartItems({
                             }
                           }}
                         >
+                          Increase
                           <HiOutlinePlusSm size={18} />
                         </button>
                       </div>

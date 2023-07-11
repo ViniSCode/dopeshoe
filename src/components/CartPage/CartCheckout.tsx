@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 
 interface CartCheckoutProps {
-  cartSum: any,
-  loading: any,
-  handleCartCheckout: any
+  cartSum: any;
+  loading: any;
+  handleCartCheckout: any;
 }
 
 const container = {
@@ -18,7 +18,11 @@ const container = {
   },
 };
 
-export function CartCheckout ({cartSum, loading, handleCartCheckout}: CartCheckoutProps) {
+export function CartCheckout({
+  cartSum,
+  loading,
+  handleCartCheckout,
+}: CartCheckoutProps) {
   return (
     <>
       <div>
@@ -57,5 +61,5 @@ export function CartCheckout ({cartSum, loading, handleCartCheckout}: CartChecko
         </button>
       </div>
     </>
-  )
+  );
 }

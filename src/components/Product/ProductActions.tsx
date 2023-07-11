@@ -62,9 +62,9 @@ export function ProductActions({ product }: ProductActionProps) {
       const { error } = await stripe!.redirectToCheckout({ sessionId });
       console.log(error);
       setLoading(false);
-    } catch (err: any){
+    } catch (err: any) {
       toast.error("Checkout error");
-      console.log('catch: ', err.message)
+      console.log("catch: ", err.message);
       setLoading(false);
     }
   };
@@ -77,7 +77,7 @@ export function ProductActions({ product }: ProductActionProps) {
         </h2>
         <div className="flex gap-1">
           <p className="text-gray-200 font-bold">
-            {product.available ? product.available : 0} Disponíveis
+            {product.available ? product.available : 0} Available
           </p>
         </div>
 
@@ -96,13 +96,14 @@ export function ProductActions({ product }: ProductActionProps) {
         <div className="mt-5 flex gap-1">
           <button
             disabled={addProductInCartCount === 1}
-            className="bg-gray-900 rounded-lg flex items-center justify-center w-[40px] h-[35px] disabled:opacity-80"
+            className="indent-[-9999em] uppercase bg-gray-900 rounded-lg flex items-center justify-center w-[40px] h-[35px] disabled:opacity-80"
             onClick={() => {
               if (addProductInCartCount > 1) {
                 setAddProductInCartCount(addProductInCartCount - 1);
               }
             }}
           >
+            Decrease
             <HiMinusSm size={20} />
           </button>
           <div className="bg-gray-900 rounded-lg flex items-center justify-center w-[40px]">
@@ -110,13 +111,14 @@ export function ProductActions({ product }: ProductActionProps) {
           </div>
           <button
             disabled={product.available === addProductInCartCount}
-            className="bg-gray-900 rounded-lg flex items-center justify-center w-[40px] disabled:opacity-80"
+            className="indent-[-9999em] uppercase bg-gray-900 rounded-lg flex items-center justify-center w-[40px] disabled:opacity-80"
             onClick={() => {
               if (product.available > addProductInCartCount) {
                 setAddProductInCartCount(addProductInCartCount + 1);
               }
             }}
           >
+            Increase
             <HiOutlinePlusSm size={20} />
           </button>
         </div>
@@ -135,9 +137,10 @@ export function ProductActions({ product }: ProductActionProps) {
             </section>
           </form>
           <button
-            className="bg-yellow-500 w-full rounded py-2 px-4 transition-filter flex items-center justify-center hover:brightness-75"
+            className="indent-[-9999em] uppercase bg-yellow-500 w-full rounded py-2 px-4 transition-filter flex items-center justify-center hover:brightness-75"
             onClick={() => handleAddProduct(product, addProductInCartCount)}
           >
+            Adicionar ao carrinho
             <FiShoppingCart size={25} />
           </button>
         </div>
