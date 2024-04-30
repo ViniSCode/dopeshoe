@@ -86,7 +86,7 @@ export function ProfileContent({ session, data }: ProfileContentProps) {
         className="select-none w-full relative z-[20]"
       >
         <div className="flex flex-col items-center gap-4">
-          {session.user.image && (
+          {session.user && session.user.image && (
             <img
               src={session.user.image}
               className="mt-[2rem] rounded-full h-36 w-36"
