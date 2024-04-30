@@ -71,3 +71,4 @@ Please note that these are test card details and should only be used for testing
 ![Mobile Home Page](https://github.com/ViniSCode/dopeshoe/blob/main/public/assets/mobile_profile.png?raw=true)
 
 
+# devblog-redesign

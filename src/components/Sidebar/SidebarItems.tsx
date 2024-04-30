@@ -5,7 +5,6 @@ import Link from "next/link";
 interface SidebarItemsProps {
   name: string;
   href: string | {};
-  icon: any;
   isLoggedIn?: any;
 }
 
@@ -14,12 +13,7 @@ const itemVariants = {
   open: { opacity: 1 },
 };
 
-export function SidebarItems({
-  name,
-  href,
-  icon,
-  isLoggedIn,
-}: SidebarItemsProps) {
+export function SidebarItems({ name, href, isLoggedIn }: SidebarItemsProps) {
   function handleLogin() {
     signIn("google");
   }
@@ -44,12 +38,11 @@ export function SidebarItems({
             handleLogout();
           }
         }}
-        className="ml-10 flex items-center gap-4 cursor-pointer transition-colors hover:text-yellow-500"
-        whileHover={{ scale: 1.1 }}
+        className="text-black ml-10 flex items-center gap-4 cursor-pointer transition-colors text-lg hover:underline"
         variants={itemVariants}
         transition={{ duration: 0.2 }}
       >
-        {icon}
+        {/* {icon} */}
         <span>{name}</span>
       </motion.div>
     </Link>

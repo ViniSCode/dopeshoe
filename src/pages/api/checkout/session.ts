@@ -2,9 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { gql } from "urql";
 import { client } from "../../../lib/urql";
-import {
-  GetProductDocument
-} from "./../../../generated/graphql";
+import { GetProductDocument } from "./../../../generated/graphql";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-08-01",
@@ -16,19 +14,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { session } = req.body;
   const { productName } = req.body;
   const email = session.user.email;
-  
+
   let customerId = null;
-  
+
   try {
     // get customer if already exists
-    const {data: { customers }} = await client.query(gql`
-    query UserAlreadyExists($email: String!) {
-      customers(where: {email: $email}) {
-        id
-        stripeId
-      }
-    }`, {email: session.user.email}).toPromise();
-  
+    const {
+      data: { customers },
+    } = await client
+      .query(
+        gql`
+          query UserAlreadyExists($email: String!) {
+            customers(where: { email: $email }) {
+              id
+              stripeId
+            }
+          }
+        `,
+        { email: session.user.email }
+      )
+      .toPromise();
+
     if (customers[0]?.stripeId) {
       // if customer already exists
       customerId = customers[0]?.stripeId;
@@ -37,19 +43,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const stripeCustomer = await stripe.customers.create({
         name: session.user.name,
         email: session.user.email,
-      })
- 
+      });
+
       await updateCustomer(email, stripeCustomer.id);
       customerId = stripeCustomer.id;
     }
-
   } catch (err: any) {
-    console.log(err)
+    console.log(err);
   }
 
   if (req.method === "POST") {
     // PRODUCTID COMES FROM REQUEST BODY (FETCH)
-    const { data } = await client.query(GetProductDocument, { id: productId }).toPromise();
+    const { data } = await client
+      .query(GetProductDocument, { id: productId })
+      .toPromise();
     const product = data.product.edges[0].node;
 
     // CHECK AGAIN IF PRODUCT AMOUNT IS AVAILABLE
@@ -71,7 +78,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       line_items: [
         {
           price_data: {
-            currency: "BRL",
+            currency: "USD",
             product_data: {
               metadata: {
                 productId: productId,
@@ -113,7 +120,7 @@ export async function updateCustomer(email: string, stripeId: string) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.API_ACCESS_TOKEN}`,
+        Authorization: `Bearer ${process.env.API_ACCESS_TOKEN}`,
       },
       body: JSON.stringify({
         query: `

@@ -1,8 +1,6 @@
-import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
-import { HiMinusSm, HiOutlinePlusSm } from "react-icons/hi";
 import { toast } from "react-toastify";
+import { SelectQuantity } from "../Radix/SelectQuantity";
 
 interface CartItemsProps {
   cart: any;
@@ -10,134 +8,94 @@ interface CartItemsProps {
   handleRemoveProduct: any;
 }
 
-const container = {
-  hidden: { opacity: 1, scale: 0 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      delayChildren: 0.2,
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const item = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-  },
-};
-
 export function CartItems({
   cart,
   handleUpdateAmount,
   handleRemoveProduct,
 }: CartItemsProps) {
   return (
-    <motion.div
-      variants={container}
-      initial="hidden"
-      animate="visible"
-      className="select-none mt-16 grid grid-cols-1 w-full h-full bg-gray-700 px-4 py-4 rounded-lg shadow-lg md:mt-0"
-    >
-      <h2 className="text-[18px]">{cart.length} Items</h2>
-      <div className="w-full h-[1px] bg-gray-200 mt-2 mb-4"></div>
+    <div className="select-none grid grid-cols-1 w-full h-full gap-2">
       {cart.length > 0 &&
         cart.map((item: any) => {
           return (
             <div
-              className="cursor-pointer relative p-2 border-lg w-full h-[80px] mx-auto rounded-lg flex items-center justify-between"
+              className="cursor-pointer relative border-lg w-full h-fit mx-auto flex items-center justify-between border-b pb-2 border-[#c8c8c9]"
               key={item.id}
             >
-              <div className="h-full w-full flex items-center gap-2">
-                <div className="bg-gray-900 h-full w-full min-w-[70px] max-w-[70px] rounded-lg p-1">
-                  <div className="relative h-full w-full inset-0">
-                    <Image
-                      src={item.image[0].mainImage.url}
-                      alt="product image"
-                      quality={2}
-                      layout="fill"
-                      objectFit={"contain"}
-                      priority={
-                        item.image[0].mainImage.url ===
-                        "https://media.graphassets.com/i5RtvtrhRseDy345Wr8V"
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="overflow-hidden flex flex-col gap-1 h-full w-full">
+              <div className="h-full w-full flex items-start gap-2">
+                <div className="h-full w-full min-w-[70px] max-w-[100px]">
                   <Link href={`/${item.id}`}>
-                    <div className="flex items-center gap-4">
-                      <div className="overflow-hidden max-w-[200px] flex items-center gap-4">
-                        <p className="text-[15px] w-full truncate max-w-full">
-                          <span className="mr-1 font-bold">{item.amount}x</span>
-                          <span className="text-red-600 mr-1 font-bold">
-                            {item.brand?.brandName}
-                          </span>
-                          {item.name}
+                    <div className="relative h-full w-full inset-0 hover:brightness-90 transition-filter">
+                      <img
+                        src={item.image[0].mainImage.url}
+                        alt="product image"
+                        className=" w-full h-auto rounded-sm"
+                      />
+                    </div>
+                  </Link>
+                </div>
+                <div className="overflow-hidden flex flex-col gap-1 w-full">
+                  <div className="flex items-start gap-2">
+                    <div className="overflow-hidden flex items-start gap-4">
+                      <div className="text-base">
+                        <p className="block font-medium">
+                          {item.brand?.brandName}
                         </p>
-                      </div>
-                      <div className="flex items-center gap-1 ml-auto">
-                        <span className="flex items-center gap-1">
+                        <p className="block font-medium">{item.name}</p>
+                        <div className="flex gap-2 ml-auto xsm:hidden">
+                          <span className="flex items-center gap-1">
+                            <p className="text-base md:text-1xl font-medium">
+                              $
+                            </p>
+                          </span>
                           <p className="text-[16px] md:text-1xl font-medium">
-                            R$
+                            {(item.price / 100).toFixed(2)}
                           </p>
+                          <span className="font-medium text-green-500">
+                            {item.discount}% off
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1 font-medium">
+                          <p className="mr-1 text-[#707072]">Quantity</p>
+                          <SelectQuantity
+                            handleUpdateAmount={handleUpdateAmount}
+                            defaultQuantity={item.amount}
+                            item={item}
+                          />
+                        </div>
+                        <div
+                          className="flex items-center gap-2 text-[#707072] hover:brightness-75 transition-filter"
+                          onClick={() => {
+                            toast.success("Produto Removido do carrinho");
+                            handleRemoveProduct(item);
+                          }}
+                        >
+                          <span className="mt-2 font-medium text-base hover:underline">
+                            Remove Product
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="hidden ml-auto xsm:flex flex-col items-end">
+                      <div className="flex items-center gap-1">
+                        <span className="flex items-center gap-1">
+                          <p className="text-base md:text-1xl font-medium">$</p>
                         </span>
                         <p className="text-[16px] md:text-1xl font-medium">
                           {(item.price / 100).toFixed(2)}
                         </p>
                       </div>
-                    </div>
-                  </Link>
-                  <div className=" flex items-start justify-start gap-2">
-                    <div>
-                      <div className="flex gap-1">
-                        <button
-                          className="indent-[-9999em] uppercase bg-gray-900 rounded-md flex items-center justify-center w-[30px] h-[25px]"
-                          onClick={() => {
-                            if (item.amount > 1) {
-                              handleUpdateAmount(
-                                item,
-                                item.amount - 1,
-                                "decrease"
-                              );
-                            }
-                            // remove item from shopping cart
-                            if (item.amount === 1) {
-                              toast.success("Produto Removido do carrinho");
-                              handleRemoveProduct(item);
-                            }
-                          }}
-                        >
-                          Decrease
-                          <HiMinusSm size={18} />
-                        </button>
-                        <button
-                          disabled={item.available === item.amount}
-                          className="indent-[-9999em] uppercase bg-gray-900 rounded-lg flex items-center justify-center w-[30px] disabled:opacity-80"
-                          onClick={() => {
-                            if (item.available > item.amount) {
-                              handleUpdateAmount(
-                                item,
-                                item.amount + 1,
-                                "increase"
-                              );
-                            }
-                          }}
-                        >
-                          Increase
-                          <HiOutlinePlusSm size={18} />
-                        </button>
-                      </div>
+                      <span className="font-medium text-green-500">
+                        {item.discount}% off
+                      </span>
                     </div>
                   </div>
+                  <div className=" flex items-start justify-start gap-2"></div>
                 </div>
               </div>
             </div>
           );
         })}
-    </motion.div>
+    </div>
   );
 }

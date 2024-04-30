@@ -4,7 +4,6 @@ import { BiPurchaseTagAlt } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { GetCustomerOrdersByEmailQuery } from "../../generated/graphql";
 import { AllOrders } from "./AllOrders";
-import { ProfileSidebar } from "./ProfileSidebar";
 
 const container = {
   hidden: { opacity: 1, scale: 0 },
@@ -84,49 +83,23 @@ export function ProfileContent({ session, data }: ProfileContentProps) {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="hidden lg:select-none lg:flex lg:flex-col lg:gap-20"
+        className="select-none w-full relative z-[20]"
       >
-        {menuItems.map((item) => (
-          <ProfileSidebar
-            key={item.name}
-            href={item.href}
-            name={item.name}
-            icon={item.icon}
-          />
-        ))}
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="select-none w-[290px] mx-auto md:w-[680px]"
-      >
-        <div className="flex flex-col items-center gap-4 lg:flex-row">
+        <div className="flex flex-col items-center gap-4">
           {session.user.image && (
             <img
               src={session.user.image}
-              className="rounded-full h-40 w-40"
+              className="mt-[2rem] rounded-full h-36 w-36"
               referrerPolicy="no-referrer"
               alt={session.user.name}
             />
           )}
-          <strong className="text-2xl">{session.user.name}</strong>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="select-none w-full mx-auto mt-8 flex items-center justify-between lg:flex-col gap-4 md:gap-16 lg:gap-20 lg:hidden"
-          >
-            {menuItemsMobile.map((item) => (
-              <ProfileSidebar
-                key={item.name}
-                href={item.href}
-                name={item.name}
-                icon={item.icon}
-              />
-            ))}
-          </motion.div>
+          <strong className="mt-3 text-2xl font-medium">
+            {session.user.name}
+          </strong>
         </div>
         <div className="mt-10">
-          <strong className="text-lg">Last Orders:</strong>
+          <strong className="text-xl font-medium">Last Orders:</strong>
           <div className="mt-10 flex flex-col items-center justify-center gap-6">
             {data?.orders && (
               <div className="w-full flex flex-col align-center justify-center gap-4">

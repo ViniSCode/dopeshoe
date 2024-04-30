@@ -1,84 +1,85 @@
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-import { FiShoppingCart } from "react-icons/fi";
+import { FiShoppingBag, FiUser } from "react-icons/fi";
 import { useCart } from "../../hooks/useCart";
-import { Cart } from "../Cart";
+import { SearchBar } from "../SearchBar";
+import { Sidebar } from "../Sidebar";
 import { Logo } from "./Logo";
 
-export function Header() {
-  const {
-    handleSetIsCartOpen,
-    isCartOpen,
-    cart,
-    handleRemoveProduct,
-    handleUpdateAmount,
-  } = useCart();
+export function Header({ search, setSearch }: any) {
+  const { handleSetIsCartOpen, isCartOpen, cart } = useCart();
   const { data: session } = useSession();
 
   return (
-    <header>
-      <nav className="select-none max-w-[1120px] mx-auto fixed inset-0 z-50 px-9 lg:px-10 w-full h-[5rem] bg-gray-800 shadow-lg lg:bg-transparent lg:shadow-none lg:relative">
-        <div className="text-center pt-4 flex justify-between items-center w-full mx-auto relative ">
-          <span className="lg:hidden"></span>
-          <span>
+    <div className="py-5 fixed w-full h-fit z-[100] bg-white top-0 shadow-sm">
+      <header className="px-5 max-w-full md:max-w-full lg:max-w-[1120px] mx-auto relative select-none">
+        <div className="flex-row gap-4 flex justify-between items-center w-full">
+          <div className="flex items-center gap-8 w-fit">
             <Logo />
-          </span>
-          <ul className="flex gap-8 items-center">
-            <li className="hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer">
-              <Link href="/">All</Link>
-            </li>
-            <li className="hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer">
-              <Link href="https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/">
-                Contact
-              </Link>
-            </li>
-            {session?.user?.image ? (
-              <li className="hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer">
-                <Link href="/profile">
-                  <div className="rounded-full p-[3px] relative bg-gradient-to-r from-red-500 via-yellow-500 to-green-500">
-                    {session.user?.image ? (
-                      <img
-                        src={session.user!.image!}
-                        className="rounded-full h-8 w-8"
-                        alt={session.user!.name!}
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : (
-                      session.user?.name
-                    )}
-                  </div>
+            <div className="">
+              <SearchBar />
+            </div>
+          </div>
+
+          <nav className="hidden md:block">
+            <ul className="flex gap-8 font-medium">
+              <li className="hover:underline hover:opacity-70 transition-opacity">
+                <Link href="/">Home</Link>
+              </li>
+              <li className="hover:underline hover:opacity-70 transition-opacity">
+                <Link href="/all">All Shoes</Link>
+              </li>
+              <li className="hover:underline hover:opacity-70 transition-opacity">
+                <Link
+                  href="https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/"
+                  target="_blank"
+                >
+                  Contact
                 </Link>
               </li>
-            ) : (
-              <li
-                onClick={() => signIn("google")}
-                className="hidden lg:block transition-colors hover:text-yellow-500 cursor-pointer"
-              >
-                <button>Login</button>
-              </li>
-            )}
-            <li
-              className="cursor-pointer transition-colors hover:text-yellow-500 relative"
-              onClick={() => handleSetIsCartOpen(true)}
-            >
-              {cart.length > 0 && (
-                <div className="rounded-full absolute bg-yellow-500 w-full right-[-14px] text-[14px] top-[-14px] text-gray-900 font-bold">
-                  {cart.length}
+            </ul>
+          </nav>
+
+          <div className="relative">
+            <div className="flex gap-6 items-center">
+              <div className="relative hover:opacity-70 transition-opacity cursor-pointer">
+                <Link href="/cart">
+                  <FiShoppingBag size={19} color="#000000" />
+                  {cart.length > 0 && (
+                    <div className="rounded-full absolute text-center bg-red-500 w-full h-full right-[-14px] text-[14px] top-[-14px] text-white text-sm">
+                      {cart.length}
+                    </div>
+                  )}
+                </Link>
+              </div>
+
+              {session && session.user ? (
+                <Link href="/profile">
+                  <FiUser
+                    size={19}
+                    color="#000000"
+                    className="hover:opacity-70 transition-opacity cursor-pointer"
+                  />
+                </Link>
+              ) : (
+                <div
+                  onClick={() => signIn("google")}
+                  className="cursor-pointer"
+                >
+                  <FiUser
+                    size={19}
+                    color="#000000"
+                    className="hover:opacity-70 transition-opacity cursor-pointer"
+                  />
                 </div>
               )}
-              <FiShoppingCart size={20} />
-            </li>
-          </ul>
+              <div className="block md:hidden">
+                <Sidebar />
+              </div>
+            </div>
+          </div>
         </div>
-
-        <Cart />
-        {isCartOpen && (
-          <div
-            className="w-full h-full inset-0 fixed z-[200]"
-            onClick={() => handleSetIsCartOpen(false)}
-          ></div>
-        )}
-      </nav>
-    </header>
+      </header>
+    </div>
   );
 }

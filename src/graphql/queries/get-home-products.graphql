@@ -1,0 +1,41 @@
+query GetHomeProducts {
+  productsNew: products(
+    first: 5
+    orderBy: publishedAt_ASC
+    where: { image_every: { thumb: { handle_not: null } } }
+  ) {
+    name
+    brand {
+      brandName
+    }
+    price
+    id
+    discount
+    available
+    image {
+      thumb {
+        url
+      }
+    }
+  }
+
+  productsOffer: products(
+    first: 5
+    orderBy: price_ASC
+    where: { image_every: { thumb: { handle_not: null } } }
+  ) {
+    name
+    brand {
+      brandName
+    }
+    price
+    id
+    discount
+    available
+    image {
+      thumb {
+        url
+      }
+    }
+  }
+}

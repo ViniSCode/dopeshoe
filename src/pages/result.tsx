@@ -35,7 +35,7 @@ export default function Result() {
     <div className="max-w-[500px] mx-auto flex flex-col items-center justify-center h-[100vh] gap-4">
       <h1 className="text-2xl">Something Went Wrong...</h1>
       <button
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/profile")}
         className="px-8 py-2 bg-red-500 text-white rounded flex items-center justify-center gap-2"
       >
         <BsArrowLeft size={15} />

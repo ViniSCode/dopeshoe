@@ -1,17 +1,18 @@
-query GetProduct ($id: ID) {
-  product: productsConnection(where: {id: $id}) {
+query GetProduct($id: ID) {
+  product: productsConnection(where: { id: $id }) {
     edges {
       node {
         name
-    		price
+        price
         available
-    		id
+        sizes
+        id
         brand {
           brandName
         }
-    		discount
-    		description
-    		image {
+        discount
+        description
+        image {
           mainImage {
             url
           }
@@ -22,19 +23,19 @@ query GetProduct ($id: ID) {
       }
     }
   }
-  similar: productsConnection (first: 2, where: {id_not: $id}) {
+  similar: productsConnection(first: 2, where: { id_not: $id }) {
     edges {
       node {
         name
-    		price
+        price
         available
-    		id
+        id
         brand {
           brandName
         }
-    		discount
-    		description
-    		image {
+        discount
+        description
+        image {
           mainImage {
             url
           }

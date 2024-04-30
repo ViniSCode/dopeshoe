@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gray-900 text-gray-100;
+  @apply bg-white text-gray-900;
   @apply scrollbar-thumb-gray-500 scrollbar-thin;
   -webkit-font-smoothing: antialiased;
 }
 
 @layer base {
   html {
-    font-family: "Roboto", sans-serif;
     height: 100%;
     min-height: 100vh;
+    scrollbar-width: none;
   }
 
   body {
@@ -61,5 +61,9 @@ body {
 
   .main-div {
     height: calc(100vh - 10rem);
+  }
+
+  .card-shadow {
+    box-shadow: 0 6px 20px 0 rgba(104, 117, 130, 5%);
   }
 }

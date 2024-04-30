@@ -1,27 +1,49 @@
-import { AnimatePresence, motion } from "framer-motion";
+import localFont from "@next/font/local";
+import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
-import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "urql";
-import { Loading } from "../components/Loading";
 import { CartContextProvider } from "../contexts/cartContext";
 import { client, ssrCache } from "../lib/urql";
 import "../styles/globals.css";
 
+const clash = localFont({
+  src: [
+    {
+      path: "../../public/fonts/ClashGrotesk-Regular.ttf",
+      weight: "400",
+    },
+    {
+      path: "../../public/fonts/ClashGrotesk-Medium.ttf",
+      weight: "500",
+    },
+    {
+      path: "../../public/fonts/ClashGrotesk-Semibold.ttf",
+      weight: "600",
+    },
+    {
+      path: "../../public/fonts/ClashGrotesk-Bold.ttf",
+      weight: "700",
+    },
+  ],
+  variable: "--font-clash",
+});
+
 function MyApp({ Component, pageProps, router }: AppProps) {
-  const [isPageLoading, setIsPageLoading] = useState(false);
+  // const [isPageLoading, setIsPageLoading] = useState(false);
 
-  useEffect(() => {
-    router.events.on("routeChangeStart", (url) => {
-      setIsPageLoading(true);
-    });
+  // useEffect(() => {
+  //   router.events.on("routeChangeStart", (url) => {
+  //     setIsPageLoading(true);
+  //   });
 
-    router.events.on("routeChangeComplete", (url) => {
-      setIsPageLoading(false);
-    });
-  }, []);
+  //   router.events.on("routeChangeComplete", (url) => {
+  //     setIsPageLoading(false);
+  //   });
+  // }, []);
 
   if (pageProps.urqlState) {
     ssrCache.restoreData(pageProps.urqlState);
@@ -29,17 +51,10 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 
   return (
     <SessionProvider session={pageProps.session}>
-      {isPageLoading && <Loading />}
+      {/* {isPageLoading && <Loading />} */}
       <Provider value={client}>
-        <AnimatePresence mode="wait" key={router.asPath}>
-          <motion.div
-            initial="pageInitial"
-            animate="pageAnimate"
-            variants={{
-              pageInitial: { opacity: 0 },
-              pageAnimate: { opacity: 1 },
-            }}
-          >
+        <Theme>
+          <div className={`${clash.variable} font-sans`}>
             <ToastContainer
               position="top-right"
               autoClose={6000}
@@ -54,8 +69,8 @@ function MyApp({ Component, pageProps, router }: AppProps) {
             <CartContextProvider>
               <Component {...pageProps} />
             </CartContextProvider>
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </Theme>
       </Provider>
     </SessionProvider>
   );

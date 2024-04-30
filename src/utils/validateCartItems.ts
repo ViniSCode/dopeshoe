@@ -22,7 +22,7 @@ export interface CustomLineItems {
         productName: string;
         available: number;
         email: any;
-      }
+      };
     };
   };
   quantity: number;
@@ -55,14 +55,14 @@ export async function validateCartItems(cartItems: Cart[], email: any) {
           price: dbProduct.price,
           image: dbProductImages,
           cartAmount: item.cartAmount,
-          currency: "BRL",
+          currency: "USD",
           metadata: {
             productId: dbProduct.id,
             brand: dbProduct.brand.brandName,
             image: dbProduct.image[0].mainImage.url,
             productName: dbProduct.name,
             available: dbProduct.available,
-            email: email
+            email: email,
           },
         };
       } else {
@@ -99,8 +99,6 @@ export async function validateCartItems(cartItems: Cart[], email: any) {
   return [];
 }
 
-
 //productId: productId,
 // productImage: product.image[0].mainImage.url,
 // productName: productName,
-

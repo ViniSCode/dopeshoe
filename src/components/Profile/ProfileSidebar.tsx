@@ -15,20 +15,24 @@ interface ProfileSidebarProps {
   isOrders?: boolean;
 }
 
-export function ProfileSidebar({ icon, href, name, isOrders}: ProfileSidebarProps) {
-
+export function ProfileSidebar({
+  icon,
+  href,
+  name,
+  isOrders,
+}: ProfileSidebarProps) {
   function handleLogout() {
     signOut();
   }
 
   if (isOrders && name === "Orders") {
-    name = "Profile"
-    href = "/profile"
-    icon = <CgProfile className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" /> 
+    name = "Profile";
+    href = "/profile";
+    icon = <CgProfile className="h-[22px] w-[22px] md:w-[26px] md:h-[26px]" />;
   }
 
   return (
-    <Link href={href} passHref>
+    <Link href={href} passHref legacyBehavior>
       <a>
         <motion.div
           onClick={() => {

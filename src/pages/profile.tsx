@@ -5,9 +5,8 @@ import Head from "next/head";
 import { useState } from "react";
 import { Header } from "../components/Header";
 import { ProfileContent } from "../components/Profile/ProfileContent";
-import { ProfileFooter } from "../components/Profile/ProfileFooter";
-import { Sidebar } from "../components/Sidebar";
 
+import { Footer } from "@/components/Footer";
 import { useGetCustomerOrdersByEmailQuery } from "../generated/graphql";
 
 export default function Profile({ session }: any) {
@@ -23,18 +22,18 @@ export default function Profile({ session }: any) {
   });
 
   return (
-    <div>
+    <div className="relative">
       <Head>
         <title>DopeShoe | Profile</title>
         <meta name="description" content="Profile" />
       </Head>
       <Header />
-      <Sidebar />
-      <motion.main className="px-4 max-w-[1120px] mx-auto mt-[8rem] lg:mt-[4rem] min-h-[100vh] lg:min-h-[78vh] lg:grid lg:grid-cols-profile">
+      <div className="top-[-60px] z-[0] absolute bg-gradient-to-r from-blue-300 via-green-200 to-yellow-300 w-full h-[170px]"></div>
+      <motion.main className="mt-28 md:mt-32 px-4 max-w-[1120px] mx-auto min-h-[100vh]">
         {data && session && <ProfileContent session={session} data={data} />}
       </motion.main>
 
-      <ProfileFooter />
+      <Footer />
     </div>
   );
 }

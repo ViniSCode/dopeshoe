@@ -8,11 +8,10 @@ interface ShowSimilarProductsProps {
 export function ShowSimilarProducts({ data }: ShowSimilarProductsProps) {
   return (
     <div>
-      <h2 className="text-2xl underline text-gray-350 font-bold mb-6">
-        Similar
-      </h2>
+      <h2 className="text-4xl font-medium text-black">Related</h2>
+
       {data && (
-        <div className="grid grid-cols-2 gap-4 md:block">
+        <div className="mt-9 grid grid-cols-2 gap-4 md:block">
           <div className="md:hidden">
             <SimilarProduct
               id={data?.similar.edges[0].node.id}

@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { BiSolidOffer } from "react-icons/bi";
 
 interface CardProductProps {
   id: string | undefined;
   name: string | undefined;
-  price: number | undefined;
+  price: number | any;
   discount: number | null | undefined;
   image: string | any;
   brand: string | undefined | undefined;
@@ -21,46 +22,48 @@ export function SimilarProduct({
   brand,
 }: CardProductProps) {
   return (
-    <Link href={`/${id}`}>
-      <motion.div
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.9 }}
-        transition={{ duration: 0.2 }}
-        className="px-2 py-3 w-full h-[250px] md:w-full md:h-[360px] md:max-w-[280px] mx-auto bg-gray-700 rounded-[13px] md:px-4 md:py-4 flex flex-col gap-1 cursor-pointer shadow-lg hover:shadow-none transition-shadow"
-      >
-        <div className="w-full h-[200px] relative rounded-[9px] mx-auto bg-gray-600">
-          <Image
-            src={image}
-            alt="product image"
-            layout="fill"
-            loading="lazy"
-            objectFit={"contain"}
-            quality={5}
-          />
-        </div>
-        <div>
-          <div className="max-w-full mx-auto">
-            <p className="text-[18px] w-full truncate text-center max-w-full mx-auto mt-2 md:mt-5 md:text-[25px]">
-              <span className="text-red-600 mr-1">{brand}</span>
-              {name}
-            </p>
+    <Link href={`${id}`} passHref legacyBehavior>
+      <a>
+        <motion.div
+          transition={{ duration: 0.2 }}
+          className="px-4 py-4 w-full min-h-[220px] max-h-[220px] md:w-full md:min-h-[280px] md:max-h-[280px] md:max-w-[280px] mx-auto bg-[#F1F1F1] rounded-[13px] flex flex-col gap-1 cursor-pointer card-shadow"
+        >
+          <div className="w-full h-[200px] relative rounded-[9px] mx-auto flex items-center justify-center">
+            <Image
+              src={image}
+              alt="product image"
+              width={200}
+              height={200}
+              objectFit={"contain"}
+              priority
+              quality={10}
+            />
           </div>
           <div>
-            <div className="mt-1 flex items-start md:gap-1 justify-center md:mt-2">
-              <span className="flex items-center gap-1">
-                <p className="text-[18px] md:text-2xl">R$</p>
-                <p className="text-[18px] md:text-2xl">{price! / 100}</p>
-              </span>
-              <span className="text-green-500 text-[14px]">
-                {discount}% OFF
-              </span>
+            <div className="mt-2 max-w-full mx-auto">
+              <p className="text-base md:text-xl w-full truncate max-w-full text-start mx-auto">
+                <span className="mr-1">{brand}</span>
+                {name}
+              </p>
             </div>
-            <p className="mt-2 text-center text-gray-200 md:mt-3 text-[14px]">
-              em 12x R$15,42
-            </p>
+            <div>
+              <div className="mt-1 flex items-start md:gap-1 justify-start md:mt-1">
+                <div className="flex items-center gap-1 font-bold">
+                  <p className="text-[14px] md:text-lg">USD</p>
+
+                  <p className="text-[14px] md:text-lg">{price / 100}</p>
+                </div>
+              </div>
+              <div className="mt-1 text-black text-[12px] md:text-sm flex gap-3 flex-wrap sm:flex-nowrap items-center justify-start">
+                <div className="flex font-medium items-center text-[#CE5875] gap-1">
+                  <BiSolidOffer size={16} className="min-w-3 min-h-3" />
+                  {discount}% OFF
+                </div>{" "}
+              </div>
+            </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </a>
     </Link>
   );
 }

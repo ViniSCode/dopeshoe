@@ -1,14 +1,13 @@
+import { Footer } from "@/components/Footer";
+import { ProductActions } from "@/components/Product/ProductActions";
+import { ProductDescription } from "@/components/Product/ProductDescription";
+import { ProductImages } from "@/components/Product/ProductImages";
 import { motion } from "framer-motion";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { Header } from "../components/Header";
-import { ProductActions } from "../components/Product/ProductActions";
-import { ProductDescription } from "../components/Product/ProductDescription";
-import { ProductFooter } from "../components/Product/ProductFooter";
-import { ProductImages } from "../components/Product/ProductImages";
-import { Sidebar } from "../components/Sidebar";
-import { ShowSimilarProducts } from "../components/SimilarProduct/ShowSimilarProducts";
 import { GetProductDocument, useGetProductQuery } from "../generated/graphql";
 import { client, ssrCache } from "../lib/urql";
 export default function Product() {
@@ -22,7 +21,7 @@ export default function Product() {
   });
 
   return (
-    <>
+    <div className="min-h-screen">
       <Head>
         {data ? (
           <>
@@ -44,14 +43,18 @@ export default function Product() {
         )}
       </Head>
       <Header />
-      <Sidebar />
       {data && (
-        <motion.main className="mb-28 px-4 md:px-10 max-w-[1120px] mx-auto mt-[8rem] min-h-[100vh] lg:min-h-[90vh]">
+        <main className="px-5 mb-14 md:max-w-full lg:max-w-[1120px] mx-auto min-h-[90vh]">
+          <div className="mt-28 md:mt-32 font-medium text-[15px] text-[#717171] hover:underline">
+            <Link href="/">
+              {`Home > ${data?.product.edges[0].node.brand?.brandName} ${data?.product.edges[0].node.name}`}
+            </Link>
+          </div>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.1, delay: 0.1 }}
-            className="mt-20 grid max-w-[500px] mx-auto md:max-w-[900px] md:grid-cols-product-lg lg:max-w-full gap-5 grid-cols-1 rounded-[13px] lg:grid-cols-product lg:gap-5"
+            className="mt-5 grid mx-auto max-w-full gap-10 grid-cols-1 rounded-[13px] lg:grid-cols-product"
           >
             <ProductImages
               productImages={data?.product.edges[0].node.image[0].productImages}
@@ -64,18 +67,18 @@ export default function Product() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mt-10 grid max-w-[500px] mx-auto md:grid-cols-product-lg md:max-w-full gap-5"
+            className="mt-14 grid mx-auto lg:grid-cols-product-lg md:max-w-full gap-5"
           >
             <ProductDescription
               productDescription={data?.product.edges[0].node.description}
             />
-            <ShowSimilarProducts data={data} />
+            {/* <ShowSimilarProducts data={data} /> */}
           </motion.div>
-        </motion.main>
+        </main>
       )}
 
-      <ProductFooter />
-    </>
+      <Footer />
+    </div>
   );
 }
 

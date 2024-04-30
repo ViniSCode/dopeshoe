@@ -1,18 +1,16 @@
+import { Footer } from "@/components/Footer";
+import { Slider } from "@/components/Slider";
 import { motion } from "framer-motion";
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { CardProduct } from "../components/CardProduct";
+import { ShoeThumbCard } from "../components/CardProduct";
 import { Header } from "../components/Header";
-import { IndexPageFooter } from "../components/IndexPageFooter";
-import { SearchBar } from "../components/SearchBar";
-import { SearchFilter } from "../components/SearchFilter";
-import { Sidebar } from "../components/Sidebar";
-import { TopContentText } from "../components/TopContentText/index";
 import {
-  GetAllProductsDocument,
+  GetHomeProductsDocument,
   ProductOrderByInput,
-  useGetAllProductsQuery,
+  useGetHomeProductsQuery,
 } from "../generated/graphql";
 import { client, ssrCache } from "../lib/urql";
 
@@ -38,19 +36,12 @@ const item = {
 
 const Home: NextPage = () => {
   const [offset, setOffset] = useState(0);
-  const productsPerPage = 8;
+  const productsPerPage = 6;
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [filterSelected, setFilterSelected] = useState("all");
   const [orderBy, setOrderBy] = useState(() => ProductOrderByInput.NameAsc);
-  const [{ data }] = useGetAllProductsQuery({
-    variables: {
-      limit: productsPerPage,
-      offset: offset,
-      search: search,
-      orderBy: orderBy,
-    },
-  });
+  const [{ data }] = useGetHomeProductsQuery();
 
   useEffect(() => {
     let timer = setTimeout(() => {
@@ -59,13 +50,13 @@ const Home: NextPage = () => {
         setPage(1);
         setSearch(search);
       }
-    }, 800);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [search]);
 
   return (
-    <div>
+    <div className="font-sans">
       <Head>
         <title>DopeShoe | Shoes E-commerce</title>
         <meta
@@ -74,57 +65,103 @@ const Home: NextPage = () => {
         />
       </Head>
       <Header />
-      <Sidebar />
-      <motion.main className="mb-28 px-4 max-w-[1120px] mx-auto mt-[8rem] min-h-[100vh]">
-        <div>
-          <TopContentText />
-          <SearchBar search={search} setSearch={setSearch} setPage={setPage} />
-        </div>
-        <SearchFilter
-          setOrderBy={setOrderBy}
-          setFilterSelected={setFilterSelected}
-          filterSelected={filterSelected}
-          setPage={setPage}
+
+      <div className="mt-20">
+        <img
+          alt="nike banner"
+          src="/assets/banner-nike-shoe.jpg"
+          className="w-full h-[60vh] md:h-[80vh] max-h-[100vh] object-cover"
         />
+      </div>
+      <motion.main className="px-5 mb-14 min-h-fit max-w-full md:max-w-full lg:max-w-[1120px] mx-auto">
+        <div>
+          <div className="mt-[60px] md:max-w-full mx-auto">
+            <h4 className="text-xl md:text-[32px] font-bold">POPULAR</h4>
+          </div>
 
-        {data &&
-          (data!.product.aggregate.count < 1 ? (
-            <span className="text-2xl text-center mt-40 block text-gray-500">
-              Nenhum produto encontrado
-            </span>
-          ) : (
-            <motion.div
-              variants={container}
-              initial="hidden"
-              animate="visible"
-              className="select-none mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 flex-wrap max-w-[400px] md:max-w-full mx-auto"
-            >
-              {data?.product.edges.map((product) => {
-                return (
-                  <motion.div key={product.node.id} variants={item}>
-                    <CardProduct
-                      id={product.node.id}
-                      name={product.node.name}
-                      price={product.node.price}
-                      discount={product.node.discount}
-                      image={product.node.image}
-                      brand={product.node.brand}
-                    />
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          ))}
+          {data &&
+            (data!.productsNew.length < 1 ? (
+              <span className="text-2xl text-center mt-7 block text-gray-500">
+                Nenhum produto encontrado
+              </span>
+            ) : (
+              <motion.div
+                variants={container}
+                initial="hidden"
+                animate="visible"
+                className="select-none"
+              >
+                <Slider sliderCount={data?.productsNew.length}>
+                  {data?.productsNew.map((product) => {
+                    return (
+                      <motion.div key={product.id} variants={item}>
+                        <ShoeThumbCard
+                          id={product.id}
+                          name={product.name}
+                          price={product.price}
+                          discount={product.discount}
+                          image={product.image}
+                          brand={product.brand}
+                          available={product.available}
+                        />
+                      </motion.div>
+                    );
+                  })}
+                </Slider>
+              </motion.div>
+            ))}
+        </div>
+
+        <div className="mt-[60px]">
+          <h4 className="text-xl md:text-[32px] font-bold">ALL SHOES</h4>
+          <Link href="/all">
+            <img
+              alt="nike banner"
+              src="/assets/nike-all-shoes-banner.jpg"
+              className="w-full h-auto mt-5 hover:brightness-90 transition-filter"
+            />
+          </Link>
+        </div>
+
+        <div>
+          <div className="mt-[60px] md:max-w-full mx-auto">
+            <h4 className="text-xl md:text-[32px] font-bold">BEST OFFERS</h4>
+          </div>
+
+          {data &&
+            (data!.productsOffer.length < 1 ? (
+              <span className="text-2xl text-center mt-7 block text-gray-500">
+                Nenhum produto encontrado
+              </span>
+            ) : (
+              <motion.div
+                variants={container}
+                initial="hidden"
+                animate="visible"
+                className="select-none"
+              >
+                <Slider sliderCount={data.productsOffer.length}>
+                  {data?.productsOffer.map((product) => {
+                    return (
+                      <motion.div key={product.id} variants={item}>
+                        <ShoeThumbCard
+                          id={product.id}
+                          name={product.name}
+                          price={product.price}
+                          discount={product.discount}
+                          image={product.image}
+                          brand={product.brand}
+                          available={product.available}
+                        />
+                      </motion.div>
+                    );
+                  })}
+                </Slider>
+              </motion.div>
+            ))}
+        </div>
       </motion.main>
-
-      <IndexPageFooter
-        data={data}
-        offset={offset}
-        page={page}
-        productsPerPage={productsPerPage}
-        setOffset={setOffset}
-        setPage={setPage}
-      />
+      <Footer />
     </div>
   );
 };
@@ -132,9 +169,7 @@ const Home: NextPage = () => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-  await client
-    .query(GetAllProductsDocument, { limit: 8, offset: 0, search: "" })
-    .toPromise();
+  await client.query(GetHomeProductsDocument, {}).toPromise();
 
   return {
     props: {

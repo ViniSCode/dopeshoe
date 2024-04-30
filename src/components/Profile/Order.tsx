@@ -56,7 +56,7 @@ export function Order({ order }: OrderProps) {
         </div>
         <div className=" flex items-start justify-start gap-2">
           <span className="flex items-center gap-1">
-            <p className="text-[16px] md:text-1xl font-bold">R$</p>
+            <p className="text-[16px] md:text-1xl font-bold">$</p>
           </span>
           <p className="text-[16px] md:text-1xl font-bold">
             {order.price / 100}

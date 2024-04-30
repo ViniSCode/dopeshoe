@@ -1,9 +1,6 @@
 import { AnimatePresence, motion, useCycle } from "framer-motion";
 import { useSession } from "next-auth/react";
-import { AiOutlineLogin, AiOutlinePhone } from "react-icons/ai";
-import { CgProfile } from "react-icons/cg";
-import { GiRunningShoe } from "react-icons/gi";
-import { HiMenuAlt3 } from "react-icons/hi";
+import { FiMenu, FiX } from "react-icons/fi";
 import { SidebarItems } from "./SidebarItems";
 
 const itemVariants = {
@@ -28,7 +25,7 @@ const sideVariants = {
 
 const aside = {
   open: {
-    width: 250,
+    width: 230,
     opacity: 1,
   },
   closed: {
@@ -42,11 +39,14 @@ export function Sidebar() {
   const { data: session } = useSession();
 
   const menuItems = [
-    { icon: <GiRunningShoe size={22} />, href: "/", name: "All" },
-    { icon: <AiOutlinePhone size={22} />, href: "https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/", name: "Contact" },
-    { icon: <CgProfile size={22} />, href: "/profile", name: "Profile" },
+    { href: "/", name: "Home" },
+    { href: "/all", name: "All Shoes" },
     {
-      icon: <AiOutlineLogin size={22} />,
+      href: "https://www.linkedin.com/in/vinicius-rodrigues-5897831b8/",
+      name: "Contact",
+    },
+    // { href: "/profile", name: "Profile" },
+    {
       href: "/",
       name: "Login",
       isLoggedIn: session,
@@ -54,44 +54,50 @@ export function Sidebar() {
   ];
 
   return (
-    <div className="lg:hidden select-none">
-      <HiMenuAlt3
-        size={26}
-        className="cursor-pointer ml-4 fixed top-6 left-0 right-0 bottom-0 z-[100] shadow-lg lg:hidden"
+    <>
+      <FiMenu
+        size={19}
         onClick={() => cycleOpen()}
+        className="cursor-pointer hover:opacity-70 transition-opacity"
       />
       <div
         onClick={() => cycleOpen()}
-        className={`${open ? "fixed z-[90] w-[100vw] h-[100vh] inset-0" : ""}`}
-      >
-        <AnimatePresence>
-          (
-          <motion.aside
+        className={`${
+          open ? "fixed z-[100] w-[100vw] h-[100vh] inset-0 bg-black/20" : ""
+        }`}
+      ></div>
+      <AnimatePresence>
+        (
+        <motion.aside
+          animate={open ? "open" : "closed"}
+          variants={aside}
+          transition={{ duration: 0.2 }}
+          className="opacity-0 flex flex-col bg-white pt-20 md:pt-32 h-[100%] w-0 fixed top-0 right-0 bottom-0 z-[200] shadow-lg overflow-x-hidden"
+        >
+          <FiX
+            onClick={() => cycleOpen()}
+            size={19}
+            color="black"
+            className="absolute top-[26px] right-5 cursor-pointer hover:opacity-70 transition-opacity"
+          />
+          <motion.div
             animate={open ? "open" : "closed"}
-            variants={aside}
-            transition={{ duration: 0.2 }}
-            className="flex flex-col bg-gray-700 py-36 h-[100%] w-0 fixed top-0 left-0 right-0 bottom-0 z-50 shadow-lg overflow-x-hidden"
+            exit="closed"
+            variants={sideVariants}
+            className="container flex flex-col gap-8"
           >
-            <motion.div
-              animate={open ? "open" : "closed"}
-              exit="closed"
-              variants={sideVariants}
-              className="container flex flex-col gap-10"
-            >
-              {menuItems.map((navItem) => (
-                <SidebarItems
-                  href={navItem.href}
-                  icon={navItem.icon}
-                  name={navItem.name}
-                  key={navItem.name}
-                  isLoggedIn={session}
-                />
-              ))}
-            </motion.div>
-          </motion.aside>
-          )
-        </AnimatePresence>
-      </div>
-    </div>
+            {menuItems.map((navItem) => (
+              <SidebarItems
+                href={navItem.href}
+                name={navItem.name}
+                key={navItem.name}
+                isLoggedIn={session}
+              />
+            ))}
+          </motion.div>
+        </motion.aside>
+        )
+      </AnimatePresence>
+    </>
   );
 }

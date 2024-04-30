@@ -1,11 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 
-export function Logo () {
+export function Logo() {
   return (
     <Link href="/">
-      <h1 className="font-logo text-[28px] text-white cursor-pointer">
-        DopeShoe
-      </h1>
+      <Image src="/assets/logo.png" width={25} height={40} alt="logo" />
     </Link>
-  )
+  );
 }

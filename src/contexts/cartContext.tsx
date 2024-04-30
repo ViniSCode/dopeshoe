@@ -87,7 +87,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       );
 
       if (!productAlreadyInCart) {
-        if (value.available >= amount) {
+        if (value.available >= amount && amount <= 10) {
           setCart([...cart, { ...value, amount }]);
 
           if (typeof window !== "undefined") {
@@ -96,13 +96,16 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
               JSON.stringify([...cart, { ...value, amount }])
             );
           }
+
+          toast.success("Product added to cart!");
         }
       }
 
       if (productAlreadyInCart) {
         if (
           value.available >= amount &&
-          value.available >= productAlreadyInCart.amount + amount
+          value.available >= productAlreadyInCart.amount + amount &&
+          productAlreadyInCart.amount + amount <= 10
         ) {
           const updatedCart = cart.map((cartItem) =>
             cartItem.id === value.id
@@ -117,9 +120,12 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
           if (typeof window !== "undefined") {
             localStorage.setItem("@dopeshoe:cart", JSON.stringify(updatedCart));
           }
+
+          toast.success(`Already added! Quantity updated`);
+
           return;
         } else {
-          toast.error("Quantidade solicitada fora de esoque");
+          toast.info("Maximum 10 units per order");
         }
       }
     } catch {}
@@ -152,7 +158,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         }
       }
     } catch {
-      toast.error("Falha ao remover produto");
+      toast.error("Failed to remove the product");
     }
   }
 
@@ -164,7 +170,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
 
       if (type === "increase") {
         if (productAlreadyInCart) {
-          if (value.available >= amount) {
+          if (value.available >= amount && amount <= 10) {
             const updatedCart = cart.map((cartItem) =>
               cartItem.id === value.id
                 ? {
@@ -183,8 +189,27 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
             }
             return;
           } else {
-            toast.error("Quantidade solicitada fora de esoque");
+            toast.info("Maximum 10 units per order");
           }
+        }
+      } else if (type === "select") {
+        if (value.available >= amount && amount <= 10) {
+          const updatedCart = cart.map((cartItem) =>
+            cartItem.id === value.id
+              ? {
+                  ...cartItem,
+                  amount: Number(amount),
+                }
+              : cartItem
+          );
+
+          setCart(updatedCart);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("@dopeshoe:cart", JSON.stringify(updatedCart));
+          }
+          return;
+        } else {
+          toast.info("Maximum 10 units per order");
         }
       } else {
         if (productAlreadyInCart) {
@@ -207,12 +232,12 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
             }
             return;
           } else {
-            toast.error("Algo deu errado");
+            toast.error("Something went wrong");
           }
         }
       }
     } catch {
-      toast.error("Algo deu errado");
+      toast.error("Something went wrong");
     }
   }
 
@@ -220,7 +245,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     if (typeof window !== "undefined") {
       localStorage.removeItem("@dopeshoe:cart");
     }
-    
+
     setCart([]);
   }
 

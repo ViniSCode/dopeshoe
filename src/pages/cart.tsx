@@ -1,14 +1,13 @@
+import { Footer } from "@/components/Footer";
 import { loadStripe } from "@stripe/stripe-js";
-import { motion } from "framer-motion";
 import { getSession, signIn } from "next-auth/react";
 import Head from "next/head";
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { CartCheckout } from "../components/CartPage/CartCheckout";
 import { CartItems } from "../components/CartPage/CartItems";
 import { Header } from "../components/Header";
-import { ProfileFooter } from "../components/Profile/ProfileFooter";
-import { Sidebar } from "../components/Sidebar";
 import { useCart } from "../hooks/useCart";
 
 const stripePromise = loadStripe(
@@ -94,15 +93,17 @@ export default function Cart() {
 
   return (
     <>
-      <div className="md:container-div">
-        <Head>
-          <title>DopeShoe | Shopping Cart</title>
-          <meta name="description" content="Shoppping Cart" />
-        </Head>
-        <Header />
-        <Sidebar />
-        <div className="lg:main-container-div max-w-[1120px] lg:px-7 mx-auto min-h-[78vh]">
-          <motion.main className="px-4 w-full mx-auto mt-[8rem] md:grid md:grid-cols-cart md:gap-10 md:items-start lg:mt-16">
+      <Head>
+        <title>DopeShoe | Shopping Cart</title>
+        <meta name="description" content="Shoppping Cart" />
+      </Head>
+      <Header />
+      {cart.length > 0 ? (
+        <>
+          <div className="max-w-[1120px] px-5 w-full mx-auto mt-28 md:mt-32 font-medium text-[15px] text-[#717171] hover:underline">
+            <Link href="/">{`Home > Cart checkout`}</Link>
+          </div>
+          <main className="mt-5 max-w-[1120px] px-5 w-full mx-auto md:grid md:grid-cols-cart md:gap-10 md:items-start pb-10 min-h-fit">
             <CartItems
               cart={cart}
               handleRemoveProduct={handleRemoveProduct}
@@ -113,10 +114,25 @@ export default function Cart() {
               handleCartCheckout={handleCartCheckout}
               loading={loading}
             />
-          </motion.main>
-        </div>
-      </div>
-      <ProfileFooter />
+          </main>
+          <div className="min-h-[40vh]"></div>
+          <Footer />
+        </>
+      ) : (
+        <>
+          <main className="mt-28 md:mt-32 px-5 relative max-w-[1120px] mx-auto">
+            <div className="font-medium text-[15px] text-[#717171] hover:underline">
+              <Link href="/">{`Home > Cart checkout`}</Link>
+            </div>
+            <div className="h-[70vh] w-full flex justify-center items-center">
+              <p className="font-medium text-lg text-center">
+                There are no items in your bag.
+              </p>
+            </div>
+          </main>
+          <Footer />
+        </>
+      )}
     </>
   );
 }

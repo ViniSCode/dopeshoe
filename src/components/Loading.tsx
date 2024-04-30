@@ -10,7 +10,7 @@ export function Loading() {
           width={275}
           height={61}
           loading="lazy"
-          quality={30}
+          quality={20}
         />
       </div>
     </div>
