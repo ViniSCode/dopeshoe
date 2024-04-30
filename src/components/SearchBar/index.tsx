@@ -102,7 +102,10 @@ export function SearchBar() {
             <h3 className="text-base font-medium pb-4 text-[#707072] mt-10">
               Popular Search Terms
             </h3>
-            <ul className="flex flex-col text-xl font-semibold gap-2">
+            <ul
+              className="flex flex-col text-xl font-semibold gap-2"
+              onClick={() => cycleOpen()}
+            >
               <Link href="/search/Air Force 1">
                 <li className="cursor-pointer hover:opacity-50 transition-opacity">
                   Air Force 1
